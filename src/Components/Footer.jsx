@@ -33,7 +33,6 @@ const Footer = (props) => {
     gitHub,
     instagram,
     linkedIn,
-    medium,
     name,
     primaryColor,
     twitter,
@@ -93,11 +92,7 @@ const Footer = (props) => {
             <img src={linkedInIcon} alt="LinkedIn" className="socialIcon" />
           </a>
         )}
-        {medium && (
-          <a href={`https://medium.com/@${medium}`} target="_blank" rel="noopener noreferrer">
-            <img src={mediumIcon} alt="Medium" className="socialIcon" />
-          </a>
-        )}
+       
         {twitter && (
           <a href={`https://twitter.com/${twitter}`} target="_blank" rel="noopener noreferrer">
             <img src={twitterIcon} alt="Twitter" className="socialIcon" />
@@ -130,7 +125,6 @@ Footer.propTypes = {
   gitHub: PropTypes.string,
   instagram: PropTypes.string,
   linkedIn: PropTypes.string,
-  medium: PropTypes.string,
   name: PropTypes.string.isRequired,
   primaryColor: PropTypes.string,
   twitter: PropTypes.string,
