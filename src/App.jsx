@@ -32,7 +32,7 @@ const siteProps = {
   linkedIn: "emmanuel-amela/",
   medium: "",
   twitter: "AmelaJunior",
-  youTube: "@wikileaks107/",
+  youTube: "@codeAiMastery/",
 };
 
 const primaryColor = "#4E567E";
