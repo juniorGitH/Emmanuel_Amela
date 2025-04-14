@@ -2,18 +2,17 @@
   "name": "educator-js-codespace-template",
   "version": "1.0.0",
   "description": "Educator JS Codespace Template",
-  "source": "src/index.html",
   "homepage": "https://juniorGitH.github.io/Emmanuel_Amela",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
-    "build-gh": "parcel build --public-url 'https://juniorGitH.github.io/Emmanuel_Amela'",
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "build-gh": "parcel build src/index.html --public-url 'https://juniorGitH.github.io/Emmanuel_Amela'",
     "predeploy": "npm run build-gh",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/microsoft/codespaces-teaching-template-js.git"
+    "url": "https://github.com/microsoft/codespaces-teaching-template-js.git"
   },
   "author": "Microsoft",
   "license": "ISC",
