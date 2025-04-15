@@ -97,7 +97,7 @@ const Footer = ({
                     wordWrap: "break-word",
                 }}
             >
-                Created by {name}
+                 {name}
             </p>
         </div>
     );

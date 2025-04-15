@@ -26,15 +26,16 @@ const description =
  * passionate about, or enjoy,
  */
 const skillsList = [
-    ".NET Web API & C#",
-    "React & ASP.NET integration",
-    "RESTful API development",
-    "SQL & database design",
-    "Clean architecture & software patterns",
-    "Machine learning (Python, Scikit-learn)",
-    "CI/CD with GitHub Actions & Azure DevOps",
-    "Docker & Azure cloud deployment",
+    "RESTful API development with .NET Web API and C#",
+    "React and API consumption",
+    "JWT authentication and authorization",
+    "SQL (MySQL, SQL Server) and database design",
+    "Clean architecture and software design patterns",
+    "Machine learning with Python and Scikit-learn",
+    "CI/CD using GitHub Actions and Azure DevOps",
+    "Docker and Azure cloud deployment",
 ];
+
 /**
  * Use this to give more information about what you are passionate about,
  * how you best work, or even a quote. This will help someone learn more

@@ -6,18 +6,18 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "build-gh": "parcel build src/index.html --public-url 'https://juniorGitH.github.io/Emmanuel_Amela'",
+    "build-gh": "parcel build src/index.html --public-url \"/Emmanuel_Amela/\" && powershell -Command \"Copy-Item -Path dist/index.html -Destination dist/404.html\"",
     "predeploy": "npm run build-gh",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/codespaces-teaching-template-js.git"
+    "url": "https://github.com/juniorGitH/Emmanuel_Amela.git"
   },
   "author": "Microsoft",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/microsoft/codespaces-teaching-template-js/issues"
+    "url": "https://github.com/juniorGitH/Emmanuel_Amela/issues"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -33,6 +33,7 @@
     "html-webpack-plugin": "^5.5.0",
     "parcel": "^2.7.0",
     "prettier": "^2.7.1",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "serve": "^14.2.4"
   }
 }

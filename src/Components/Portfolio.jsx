@@ -15,30 +15,32 @@ const imageAltText = "Laptop and coding books on a desk";
  */
 const projectList = [
     {
-        title: "Workshop .NET C# - API RESTful",
+        title: "Workshop .NET C# - RESTful API",
         description:
-            "J'ai animé un atelier en ligne intitulé 'Maîtriser les bases de l'API RESTful avec .NET C# (Web API)' le 28 décembre 2024. J'ai tout géré, de la présentation à la session de codage.",
-        url: "https://mvp.microsoft.com/fr-FR/activities/236765",
+            "I led an online workshop titled 'Mastering the Basics of RESTful API with .NET C# (Web API)' on December 28, 2024. I handled everything from the presentation to the live coding session.",
+        url: "https://mvp.microsoft.com/fr-FR/events/47078",
     },
     {
-        title: "Application Comptable - CompaPlus",
+        title: "Accounting Application - CompaPlus",
         description:
-            "Projet personnel de gestion comptable avec ASP.NET Web API et React, incluant des fonctionnalités complètes comme le journal, le grand livre, le bilan, l'état de résultat, l'import/export, etc.",
-        url: "https://comptaplus-app.azurewebsites.net", // Remplace si le dépôt est privé ou autre
+            "A personal accounting management project built with ASP.NET Web API and React, featuring a full set of tools such as journal entries, ledger, balance sheet, income statement, import/export, and more.",
+        url: "https://comptaplus-app.azurewebsites.net", // Replace if the repo is private or hosted elsewhere
     },
     {
-        title: "Hackathon International – Quantum Computing",
+        title: "International Hackathon – Quantum Computing",
         description:
-            "Participation à la 12ème édition du Hackathon International for Social Good, en contribuant à un projet sur le calcul quantique avec Quantum Arise à Lomé.",
-        url: "https://hackathon.nyuad.nyu.edu/year/2024/", // Lien indicatif, remplace par un article ou autre ressource
+            "Participated in the 12th Annual International Hackathon for Social Good, contributing to a quantum computing project with Quantum Arise in Lomé.",
+        url: "https://hackathon.nyuad.nyu.edu/year/2024/", // Indicative link, replace if you have a better one
     },
     {
-        title: "Physics Without Frontiers – Togo 2024",
+        title: "Microsoft Learn Student Ambassador Activities",
         description:
-            "J'ai assisté à cette école organisée par ICTP à l'Université de Lomé, explorant les outils utilisés par les physiciens (ex: Quantum ESPRESSO) et les opportunités de carrière en physique.",
-        url: "https://quantum-arise.com/events", // Peut être remplacé par un lien de ton post ou une photo
-    },
+            "As a Microsoft Learn Student Ambassador, I have organized and participated in multiple events and tech workshops, promoted student engagement in technology, and contributed to the global tech community through mentorship and knowledge sharing.",
+        url: "https://mvp.microsoft.com/fr-FR/studentambassadors/profile/8a9ab462-afce-4e4c-b222-abc409bac550",
+    }
 ];
+
+    
 
 const Portfolio = () => {
     const [isMobile, setIsMobile] = useState(false);
