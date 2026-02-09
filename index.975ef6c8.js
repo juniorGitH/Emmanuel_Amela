@@ -2919,7 +2919,7 @@ var _appDefault = parcelHelpers.interopDefault(_app);
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","./App":"e9Zfo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./App":"e9Zfo"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("./cjs/react-jsx-dev-runtime.development.js");
 
@@ -27051,7 +27051,157 @@ module.exports = require("./cjs/scheduler.development.js");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{}],"e9Zfo":[function(require,module,exports) {
+},{}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"km3Ru":[function(require,module,exports) {
+"use strict";
+var Refresh = require("react-refresh/runtime");
+function debounce(func, delay) {
+    var args;
+    var timeout = undefined;
+    return function(args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = undefined;
+            func.call(null, args);
+        }, delay);
+    };
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"react-refresh/runtime":"786KC"}],"e9Zfo":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$2430 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27450,7 +27600,7 @@ $RefreshReg$(_c2, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","./Components/About":"kouZu","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./Components/Portfolio":"lCaEt","./Components/Ressources":"9vzsb","./styles.css":"lW6qc","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./Components/Admin":"alYNl","./Components/Dashboard":"01Qkc","./Components/ProjectDetail":"Rhb3r","./Components/NewProject":"lN85F","./Components/ProjectsList":"QG6Fm","./Components/Mentoring":"cFqqg","./Components/ScheduleMentoring":"cQ1Wh","./Components/ClientProfile":"029VM","./utils/initializeData":"b6dt0","./Components/ProjectView":"b7sRq","./Components/MentionsLegales":"3uBgY","./Components/ConditionsGeneralesUtilisation":"8nqWj","./Components/PolitiqueProtectionDonneesPersonnelles":"fr2BO","./Components/PolitiqueCookies":"2xWzK","./Components/DeclarationAccessibilite":"fDXDV","./Components/Securite":"lQ4iy"}],"9xmpe":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","./Components/About":"kouZu","./Components/Footer":"7GWgX","./Components/Header":"9Dt2F","./Components/Home":"jIEVO","./Components/Portfolio":"lCaEt","./Components/Ressources":"9vzsb","./Components/Admin":"alYNl","./Components/Dashboard":"01Qkc","./Components/ProjectDetail":"Rhb3r","./Components/ProjectView":"b7sRq","./Components/NewProject":"lN85F","./Components/ProjectsList":"QG6Fm","./Components/Mentoring":"cFqqg","./Components/ScheduleMentoring":"cQ1Wh","./Components/ClientProfile":"029VM","./Components/MentionsLegales":"3uBgY","./Components/ConditionsGeneralesUtilisation":"8nqWj","./Components/PolitiqueProtectionDonneesPersonnelles":"fr2BO","./Components/PolitiqueCookies":"2xWzK","./Components/DeclarationAccessibilite":"fDXDV","./Components/Securite":"lQ4iy","./styles.css":"lW6qc","./utils/initializeData":"b6dt0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"9xmpe":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "AbortedDeferredError", ()=>(0, _reactRouter.AbortedDeferredError));
@@ -34713,37 +34863,7 @@ function persistAppliedTransitions(_window, transitions) {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"kouZu":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kouZu":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$17a8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -34964,127 +35084,7 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"km3Ru":[function(require,module,exports) {
-"use strict";
-var Refresh = require("react-refresh/runtime");
-function debounce(func, delay) {
-    var args;
-    var timeout = undefined;
-    return function(args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            timeout = undefined;
-            func.call(null, args);
-        }, delay);
-    };
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"react-refresh/runtime":"786KC"}],"7GWgX":[function(require,module,exports) {
+},{}],"7GWgX":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8b43 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -35551,45 +35551,30 @@ const Header = ()=>{
         isMenuOpen,
         showAuthModal
     ]);
-    const closeMenus = ()=>{
-        if (isMenuOpen) setIsMenuOpen(false);
-        setShowProfileMenu(false);
-    };
-    // Gestion du clic sur Accueil (logo)
+    // Gestion du clic sur Accueil
     const handleHomeClick = (e)=>{
         if (e) e.preventDefault();
-        closeMenus();
-        if (location.pathname === "/") scrollToSection("home");
-        else navigate("/#home");
-    };
-    // Fonction helper pour scroller vers une section
-    const scrollToSection = (sectionId)=>{
-        if (!sectionId) return;
-        // Essayer de trouver l'élément
-        const element = document.getElementById(sectionId);
-        if (element) {
-            const headerHeight = 70;
-            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-            const offsetPosition = elementPosition - headerHeight;
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
-        } else // Si l'élément n'est pas trouvé, réessayer après un délai
-        setTimeout(()=>{
-            const retryElement = document.getElementById(sectionId);
-            if (retryElement) {
-                const headerHeight = 70;
-                const elementPosition = retryElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerHeight;
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            } else console.warn(`Élément avec l'ID ${sectionId} non trouvé.`);
-        }, 300);
+        if (isMenuOpen) setIsMenuOpen(false);
+        setShowProfileMenu(false);
+        // Always navigate to '/' with state to trigger Layout's scrolling logic
+        navigate("/", {
+            state: {
+                scrollTo: "home"
+            }
+        });
     };
     // Gestion du scroll vers les sections
+    const handleSectionClick = (sectionId, e)=>{
+        if (e) e.preventDefault();
+        if (isMenuOpen) setIsMenuOpen(false);
+        setShowProfileMenu(false);
+        // Always navigate to '/' with state to trigger Layout's scrolling logic
+        navigate("/", {
+            state: {
+                scrollTo: sectionId
+            }
+        });
+    };
     // Gestion de l'authentification
     const handleAuth = (e)=>{
         e.preventDefault();
@@ -35780,17 +35765,17 @@ const Header = ()=>{
                                 loading: "eager"
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 339,
+                                lineNumber: 313,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 328,
+                            lineNumber: 302,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 322,
+                        lineNumber: 296,
                         columnNumber: 9
                     }, undefined),
                     !isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -35806,46 +35791,34 @@ const Header = ()=>{
                                     margin: "0 1rem"
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                        to: {
-                                            pathname: "/",
-                                            hash: "#home"
-                                        },
-                                        onClick: closeMenus,
-                                        style: navLinkStyle(location.pathname === "/" && (!location.hash || location.hash === "#home")),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: handleHomeClick,
+                                        style: navLinkStyle(location.pathname === "/" && !location.hash),
                                         className: "nav-link-button",
                                         children: "Accueil"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 364,
+                                        lineNumber: 338,
                                         columnNumber: 15
                                     }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                        to: {
-                                            pathname: "/",
-                                            hash: "#about"
-                                        },
-                                        onClick: closeMenus,
-                                        style: navLinkStyle(location.pathname === "/" && location.hash === "#about"),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: (e)=>handleSectionClick("about", e),
+                                        style: navLinkStyle(false),
                                         className: "nav-link-button",
                                         children: "\xc0 propos"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 373,
+                                        lineNumber: 346,
                                         columnNumber: 15
                                     }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                        to: {
-                                            pathname: "/",
-                                            hash: "#portfolio"
-                                        },
-                                        onClick: closeMenus,
-                                        style: navLinkStyle(location.pathname === "/" && location.hash === "#portfolio"),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: (e)=>handleSectionClick("portfolio", e),
+                                        style: navLinkStyle(false),
                                         className: "nav-link-button",
                                         children: "Portfolio"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 382,
+                                        lineNumber: 354,
                                         columnNumber: 15
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -35855,13 +35828,13 @@ const Header = ()=>{
                                         children: "Ressources"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 391,
+                                        lineNumber: 362,
                                         columnNumber: 15
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 355,
+                                lineNumber: 329,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35909,7 +35882,7 @@ const Header = ()=>{
                                                 children: currentUser.name.charAt(0).toUpperCase()
                                             }, void 0, false, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 417,
+                                                lineNumber: 388,
                                                 columnNumber: 21
                                             }, undefined),
                                             showProfileMenu && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35947,7 +35920,7 @@ const Header = ()=>{
                                                                 children: currentUser.name
                                                             }, void 0, false, {
                                                                 fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 470,
+                                                                lineNumber: 441,
                                                                 columnNumber: 27
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35959,7 +35932,7 @@ const Header = ()=>{
                                                                 children: currentUser.email
                                                             }, void 0, false, {
                                                                 fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 479,
+                                                                lineNumber: 450,
                                                                 columnNumber: 27
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35972,13 +35945,13 @@ const Header = ()=>{
                                                                 children: currentUser.userType === "admin" ? "Administrateur" : "Client"
                                                             }, void 0, false, {
                                                                 fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 486,
+                                                                lineNumber: 457,
                                                                 columnNumber: 27
                                                             }, undefined)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 465,
+                                                        lineNumber: 436,
                                                         columnNumber: 25
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36004,20 +35977,20 @@ const Header = ()=>{
                                                                                 children: "\uD83D\uDCCA"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 508,
+                                                                                lineNumber: 479,
                                                                                 columnNumber: 33
                                                                             }, undefined),
                                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                                 children: "Mon Tableau de Bord"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 509,
+                                                                                lineNumber: 480,
                                                                                 columnNumber: 33
                                                                             }, undefined)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 500,
+                                                                        lineNumber: 471,
                                                                         columnNumber: 31
                                                                     }, undefined),
                                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36036,20 +36009,20 @@ const Header = ()=>{
                                                                                 children: "\uD83D\uDC68‍\uD83C\uDFEB"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 519,
+                                                                                lineNumber: 490,
                                                                                 columnNumber: 33
                                                                             }, undefined),
                                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                                 children: "Mentorat"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 520,
+                                                                                lineNumber: 491,
                                                                                 columnNumber: 33
                                                                             }, undefined)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 511,
+                                                                        lineNumber: 482,
                                                                         columnNumber: 31
                                                                     }, undefined)
                                                                 ]
@@ -36072,20 +36045,20 @@ const Header = ()=>{
                                                                                 children: "⚙️"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 536,
+                                                                                lineNumber: 507,
                                                                                 columnNumber: 33
                                                                             }, undefined),
                                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                                 children: "Administration"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 537,
+                                                                                lineNumber: 508,
                                                                                 columnNumber: 33
                                                                             }, undefined)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 528,
+                                                                        lineNumber: 499,
                                                                         columnNumber: 31
                                                                     }, undefined),
                                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36104,20 +36077,20 @@ const Header = ()=>{
                                                                                 children: "\uD83D\uDCC1"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 547,
+                                                                                lineNumber: 518,
                                                                                 columnNumber: 33
                                                                             }, undefined),
                                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                                 children: "Projets"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 548,
+                                                                                lineNumber: 519,
                                                                                 columnNumber: 33
                                                                             }, undefined)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 539,
+                                                                        lineNumber: 510,
                                                                         columnNumber: 31
                                                                     }, undefined)
                                                                 ]
@@ -36130,7 +36103,7 @@ const Header = ()=>{
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 554,
+                                                                lineNumber: 525,
                                                                 columnNumber: 27
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36149,26 +36122,26 @@ const Header = ()=>{
                                                                         children: "\uD83D\uDC64"
                                                                     }, void 0, false, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 569,
+                                                                        lineNumber: 540,
                                                                         columnNumber: 29
                                                                     }, undefined),
                                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                         children: "Profile"
                                                                     }, void 0, false, {
                                                                         fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 570,
+                                                                        lineNumber: 541,
                                                                         columnNumber: 29
                                                                     }, undefined)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 561,
+                                                                lineNumber: 532,
                                                                 columnNumber: 27
                                                             }, undefined)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 496,
+                                                        lineNumber: 467,
                                                         columnNumber: 25
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36195,37 +36168,37 @@ const Header = ()=>{
                                                                     children: "\uD83D\uDEAA"
                                                                 }, void 0, false, {
                                                                     fileName: "src/Components/Header.jsx",
-                                                                    lineNumber: 590,
+                                                                    lineNumber: 561,
                                                                     columnNumber: 29
                                                                 }, undefined),
                                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                                                     children: "D\xe9connexion"
                                                                 }, void 0, false, {
                                                                     fileName: "src/Components/Header.jsx",
-                                                                    lineNumber: 591,
+                                                                    lineNumber: 562,
                                                                     columnNumber: 29
                                                                 }, undefined)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/Components/Header.jsx",
-                                                            lineNumber: 578,
+                                                            lineNumber: 549,
                                                             columnNumber: 27
                                                         }, undefined)
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 574,
+                                                        lineNumber: 545,
                                                         columnNumber: 25
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 448,
+                                                lineNumber: 419,
                                                 columnNumber: 23
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 413,
+                                        lineNumber: 384,
                                         columnNumber: 19
                                     }, undefined)
                                 }, void 0, false) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -36240,7 +36213,7 @@ const Header = ()=>{
                                             children: "Connexion"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 600,
+                                            lineNumber: 571,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36253,14 +36226,14 @@ const Header = ()=>{
                                             children: "Inscription"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 610,
+                                            lineNumber: 581,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 401,
+                                lineNumber: 372,
                                 columnNumber: 13
                             }, undefined)
                         ]
@@ -36299,7 +36272,7 @@ const Header = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 650,
+                                lineNumber: 621,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -36314,7 +36287,7 @@ const Header = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 659,
+                                lineNumber: 630,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -36329,13 +36302,13 @@ const Header = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 668,
+                                lineNumber: 639,
                                 columnNumber: 13
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 628,
+                        lineNumber: 599,
                         columnNumber: 11
                     }, undefined),
                     isMobile && isMenuOpen && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36352,7 +36325,7 @@ const Header = ()=>{
                         }
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 682,
+                        lineNumber: 653,
                         columnNumber: 11
                     }, undefined),
                     isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36405,7 +36378,7 @@ const Header = ()=>{
                                             children: currentUser.name.charAt(0).toUpperCase()
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 731,
+                                            lineNumber: 702,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36425,7 +36398,7 @@ const Header = ()=>{
                                                     children: currentUser.name
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 747,
+                                                    lineNumber: 718,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36439,7 +36412,7 @@ const Header = ()=>{
                                                     children: currentUser.email
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 756,
+                                                    lineNumber: 727,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36452,33 +36425,29 @@ const Header = ()=>{
                                                     children: currentUser.userType === "admin" ? "Administrateur" : "Client"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 765,
+                                                    lineNumber: 736,
                                                     columnNumber: 21
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 746,
+                                            lineNumber: 717,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 725,
+                                    lineNumber: 696,
                                     columnNumber: 17
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 720,
+                                lineNumber: 691,
                                 columnNumber: 15
                             }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                to: {
-                                    pathname: "/",
-                                    hash: "#home"
-                                },
-                                onClick: closeMenus,
-                                style: mobileNavLinkStyle(location.pathname === "/" && (!location.hash || location.hash === "#home")),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: handleHomeClick,
+                                style: mobileNavLinkStyle(location.pathname === "/" && !location.hash),
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -36489,23 +36458,19 @@ const Header = ()=>{
                                         children: "\uD83C\uDFE0"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 785,
+                                        lineNumber: 755,
                                         columnNumber: 15
                                     }, undefined),
                                     "Accueil"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 779,
+                                lineNumber: 750,
                                 columnNumber: 13
                             }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                to: {
-                                    pathname: "/",
-                                    hash: "#about"
-                                },
-                                onClick: closeMenus,
-                                style: mobileNavLinkStyle(location.pathname === "/" && location.hash === "#about"),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: (e)=>handleSectionClick("about", e),
+                                style: mobileNavLinkStyle(false),
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -36516,23 +36481,19 @@ const Header = ()=>{
                                         children: "ℹ️"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 795,
+                                        lineNumber: 764,
                                         columnNumber: 15
                                     }, undefined),
                                     "\xc0 propos"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 789,
+                                lineNumber: 759,
                                 columnNumber: 13
                             }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                to: {
-                                    pathname: "/",
-                                    hash: "#portfolio"
-                                },
-                                onClick: closeMenus,
-                                style: mobileNavLinkStyle(location.pathname === "/" && location.hash === "#portfolio"),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: (e)=>handleSectionClick("portfolio", e),
+                                style: mobileNavLinkStyle(false),
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -36543,14 +36504,14 @@ const Header = ()=>{
                                         children: "\uD83C\uDFA8"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 805,
+                                        lineNumber: 773,
                                         columnNumber: 15
                                     }, undefined),
                                     "Portfolio"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 799,
+                                lineNumber: 768,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36567,14 +36528,14 @@ const Header = ()=>{
                                         children: "\uD83D\uDCDA"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 815,
+                                        lineNumber: 783,
                                         columnNumber: 15
                                     }, undefined),
                                     "Ressources"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 809,
+                                lineNumber: 777,
                                 columnNumber: 13
                             }, undefined),
                             currentUser ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
@@ -36595,14 +36556,14 @@ const Header = ()=>{
                                                         children: "⚙️"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 830,
+                                                        lineNumber: 798,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Administration"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 824,
+                                                lineNumber: 792,
                                                 columnNumber: 21
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36619,14 +36580,14 @@ const Header = ()=>{
                                                         children: "\uD83D\uDCC1"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 839,
+                                                        lineNumber: 807,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Projets Clients"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 833,
+                                                lineNumber: 801,
                                                 columnNumber: 21
                                             }, undefined)
                                         ]
@@ -36646,14 +36607,14 @@ const Header = ()=>{
                                                         children: "\uD83D\uDCCA"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 851,
+                                                        lineNumber: 819,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Mon Tableau de Bord"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 845,
+                                                lineNumber: 813,
                                                 columnNumber: 21
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36670,14 +36631,14 @@ const Header = ()=>{
                                                         children: "\uD83D\uDC68‍\uD83C\uDFEB"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 860,
+                                                        lineNumber: 828,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Mentorat"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 854,
+                                                lineNumber: 822,
                                                 columnNumber: 21
                                             }, undefined)
                                         ]
@@ -36696,14 +36657,14 @@ const Header = ()=>{
                                                 children: "\uD83D\uDC64"
                                             }, void 0, false, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 873,
+                                                lineNumber: 841,
                                                 columnNumber: 19
                                             }, undefined),
                                             "Profil"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 867,
+                                        lineNumber: 835,
                                         columnNumber: 17
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36740,19 +36701,19 @@ const Header = ()=>{
                                                     children: "\uD83D\uDEAA"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 903,
+                                                    lineNumber: 871,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 "D\xe9connexion"
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 883,
+                                            lineNumber: 851,
                                             columnNumber: 19
                                         }, undefined)
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 877,
+                                        lineNumber: 845,
                                         columnNumber: 17
                                     }, undefined)
                                 ]
@@ -36795,14 +36756,14 @@ const Header = ()=>{
                                                 children: "\uD83D\uDD11"
                                             }, void 0, false, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 939,
+                                                lineNumber: 907,
                                                 columnNumber: 19
                                             }, undefined),
                                             "Connexion"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 915,
+                                        lineNumber: 883,
                                         columnNumber: 17
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36835,32 +36796,32 @@ const Header = ()=>{
                                                 children: "\uD83D\uDCDD"
                                             }, void 0, false, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 965,
+                                                lineNumber: 933,
                                                 columnNumber: 19
                                             }, undefined),
                                             "Inscription"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 942,
+                                        lineNumber: 910,
                                         columnNumber: 17
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 909,
+                                lineNumber: 877,
                                 columnNumber: 15
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 699,
+                        lineNumber: 670,
                         columnNumber: 11
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 300,
+                lineNumber: 274,
                 columnNumber: 7
             }, undefined),
             showAuthModal && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36911,7 +36872,7 @@ const Header = ()=>{
                                     children: isLoginMode ? "Connexion" : "Inscription"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1014,
+                                    lineNumber: 982,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36951,13 +36912,13 @@ const Header = ()=>{
                                     children: "\xd7"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1021,
+                                    lineNumber: 989,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1008,
+                            lineNumber: 976,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36986,7 +36947,7 @@ const Header = ()=>{
                                     children: "Connexion"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1062,
+                                    lineNumber: 1030,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -37006,13 +36967,13 @@ const Header = ()=>{
                                     children: "Inscription"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1079,
+                                    lineNumber: 1047,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1055,
+                            lineNumber: 1023,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -37033,7 +36994,7 @@ const Header = ()=>{
                                             children: "Nom complet"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1101,
+                                            lineNumber: 1069,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37055,13 +37016,13 @@ const Header = ()=>{
                                             required: !isLoginMode
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1109,
+                                            lineNumber: 1077,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1100,
+                                    lineNumber: 1068,
                                     columnNumber: 17
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37079,7 +37040,7 @@ const Header = ()=>{
                                             children: "Email"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1128,
+                                            lineNumber: 1096,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37101,13 +37062,13 @@ const Header = ()=>{
                                             required: true
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1136,
+                                            lineNumber: 1104,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1127,
+                                    lineNumber: 1095,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37125,7 +37086,7 @@ const Header = ()=>{
                                             children: "Mot de passe"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1154,
+                                            lineNumber: 1122,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37147,13 +37108,13 @@ const Header = ()=>{
                                             required: true
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1162,
+                                            lineNumber: 1130,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1153,
+                                    lineNumber: 1121,
                                     columnNumber: 15
                                 }, undefined),
                                 !isLoginMode && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37171,7 +37132,7 @@ const Header = ()=>{
                                             children: "Type de compte"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1181,
+                                            lineNumber: 1149,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
@@ -37196,7 +37157,7 @@ const Header = ()=>{
                                                     children: "Client (suivi de projet)"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 1203,
+                                                    lineNumber: 1171,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -37204,13 +37165,13 @@ const Header = ()=>{
                                                     children: "Administrateur (r\xe9serv\xe9)"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 1204,
+                                                    lineNumber: 1172,
                                                     columnNumber: 21
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1189,
+                                            lineNumber: 1157,
                                             columnNumber: 19
                                         }, undefined),
                                         authData.userType === "admin" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -37223,13 +37184,13 @@ const Header = ()=>{
                                             children: "Note: Ce type de compte est r\xe9serv\xe9 \xe0 l'administrateur."
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1207,
+                                            lineNumber: 1175,
                                             columnNumber: 21
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1180,
+                                    lineNumber: 1148,
                                     columnNumber: 17
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37254,18 +37215,18 @@ const Header = ()=>{
                                         children: isLoginMode ? "Se connecter" : "S'inscrire"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 1220,
+                                        lineNumber: 1188,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1219,
+                                    lineNumber: 1187,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1098,
+                            lineNumber: 1066,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -37293,24 +37254,24 @@ const Header = ()=>{
                                     children: isLoginMode ? "Inscrivez-vous" : "Connectez-vous"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1253,
+                                    lineNumber: 1221,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1241,
+                            lineNumber: 1209,
                             columnNumber: 13
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 997,
+                    lineNumber: 965,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 976,
+                lineNumber: 944,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
@@ -37531,13 +37492,13 @@ const Header = ()=>{
       `
             }, void 0, false, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 1274,
+                lineNumber: 1242,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true);
 };
-_s(Header, "o49JcQSF6KZhE1D/WCmYSs6VUzs=", false, function() {
+_s(Header, "Rb4q8pbHgJbgwfUy1RmV/Ij3PTA=", false, function() {
     return [
         (0, _reactRouterDom.useLocation),
         (0, _reactRouterDom.useNavigate)
@@ -39547,7 +39508,7 @@ $RefreshReg$(_c, "Ressources");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-router-dom":"9xmpe"}],"lW6qc":[function() {},{}],"alYNl":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"alYNl":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4c29 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -44244,6605 +44205,7 @@ $RefreshReg$(_c, "ProjectDetail");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lN85F":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$b7dc = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$b7dc.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * NewProject component - Formulaire de création d'un nouveau projet
- * Version responsive
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const NewProject = ()=>{
-    _s();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
-    const [isMobile, setIsMobile] = (0, _react.useState)(false);
-    const [isTablet, setIsTablet] = (0, _react.useState)(false);
-    const [projectData, setProjectData] = (0, _react.useState)({
-        title: "",
-        description: "",
-        deadline: "",
-        priority: "medium",
-        budget: "",
-        category: "web"
-    });
-    const [tasks, setTasks] = (0, _react.useState)([
-        {
-            id: 1,
-            title: "Analyse des besoins",
-            description: "",
-            dueDate: "",
-            priority: "high"
-        },
-        {
-            id: 2,
-            title: "Conception technique",
-            description: "",
-            dueDate: "",
-            priority: "medium"
-        },
-        {
-            id: 3,
-            title: "D\xe9veloppement",
-            description: "",
-            dueDate: "",
-            priority: "medium"
-        },
-        {
-            id: 4,
-            title: "Tests et validation",
-            description: "",
-            dueDate: "",
-            priority: "medium"
-        },
-        {
-            id: 5,
-            title: "Livraison et d\xe9ploiement",
-            description: "",
-            dueDate: "",
-            priority: "high"
-        }
-    ]);
-    (0, _react.useEffect)(()=>{
-        // Détecter la taille de l'écran
-        const checkScreenSize = ()=>{
-            const width = window.innerWidth;
-            setIsMobile(width <= 768);
-            setIsTablet(width > 768 && width <= 1024);
-        };
-        checkScreenSize();
-        window.addEventListener("resize", checkScreenSize);
-        const savedUser = localStorage.getItem("currentUser");
-        if (!savedUser) {
-            navigate("/");
-            return;
-        }
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        // Définir la date par défaut (2 semaines à partir d'aujourd'hui)
-        const defaultDeadline = new Date();
-        defaultDeadline.setDate(defaultDeadline.getDate() + 14);
-        setProjectData((prev)=>({
-                ...prev,
-                deadline: defaultDeadline.toISOString().split("T")[0]
-            }));
-        return ()=>{
-            window.removeEventListener("resize", checkScreenSize);
-        };
-    }, [
-        navigate
-    ]);
-    const handleTaskChange = (id, field, value)=>{
-        setTasks(tasks.map((task)=>task.id === id ? {
-                ...task,
-                [field]: value
-            } : task));
-    };
-    const handleAddTask = ()=>{
-        const newTask = {
-            id: Date.now(),
-            title: "",
-            description: "",
-            dueDate: "",
-            priority: "medium"
-        };
-        setTasks([
-            ...tasks,
-            newTask
-        ]);
-    };
-    const handleRemoveTask = (id)=>{
-        if (tasks.length <= 1) {
-            alert("Un projet doit avoir au moins une t\xe2che");
-            return;
-        }
-        setTasks(tasks.filter((task)=>task.id !== id));
-    };
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        if (!projectData.title.trim()) {
-            alert("Veuillez donner un titre \xe0 votre projet");
-            return;
-        }
-        if (!projectData.deadline) {
-            alert("Veuillez d\xe9finir une date limite pour le projet");
-            return;
-        }
-        // Filtrer les tâches avec un titre
-        const validTasks = tasks.filter((task)=>task.title.trim() !== "").map((task, index)=>({
-                id: Date.now() + index,
-                title: task.title,
-                description: task.description,
-                dueDate: task.dueDate || projectData.deadline,
-                priority: task.priority,
-                status: "pending",
-                createdAt: new Date().toISOString(),
-                createdBy: currentUser.name
-            }));
-        if (validTasks.length === 0) {
-            alert("Veuillez ajouter au moins une t\xe2che avec un titre");
-            return;
-        }
-        const newProject = {
-            id: Date.now(),
-            clientId: currentUser.id,
-            clientName: currentUser.name,
-            clientEmail: currentUser.email,
-            ...projectData,
-            startDate: new Date().toISOString(),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            status: "pending",
-            tasks: validTasks,
-            progress: 0
-        };
-        // Sauvegarder le projet
-        const existingProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-        const updatedProjects = [
-            ...existingProjects,
-            newProject
-        ];
-        localStorage.setItem("projects", JSON.stringify(updatedProjects));
-        alert("Projet cr\xe9\xe9 avec succ\xe8s ! Emmanuel sera notifi\xe9 et vous contactera bient\xf4t.");
-        navigate("/dashboard");
-    };
-    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            textAlign: "center",
-            minHeight: "60vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#f5f7fa"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-            style: {
-                color: "#2c3e50"
-            },
-            children: "Chargement..."
-        }, void 0, false, {
-            fileName: "src/Components/NewProject.jsx",
-            lineNumber: 155,
-            columnNumber: 9
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/NewProject.jsx",
-        lineNumber: 145,
-        columnNumber: 7
-    }, undefined);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            paddingLeft: isMobile ? "0.8rem" : "1rem",
-            paddingRight: isMobile ? "0.8rem" : "1rem",
-            paddingBottom: "2rem",
-            minHeight: "100vh",
-            backgroundColor: "#f5f7fa"
-        },
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    maxWidth: "800px",
-                    margin: "0 auto"
-                },
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
-                        borderRadius: "12px",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                            style: {
-                                color: "#2c3e50",
-                                marginBottom: "0.5rem",
-                                fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
-                                lineHeight: "1.2"
-                            },
-                            children: "Nouveau Projet"
-                        }, void 0, false, {
-                            fileName: "src/Components/NewProject.jsx",
-                            lineNumber: 179,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                            style: {
-                                color: "#5d6d7e",
-                                marginBottom: isMobile ? "1.5rem" : "2rem",
-                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                lineHeight: "1.4"
-                            },
-                            children: "Remplissez les d\xe9tails de votre nouveau projet. Emmanuel sera notifi\xe9 et pourra commencer \xe0 travailler dessus."
-                        }, void 0, false, {
-                            fileName: "src/Components/NewProject.jsx",
-                            lineNumber: 187,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
-                            onSubmit: handleSubmit,
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: isMobile ? "1.5rem" : "2rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "1rem",
-                                                paddingBottom: "0.5rem",
-                                                borderBottom: "1px solid #eee",
-                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                            },
-                                            children: "Informations du projet"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 199,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Titre du projet *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 210,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "text",
-                                                    value: projectData.title,
-                                                    onChange: (e)=>setProjectData({
-                                                            ...projectData,
-                                                            title: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.8rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: isMobile ? "0.95rem" : "1rem"
-                                                    },
-                                                    placeholder: "Ex: Site e-commerce pour boutique de v\xeatements",
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 218,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 209,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Description d\xe9taill\xe9e *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 235,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
-                                                    value: projectData.description,
-                                                    onChange: (e)=>setProjectData({
-                                                            ...projectData,
-                                                            description: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.8rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: isMobile ? "0.95rem" : "1rem",
-                                                        minHeight: isMobile ? "100px" : "120px",
-                                                        resize: "vertical"
-                                                    },
-                                                    placeholder: "D\xe9crivez votre projet en d\xe9tail : objectifs, fonctionnalit\xe9s souhait\xe9es, public cible, etc.",
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 243,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 234,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "grid",
-                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
-                                                gap: "1rem",
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Date limite *"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 267,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                            type: "date",
-                                                            value: projectData.deadline,
-                                                            onChange: (e)=>setProjectData({
-                                                                    ...projectData,
-                                                                    deadline: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem"
-                                                            },
-                                                            required: true
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 275,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 266,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Priorit\xe9"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 291,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: projectData.priority,
-                                                            onChange: (e)=>setProjectData({
-                                                                    ...projectData,
-                                                                    priority: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                backgroundColor: "white",
-                                                                cursor: "pointer"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "low",
-                                                                    children: "Basse"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 312,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "medium",
-                                                                    children: "Moyenne"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 313,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "high",
-                                                                    children: "Haute"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 314,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 299,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 290,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 260,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "grid",
-                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
-                                                gap: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Cat\xe9gorie"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 325,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: projectData.category,
-                                                            onChange: (e)=>setProjectData({
-                                                                    ...projectData,
-                                                                    category: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                backgroundColor: "white",
-                                                                cursor: "pointer"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "web",
-                                                                    children: "Site Web"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 346,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "mobile",
-                                                                    children: "Application Mobile"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 347,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "desktop",
-                                                                    children: "Application Desktop"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 348,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "ecommerce",
-                                                                    children: "E-commerce"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 349,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "api",
-                                                                    children: "API/Backend"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 350,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "design",
-                                                                    children: "Design UI/UX"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 351,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "other",
-                                                                    children: "Autre"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/NewProject.jsx",
-                                                                    lineNumber: 352,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 333,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 324,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Budget estim\xe9 (optionnel)"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 357,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                            type: "text",
-                                                            value: projectData.budget,
-                                                            onChange: (e)=>setProjectData({
-                                                                    ...projectData,
-                                                                    budget: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem"
-                                                            },
-                                                            placeholder: "Ex: 1500€ - 2000€"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/NewProject.jsx",
-                                                            lineNumber: 365,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 356,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 319,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/NewProject.jsx",
-                                    lineNumber: 198,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: isMobile ? "1.5rem" : "2rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                                marginBottom: "1rem",
-                                                flexDirection: isMobile ? "column" : "row",
-                                                gap: isMobile ? "0.8rem" : "0"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                                    style: {
-                                                        color: "#2c3e50",
-                                                        margin: 0,
-                                                        paddingBottom: "0.5rem",
-                                                        borderBottom: "1px solid #eee",
-                                                        fontSize: isMobile ? "1.1rem" : "1.3rem",
-                                                        textAlign: isMobile ? "center" : "left",
-                                                        width: isMobile ? "100%" : "auto"
-                                                    },
-                                                    children: "T\xe2ches du projet"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 392,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                    type: "button",
-                                                    onClick: handleAddTask,
-                                                    style: {
-                                                        backgroundColor: "#3498db",
-                                                        color: "white",
-                                                        border: "none",
-                                                        padding: isMobile ? "0.6rem 1rem" : "0.5rem 1rem",
-                                                        borderRadius: "6px",
-                                                        cursor: "pointer",
-                                                        fontSize: isMobile ? "0.9rem" : "0.9rem",
-                                                        width: isMobile ? "100%" : "auto"
-                                                    },
-                                                    children: "+ Ajouter une t\xe2che"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/NewProject.jsx",
-                                                    lineNumber: 403,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 384,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                marginBottom: "1.5rem",
-                                                fontSize: isMobile ? "0.9rem" : "0.95rem",
-                                                textAlign: isMobile ? "center" : "left"
-                                            },
-                                            children: "D\xe9finissez les principales \xe9tapes de votre projet. Vous pourrez en ajouter ou modifier plus tard."
-                                        }, void 0, false, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 421,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        tasks.map((task, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    backgroundColor: "#f8f9fa",
-                                                    padding: isMobile ? "1rem" : "1.2rem",
-                                                    borderRadius: "10px",
-                                                    marginBottom: "1rem",
-                                                    borderLeft: `4px solid ${task.priority === "high" ? "#e74c3c" : task.priority === "medium" ? "#f39c12" : "#2ecc71"}`
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                            alignItems: "flex-start",
-                                                            marginBottom: "1rem",
-                                                            flexWrap: "wrap",
-                                                            gap: "1rem"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    flex: 1,
-                                                                    minWidth: isMobile ? "100%" : "200px"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                                        style: {
-                                                                            display: "block",
-                                                                            marginBottom: "0.5rem",
-                                                                            color: "#5d6d7e",
-                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
-                                                                        },
-                                                                        children: [
-                                                                            "T\xe2che #",
-                                                                            index + 1,
-                                                                            " *"
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 453,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                        type: "text",
-                                                                        value: task.title,
-                                                                        onChange: (e)=>handleTaskChange(task.id, "title", e.target.value),
-                                                                        style: {
-                                                                            width: "100%",
-                                                                            padding: "0.8rem",
-                                                                            border: "1px solid #ddd",
-                                                                            borderRadius: "6px",
-                                                                            fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                            marginBottom: "0.5rem"
-                                                                        },
-                                                                        placeholder: "Titre de la t\xe2che",
-                                                                        required: true
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 461,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 452,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            tasks.length > 1 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                type: "button",
-                                                                onClick: ()=>handleRemoveTask(task.id),
-                                                                style: {
-                                                                    backgroundColor: "#e74c3c",
-                                                                    color: "white",
-                                                                    border: "none",
-                                                                    padding: isMobile ? "0.5rem 0.8rem" : "0.5rem 1rem",
-                                                                    borderRadius: "6px",
-                                                                    cursor: "pointer",
-                                                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                                    alignSelf: isMobile ? "flex-end" : "flex-start",
-                                                                    marginTop: isMobile ? "0" : "1.8rem"
-                                                                },
-                                                                children: "Supprimer"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 479,
-                                                                columnNumber: 23
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/NewProject.jsx",
-                                                        lineNumber: 444,
-                                                        columnNumber: 19
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            marginBottom: "0.8rem"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                                style: {
-                                                                    display: "block",
-                                                                    marginBottom: "0.5rem",
-                                                                    color: "#5d6d7e",
-                                                                    fontSize: isMobile ? "0.85rem" : "0.9rem"
-                                                                },
-                                                                children: "Description (optionnel)"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 500,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
-                                                                value: task.description,
-                                                                onChange: (e)=>handleTaskChange(task.id, "description", e.target.value),
-                                                                style: {
-                                                                    width: "100%",
-                                                                    padding: "0.8rem",
-                                                                    border: "1px solid #ddd",
-                                                                    borderRadius: "6px",
-                                                                    fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                    minHeight: isMobile ? "80px" : "60px",
-                                                                    resize: "vertical"
-                                                                },
-                                                                placeholder: "Description de cette t\xe2che..."
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 508,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/NewProject.jsx",
-                                                        lineNumber: 499,
-                                                        columnNumber: 19
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "grid",
-                                                            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(150px, 1fr))",
-                                                            gap: "1rem"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                                        style: {
-                                                                            display: "block",
-                                                                            marginBottom: "0.5rem",
-                                                                            color: "#5d6d7e",
-                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
-                                                                        },
-                                                                        children: "Date d'\xe9ch\xe9ance"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 530,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                        type: "date",
-                                                                        value: task.dueDate,
-                                                                        onChange: (e)=>handleTaskChange(task.id, "dueDate", e.target.value),
-                                                                        style: {
-                                                                            width: "100%",
-                                                                            padding: "0.8rem",
-                                                                            border: "1px solid #ddd",
-                                                                            borderRadius: "6px",
-                                                                            fontSize: isMobile ? "0.95rem" : "1rem"
-                                                                        }
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 538,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 529,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                                        style: {
-                                                                            display: "block",
-                                                                            marginBottom: "0.5rem",
-                                                                            color: "#5d6d7e",
-                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
-                                                                        },
-                                                                        children: "Priorit\xe9"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 553,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                                        value: task.priority,
-                                                                        onChange: (e)=>handleTaskChange(task.id, "priority", e.target.value),
-                                                                        style: {
-                                                                            width: "100%",
-                                                                            padding: "0.8rem",
-                                                                            border: "1px solid #ddd",
-                                                                            borderRadius: "6px",
-                                                                            fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                            backgroundColor: "white",
-                                                                            cursor: "pointer"
-                                                                        },
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                                value: "low",
-                                                                                children: "Basse"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/NewProject.jsx",
-                                                                                lineNumber: 574,
-                                                                                columnNumber: 25
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                                value: "medium",
-                                                                                children: "Moyenne"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/NewProject.jsx",
-                                                                                lineNumber: 575,
-                                                                                columnNumber: 25
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                                value: "high",
-                                                                                children: "Haute"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/NewProject.jsx",
-                                                                                lineNumber: 576,
-                                                                                columnNumber: 25
-                                                                            }, undefined)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/NewProject.jsx",
-                                                                        lineNumber: 561,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/NewProject.jsx",
-                                                                lineNumber: 552,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/NewProject.jsx",
-                                                        lineNumber: 524,
-                                                        columnNumber: 19
-                                                    }, undefined)
-                                                ]
-                                            }, task.id, true, {
-                                                fileName: "src/Components/NewProject.jsx",
-                                                lineNumber: 431,
-                                                columnNumber: 17
-                                            }, undefined))
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/NewProject.jsx",
-                                    lineNumber: 383,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        marginTop: isMobile ? "1.5rem" : "2rem",
-                                        paddingTop: isMobile ? "1.2rem" : "1.5rem",
-                                        borderTop: "1px solid #eee",
-                                        flexDirection: isMobile ? "column" : "row",
-                                        gap: isMobile ? "0.8rem" : "0"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            type: "button",
-                                            onClick: ()=>navigate("/dashboard"),
-                                            style: {
-                                                backgroundColor: "transparent",
-                                                color: "#7f8c8d",
-                                                border: "1px solid #ddd",
-                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 1.5rem",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontSize: isMobile ? "0.9rem" : "1rem",
-                                                width: isMobile ? "100%" : "auto"
-                                            },
-                                            children: "Annuler"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 595,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            type: "submit",
-                                            style: {
-                                                backgroundColor: "#2ecc71",
-                                                color: "white",
-                                                border: "none",
-                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 2rem",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontSize: isMobile ? "0.9rem" : "1rem",
-                                                fontWeight: "500",
-                                                width: isMobile ? "100%" : "auto"
-                                            },
-                                            children: "Cr\xe9er le projet"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/NewProject.jsx",
-                                            lineNumber: 612,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/NewProject.jsx",
-                                    lineNumber: 585,
-                                    columnNumber: 13
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/NewProject.jsx",
-                            lineNumber: 196,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            style: {
-                                backgroundColor: "#e8f4fc",
-                                padding: isMobile ? "0.8rem" : "1rem",
-                                borderRadius: "8px",
-                                marginTop: isMobile ? "1.5rem" : "2rem",
-                                borderLeft: "4px solid #3498db"
-                            },
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                style: {
-                                    margin: 0,
-                                    color: "#3498db",
-                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                    lineHeight: "1.4"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
-                                        children: "Important :"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/NewProject.jsx",
-                                        lineNumber: 645,
-                                        columnNumber: 15
-                                    }, undefined),
-                                    " Apr\xe8s cr\xe9ation de votre projet, Emmanuel sera automatiquement notifi\xe9. Il vous contactera dans les 24h pour discuter des d\xe9tails et \xe9tablir un devis pr\xe9cis."
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/NewProject.jsx",
-                                lineNumber: 639,
-                                columnNumber: 13
-                            }, undefined)
-                        }, void 0, false, {
-                            fileName: "src/Components/NewProject.jsx",
-                            lineNumber: 632,
-                            columnNumber: 11
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/NewProject.jsx",
-                    lineNumber: 173,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/Components/NewProject.jsx",
-                lineNumber: 169,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
-                children: `
-        /* Styles pour les petits écrans */
-        @media (max-width: 768px) {
-          .new-project-container {
-            padding-top: 4.5rem !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-          }
-          
-          .form-container {
-            padding: 1rem !important;
-          }
-          
-          .form-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .task-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .task-header {
-            flex-direction: column !important;
-            align-items: stretch !important;
-          }
-          
-          .task-header button {
-            width: 100% !important;
-            margin-top: 0.5rem !important;
-          }
-          
-          .task-card {
-            padding: 1rem !important;
-          }
-          
-          .action-buttons {
-            flex-direction: column !important;
-            width: 100% !important;
-          }
-          
-          .action-buttons button {
-            width: 100% !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .new-project-container {
-            padding-top: 4rem !important;
-          }
-          
-          .form-container {
-            padding: 0.8rem !important;
-          }
-          
-          h1 {
-            font-size: 1.4rem !important;
-            text-align: center;
-          }
-          
-          .section-title {
-            font-size: 1.1rem !important;
-            text-align: center;
-          }
-          
-          .info-text {
-            font-size: 0.9rem !important;
-            text-align: center;
-          }
-        }
-        
-        /* Améliorations pour tablettes */
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .form-container {
-            padding: 1.5rem !important;
-          }
-          
-          .form-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 1.2rem !important;
-          }
-          
-          .task-card-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-        
-        /* Amélioration de l'expérience utilisateur */
-        input:focus, textarea:focus, select:focus {
-          outline: none;
-          border-color: #3498db !important;
-          box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-          transition: all 0.2s ease;
-        }
-        
-        button:active {
-          transform: translateY(1px);
-        }
-        
-        /* Styles pour les bordures de priorité */
-        .priority-high {
-          border-left-color: #e74c3c !important;
-        }
-        
-        .priority-medium {
-          border-left-color: #f39c12 !important;
-        }
-        
-        .priority-low {
-          border-left-color: #2ecc71 !important;
-        }
-        
-        /* Ajustement pour les champs date sur mobile */
-        input[type="date"] {
-          min-height: 44px; /* Taille minimum pour le touch sur mobile */
-        }
-        
-        /* Styles pour les boutons de suppression de tâche */
-        .delete-task-btn {
-          transition: all 0.2s ease;
-        }
-        
-        .delete-task-btn:hover {
-          background-color: #c0392b !important;
-        }
-        
-        /* Animation pour le bouton d'ajout de tâche */
-        .add-task-btn:hover {
-          background-color: #2980b9 !important;
-        }
-        
-        /* Animation pour le bouton de création */
-        .create-project-btn:hover {
-          background-color: #27ae60 !important;
-        }
-        
-        /* Amélioration de la lisibilité sur mobile */
-        @media (max-width: 768px) {
-          .task-title-input {
-            font-size: 1rem !important;
-          }
-          
-          .task-description {
-            min-height: 70px !important;
-          }
-        }
-      `
-            }, void 0, false, {
-                fileName: "src/Components/NewProject.jsx",
-                lineNumber: 653,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/NewProject.jsx",
-        lineNumber: 161,
-        columnNumber: 5
-    }, undefined);
-};
-_s(NewProject, "6UyRXp3OByEe+3eZRWJrJp/Aa20=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c = NewProject;
-exports.default = NewProject;
-var _c;
-$RefreshReg$(_c, "NewProject");
-
-  $parcel$ReactRefreshHelpers$b7dc.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"QG6Fm":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$dfb4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$dfb4.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * ProjectsList component - Liste de tous les projets (vue admin)
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const ProjectsList = ()=>{
-    _s();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
-    const [projects, setProjects] = (0, _react.useState)([]);
-    const [users, setUsers] = (0, _react.useState)([]);
-    const [filterStatus, setFilterStatus] = (0, _react.useState)("all");
-    const [searchTerm, setSearchTerm] = (0, _react.useState)("");
-    (0, _react.useEffect)(()=>{
-        const savedUser = localStorage.getItem("currentUser");
-        if (!savedUser) {
-            navigate("/");
-            return;
-        }
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        // Charger les projets
-        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-        setProjects(allProjects);
-        // Charger les utilisateurs
-        const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
-        setUsers(allUsers);
-    }, [
-        navigate
-    ]);
-    // Filtrer les projets
-    const filteredProjects = projects.filter((project)=>{
-        // Filtre par statut
-        if (filterStatus !== "all" && project.status !== filterStatus) return false;
-        // Filtre par recherche
-        if (searchTerm.trim() !== "") {
-            const term = searchTerm.toLowerCase();
-            return project.title.toLowerCase().includes(term) || project.description.toLowerCase().includes(term) || project.clientName.toLowerCase().includes(term);
-        }
-        return true;
-    });
-    const handleStatusChange = (projectId, newStatus)=>{
-        const updatedProjects = projects.map((project)=>{
-            if (project.id === projectId) return {
-                ...project,
-                status: newStatus
-            };
-            return project;
-        });
-        setProjects(updatedProjects);
-        localStorage.setItem("projects", JSON.stringify(updatedProjects));
-    };
-    const handleDeleteProject = (projectId)=>{
-        if (window.confirm("\xcates-vous s\xfbr de vouloir supprimer ce projet ? Cette action est irr\xe9versible.")) {
-            const updatedProjects = projects.filter((project)=>project.id !== projectId);
-            setProjects(updatedProjects);
-            localStorage.setItem("projects", JSON.stringify(updatedProjects));
-        }
-    };
-    const calculateProgress = (tasks)=>{
-        if (!tasks || tasks.length === 0) return 0;
-        const completed = tasks.filter((t)=>t.status === "completed").length;
-        return Math.round(completed / tasks.length * 100);
-    };
-    const getStatusColor = (status)=>{
-        switch(status){
-            case "completed":
-                return "#2ecc71";
-            case "in-progress":
-                return "#3498db";
-            case "pending":
-                return "#f39c12";
-            case "paused":
-                return "#95a5a6";
-            default:
-                return "#95a5a6";
-        }
-    };
-    const getStatusText = (status)=>{
-        switch(status){
-            case "completed":
-                return "Termin\xe9";
-            case "in-progress":
-                return "En cours";
-            case "pending":
-                return "En attente";
-            case "paused":
-                return "En pause";
-            default:
-                return "Inconnu";
-        }
-    };
-    if (!currentUser || currentUser.userType !== "admin") return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: "6rem",
-            textAlign: "center",
-            minHeight: "60vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-        },
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                children: "Acc\xe8s non autoris\xe9"
-            }, void 0, false, {
-                fileName: "src/Components/ProjectsList.jsx",
-                lineNumber: 112,
-                columnNumber: 9
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                children: "Cette page est r\xe9serv\xe9e aux administrateurs."
-            }, void 0, false, {
-                fileName: "src/Components/ProjectsList.jsx",
-                lineNumber: 113,
-                columnNumber: 9
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>navigate("/dashboard"),
-                style: {
-                    backgroundColor: "#3498db",
-                    color: "white",
-                    border: "none",
-                    padding: "0.8rem 1.5rem",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    marginTop: "1rem"
-                },
-                children: "Retour au tableau de bord"
-            }, void 0, false, {
-                fileName: "src/Components/ProjectsList.jsx",
-                lineNumber: 114,
-                columnNumber: 9
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/ProjectsList.jsx",
-        lineNumber: 103,
-        columnNumber: 7
-    }, undefined);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: "6rem",
-            paddingBottom: "3rem",
-            width: "100%",
-            minHeight: "100vh",
-            backgroundColor: "#f5f7fa",
-            margin: 0,
-            boxSizing: "border-box"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            style: {
-                maxWidth: "1200px",
-                margin: "0 auto",
-                padding: "2rem 1rem"
-            },
-            children: [
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                    style: {
-                        color: "#2c3e50",
-                        marginBottom: "0.5rem",
-                        fontSize: "1.8rem"
-                    },
-                    children: "Gestion des Projets"
-                }, void 0, false, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 147,
-                    columnNumber: 9
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    style: {
-                        color: "#5d6d7e",
-                        marginBottom: "2rem",
-                        fontSize: "1rem"
-                    },
-                    children: "Consultez et g\xe9rez tous les projets de vos clients"
-                }, void 0, false, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 154,
-                    columnNumber: 9
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: "1.5rem",
-                        borderRadius: "8px",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
-                        marginBottom: "2rem",
-                        width: "100%"
-                    },
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "1rem"
-                        },
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            style: {
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: "1rem",
-                                alignItems: "flex-end"
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        flex: "1",
-                                        minWidth: "200px"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.5rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem",
-                                                fontWeight: "500"
-                                            },
-                                            children: "Filtrer par statut"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 183,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                            value: filterStatus,
-                                            onChange: (e)=>setFilterStatus(e.target.value),
-                                            style: {
-                                                padding: "0.6rem 1rem",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "0.95rem",
-                                                width: "100%",
-                                                backgroundColor: "#fff"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                    value: "all",
-                                                    children: "Tous les statuts"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 204,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                    value: "pending",
-                                                    children: "En attente"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 205,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                    value: "in-progress",
-                                                    children: "En cours"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 206,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                    value: "completed",
-                                                    children: "Termin\xe9"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 207,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                    value: "paused",
-                                                    children: "En pause"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 208,
-                                                    columnNumber: 19
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 192,
-                                            columnNumber: 17
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 182,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        flex: "1",
-                                        minWidth: "200px"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.5rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem",
-                                                fontWeight: "500"
-                                            },
-                                            children: "Rechercher"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 213,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "text",
-                                            value: searchTerm,
-                                            onChange: (e)=>setSearchTerm(e.target.value),
-                                            placeholder: "Rechercher un projet...",
-                                            style: {
-                                                padding: "0.6rem 1rem",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "0.95rem",
-                                                width: "100%"
-                                            }
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 222,
-                                            columnNumber: 17
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 212,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        display: "flex",
-                                        alignItems: "center",
-                                        height: "42px",
-                                        marginBottom: "0.5rem"
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            backgroundColor: "#f8f9fa",
-                                            color: "#5d6d7e",
-                                            padding: "0.5rem 1rem",
-                                            borderRadius: "6px",
-                                            fontSize: "0.9rem",
-                                            border: "1px solid #eee"
-                                        },
-                                        children: [
-                                            filteredProjects.length,
-                                            " projet(s) trouv\xe9(s)"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/ProjectsList.jsx",
-                                        lineNumber: 243,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 237,
-                                    columnNumber: 15
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 176,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/ProjectsList.jsx",
-                        lineNumber: 171,
-                        columnNumber: 11
-                    }, undefined)
-                }, void 0, false, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 163,
-                    columnNumber: 9
-                }, undefined),
-                filteredProjects.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: "3rem",
-                        borderRadius: "8px",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
-                        textAlign: "center",
-                        width: "100%"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                            style: {
-                                color: "#5d6d7e",
-                                marginBottom: "1rem"
-                            },
-                            children: "Aucun projet trouv\xe9"
-                        }, void 0, false, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 268,
-                            columnNumber: 13
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                            style: {
-                                color: "#7f8c8d"
-                            },
-                            children: "Aucun projet ne correspond \xe0 vos crit\xe8res de recherche."
-                        }, void 0, false, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 269,
-                            columnNumber: 13
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 260,
-                    columnNumber: 11
-                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        borderRadius: "8px",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
-                        overflow: "hidden",
-                        width: "100%"
-                    },
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            overflowX: "auto",
-                            width: "100%"
-                        },
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("table", {
-                            style: {
-                                width: "100%",
-                                borderCollapse: "collapse",
-                                minWidth: "800px"
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("thead", {
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tr", {
-                                        style: {
-                                            backgroundColor: "#f8f9fa"
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
-                                                style: {
-                                                    padding: "1rem",
-                                                    textAlign: "left",
-                                                    borderBottom: "2px solid #eee",
-                                                    fontWeight: "600",
-                                                    color: "#2c3e50",
-                                                    fontSize: "0.9rem"
-                                                },
-                                                children: "Client"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/ProjectsList.jsx",
-                                                lineNumber: 287,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
-                                                style: {
-                                                    padding: "1rem",
-                                                    textAlign: "left",
-                                                    borderBottom: "2px solid #eee",
-                                                    fontWeight: "600",
-                                                    color: "#2c3e50",
-                                                    fontSize: "0.9rem"
-                                                },
-                                                children: "Projet"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/ProjectsList.jsx",
-                                                lineNumber: 297,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
-                                                style: {
-                                                    padding: "1rem",
-                                                    textAlign: "left",
-                                                    borderBottom: "2px solid #eee",
-                                                    fontWeight: "600",
-                                                    color: "#2c3e50",
-                                                    fontSize: "0.9rem"
-                                                },
-                                                children: "Statut"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/ProjectsList.jsx",
-                                                lineNumber: 307,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
-                                                style: {
-                                                    padding: "1rem",
-                                                    textAlign: "left",
-                                                    borderBottom: "2px solid #eee",
-                                                    fontWeight: "600",
-                                                    color: "#2c3e50",
-                                                    fontSize: "0.9rem"
-                                                },
-                                                children: "Progression"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/ProjectsList.jsx",
-                                                lineNumber: 317,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
-                                                style: {
-                                                    padding: "1rem",
-                                                    textAlign: "left",
-                                                    borderBottom: "2px solid #eee",
-                                                    fontWeight: "600",
-                                                    color: "#2c3e50",
-                                                    fontSize: "0.9rem"
-                                                },
-                                                children: "Actions"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/ProjectsList.jsx",
-                                                lineNumber: 327,
-                                                columnNumber: 21
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/ProjectsList.jsx",
-                                        lineNumber: 286,
-                                        columnNumber: 19
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 285,
-                                    columnNumber: 17
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tbody", {
-                                    children: filteredProjects.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tr", {
-                                            style: {
-                                                borderBottom: "1px solid #eee",
-                                                transition: "background-color 0.2s ease",
-                                                fontSize: "0.9rem"
-                                            },
-                                            onMouseEnter: (e)=>e.currentTarget.style.backgroundColor = "#f8f9fa",
-                                            onMouseLeave: (e)=>e.currentTarget.style.backgroundColor = "transparent",
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
-                                                    style: {
-                                                        padding: "1rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontWeight: "500",
-                                                                    color: "#2c3e50"
-                                                                },
-                                                                children: project.clientName
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 350,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontSize: "0.85rem",
-                                                                    color: "#7f8c8d",
-                                                                    marginTop: "0.2rem"
-                                                                },
-                                                                children: project.clientEmail
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 351,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontSize: "0.85rem",
-                                                                    color: "#3498db",
-                                                                    marginTop: "0.2rem"
-                                                                },
-                                                                children: users.find((u)=>u.id === project.clientId)?.userType === "admin" ? "Admin" : "Client"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 354,
-                                                                columnNumber: 27
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                        lineNumber: 349,
-                                                        columnNumber: 25
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 348,
-                                                    columnNumber: 23
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
-                                                    style: {
-                                                        padding: "1rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontWeight: "500",
-                                                                    color: "#2c3e50",
-                                                                    marginBottom: "0.3rem"
-                                                                },
-                                                                children: project.title
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 361,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontSize: "0.9rem",
-                                                                    color: "#5d6d7e",
-                                                                    lineHeight: "1.4"
-                                                                },
-                                                                children: project.description.length > 80 ? project.description.substring(0, 80) + "..." : project.description
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 364,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    display: "flex",
-                                                                    gap: "0.5rem",
-                                                                    marginTop: "0.5rem",
-                                                                    flexWrap: "wrap"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            backgroundColor: "#e8f4fc",
-                                                                            color: "#3498db",
-                                                                            padding: "0.2rem 0.5rem",
-                                                                            borderRadius: "4px",
-                                                                            fontSize: "0.75rem"
-                                                                        },
-                                                                        children: project.category || "Non cat\xe9goris\xe9"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                                        lineNumber: 375,
-                                                                        columnNumber: 29
-                                                                    }, undefined),
-                                                                    project.budget && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            backgroundColor: "#e8f6f3",
-                                                                            color: "#2ecc71",
-                                                                            padding: "0.2rem 0.5rem",
-                                                                            borderRadius: "4px",
-                                                                            fontSize: "0.75rem"
-                                                                        },
-                                                                        children: project.budget
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                                        lineNumber: 385,
-                                                                        columnNumber: 31
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontSize: "0.75rem",
-                                                                            color: "#7f8c8d"
-                                                                        },
-                                                                        children: [
-                                                                            "D\xe9but: ",
-                                                                            new Date(project.startDate).toLocaleDateString()
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                                        lineNumber: 395,
-                                                                        columnNumber: 29
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 369,
-                                                                columnNumber: 27
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                        lineNumber: 360,
-                                                        columnNumber: 25
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 359,
-                                                    columnNumber: 23
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
-                                                    style: {
-                                                        padding: "1rem"
-                                                    },
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: project.status,
-                                                            onChange: (e)=>handleStatusChange(project.id, e.target.value),
-                                                            style: {
-                                                                padding: "0.5rem",
-                                                                borderRadius: "5px",
-                                                                border: `1px solid ${getStatusColor(project.status)}`,
-                                                                backgroundColor: getStatusColor(project.status),
-                                                                color: "white",
-                                                                cursor: "pointer",
-                                                                fontWeight: "500",
-                                                                width: "100%",
-                                                                maxWidth: "140px",
-                                                                fontSize: "0.85rem"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "pending",
-                                                                    style: {
-                                                                        backgroundColor: "white",
-                                                                        color: "#333"
-                                                                    },
-                                                                    children: "En attente"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 421,
-                                                                    columnNumber: 27
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "in-progress",
-                                                                    style: {
-                                                                        backgroundColor: "white",
-                                                                        color: "#333"
-                                                                    },
-                                                                    children: "En cours"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 422,
-                                                                    columnNumber: 27
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "completed",
-                                                                    style: {
-                                                                        backgroundColor: "white",
-                                                                        color: "#333"
-                                                                    },
-                                                                    children: "Termin\xe9"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 423,
-                                                                    columnNumber: 27
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "paused",
-                                                                    style: {
-                                                                        backgroundColor: "white",
-                                                                        color: "#333"
-                                                                    },
-                                                                    children: "En pause"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 424,
-                                                                    columnNumber: 27
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ProjectsList.jsx",
-                                                            lineNumber: 405,
-                                                            columnNumber: 25
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                fontSize: "0.8rem",
-                                                                color: "#7f8c8d",
-                                                                marginTop: "0.3rem"
-                                                            },
-                                                            children: getStatusText(project.status)
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ProjectsList.jsx",
-                                                            lineNumber: 426,
-                                                            columnNumber: 25
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 404,
-                                                    columnNumber: 23
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
-                                                    style: {
-                                                        padding: "1rem"
-                                                    },
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                gap: "0.5rem"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                    style: {
-                                                                        flex: 1,
-                                                                        maxWidth: "100px",
-                                                                        height: "6px",
-                                                                        backgroundColor: "#e1e8ed",
-                                                                        borderRadius: "3px",
-                                                                        overflow: "hidden"
-                                                                    },
-                                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                        style: {
-                                                                            width: `${calculateProgress(project.tasks)}%`,
-                                                                            height: "100%",
-                                                                            backgroundColor: "#3498db"
-                                                                        }
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                                        lineNumber: 440,
-                                                                        columnNumber: 29
-                                                                    }, undefined)
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 432,
-                                                                    columnNumber: 27
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                    style: {
-                                                                        fontSize: "0.9rem",
-                                                                        color: "#3498db",
-                                                                        fontWeight: "500"
-                                                                    },
-                                                                    children: [
-                                                                        calculateProgress(project.tasks),
-                                                                        "%"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                                    lineNumber: 446,
-                                                                    columnNumber: 27
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ProjectsList.jsx",
-                                                            lineNumber: 431,
-                                                            columnNumber: 25
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                fontSize: "0.8rem",
-                                                                color: "#7f8c8d",
-                                                                marginTop: "0.3rem"
-                                                            },
-                                                            children: [
-                                                                project.tasks ? project.tasks.filter((t)=>t.status === "completed").length : 0,
-                                                                " /",
-                                                                project.tasks ? project.tasks.length : 0,
-                                                                " t\xe2ches"
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ProjectsList.jsx",
-                                                            lineNumber: 450,
-                                                            columnNumber: 25
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                fontSize: "0.8rem",
-                                                                color: "#7f8c8d",
-                                                                marginTop: "0.2rem"
-                                                            },
-                                                            children: [
-                                                                "\xc9ch\xe9ance: ",
-                                                                new Date(project.deadline).toLocaleDateString()
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ProjectsList.jsx",
-                                                            lineNumber: 454,
-                                                            columnNumber: 25
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 430,
-                                                    columnNumber: 23
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
-                                                    style: {
-                                                        padding: "1rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "flex",
-                                                            gap: "0.5rem",
-                                                            flexWrap: "wrap"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                onClick: ()=>navigate(`/project-view/${project.id}`),
-                                                                style: {
-                                                                    backgroundColor: "#3498db",
-                                                                    color: "white",
-                                                                    border: "none",
-                                                                    padding: "0.5rem 1rem",
-                                                                    borderRadius: "5px",
-                                                                    cursor: "pointer",
-                                                                    fontSize: "0.85rem",
-                                                                    flex: "1 1 auto",
-                                                                    minWidth: "70px"
-                                                                },
-                                                                children: "Voir"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 460,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                onClick: ()=>handleDeleteProject(project.id),
-                                                                style: {
-                                                                    backgroundColor: "#e74c3c",
-                                                                    color: "white",
-                                                                    border: "none",
-                                                                    padding: "0.5rem 1rem",
-                                                                    borderRadius: "5px",
-                                                                    cursor: "pointer",
-                                                                    fontSize: "0.85rem",
-                                                                    flex: "1 1 auto",
-                                                                    minWidth: "70px"
-                                                                },
-                                                                children: "Suppr"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ProjectsList.jsx",
-                                                                lineNumber: 476,
-                                                                columnNumber: 27
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ProjectsList.jsx",
-                                                        lineNumber: 459,
-                                                        columnNumber: 25
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ProjectsList.jsx",
-                                                    lineNumber: 458,
-                                                    columnNumber: 23
-                                                }, undefined)
-                                            ]
-                                        }, project.id, true, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 341,
-                                            columnNumber: 21
-                                        }, undefined))
-                                }, void 0, false, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 339,
-                                    columnNumber: 17
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 280,
-                            columnNumber: 15
-                        }, undefined)
-                    }, void 0, false, {
-                        fileName: "src/Components/ProjectsList.jsx",
-                        lineNumber: 279,
-                        columnNumber: 13
-                    }, undefined)
-                }, void 0, false, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 272,
-                    columnNumber: 11
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: "1.5rem",
-                        borderRadius: "8px",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
-                        marginTop: "2rem",
-                        width: "100%"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                            style: {
-                                color: "#2c3e50",
-                                marginBottom: "1rem",
-                                fontSize: "1.1rem"
-                            },
-                            children: "Statistiques des projets"
-                        }, void 0, false, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 511,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            style: {
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-                                gap: "1rem"
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: "center"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                fontSize: "1.8rem",
-                                                fontWeight: "bold",
-                                                color: "#3498db"
-                                            },
-                                            children: projects.length
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 524,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem"
-                                            },
-                                            children: "Total projets"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 527,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 523,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: "center"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                fontSize: "1.8rem",
-                                                fontWeight: "bold",
-                                                color: "#2ecc71"
-                                            },
-                                            children: projects.filter((p)=>p.status === "completed").length
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 530,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem"
-                                            },
-                                            children: "Termin\xe9s"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 533,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 529,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: "center"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                fontSize: "1.8rem",
-                                                fontWeight: "bold",
-                                                color: "#f39c12"
-                                            },
-                                            children: projects.filter((p)=>p.status === "in-progress").length
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 536,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem"
-                                            },
-                                            children: "En cours"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 539,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 535,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: "center"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                fontSize: "1.8rem",
-                                                fontWeight: "bold",
-                                                color: "#e74c3c"
-                                            },
-                                            children: projects.filter((p)=>p.status === "pending").length
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 542,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                fontSize: "0.9rem"
-                                            },
-                                            children: "En attente"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ProjectsList.jsx",
-                                            lineNumber: 545,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ProjectsList.jsx",
-                                    lineNumber: 541,
-                                    columnNumber: 13
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ProjectsList.jsx",
-                            lineNumber: 518,
-                            columnNumber: 11
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/ProjectsList.jsx",
-                    lineNumber: 503,
-                    columnNumber: 9
-                }, undefined)
-            ]
-        }, void 0, true, {
-            fileName: "src/Components/ProjectsList.jsx",
-            lineNumber: 142,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/ProjectsList.jsx",
-        lineNumber: 133,
-        columnNumber: 5
-    }, undefined);
-};
-_s(ProjectsList, "1LmrT6MAzXxrea3NaNQw4Tws9AM=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c = ProjectsList;
-exports.default = ProjectsList;
-var _c;
-$RefreshReg$(_c, "ProjectsList");
-
-  $parcel$ReactRefreshHelpers$dfb4.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cFqqg":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ab36 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ab36.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * Mentoring component - Page de mentorat
- * Version responsive
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const Mentoring = ()=>{
-    _s();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
-    const [mentoringSessions, setMentoringSessions] = (0, _react.useState)([]);
-    const [isMobile, setIsMobile] = (0, _react.useState)(false);
-    const [isTablet, setIsTablet] = (0, _react.useState)(false);
-    (0, _react.useEffect)(()=>{
-        // Détecter la taille de l'écran
-        const checkScreenSize = ()=>{
-            const width = window.innerWidth;
-            setIsMobile(width <= 768);
-            setIsTablet(width > 768 && width <= 1024);
-        };
-        checkScreenSize();
-        window.addEventListener("resize", checkScreenSize);
-        const savedUser = localStorage.getItem("currentUser");
-        if (!savedUser) {
-            navigate("/");
-            return;
-        }
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        // Charger les sessions de mentorat
-        const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
-        const userSessions = allSessions.filter((s)=>s.clientId === user.id || user.userType === "admin");
-        setMentoringSessions(userSessions);
-        return ()=>{
-            window.removeEventListener("resize", checkScreenSize);
-        };
-    }, [
-        navigate
-    ]);
-    const handleDeleteSession = (sessionId)=>{
-        if (window.confirm("\xcates-vous s\xfbr de vouloir supprimer cette session ?")) {
-            const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
-            const updatedSessions = allSessions.filter((s)=>s.id !== sessionId);
-            localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
-            const userSessions = updatedSessions.filter((s)=>s.clientId === currentUser.id || currentUser.userType === "admin");
-            setMentoringSessions(userSessions);
-        }
-    };
-    const getSessionStatus = (dateTime)=>{
-        const now = new Date();
-        const sessionDate = new Date(dateTime);
-        return sessionDate < now ? "past" : "upcoming";
-    };
-    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            textAlign: "center",
-            minHeight: "60vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#f5f7fa"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-            style: {
-                color: "#2c3e50"
-            },
-            children: "Chargement..."
-        }, void 0, false, {
-            fileName: "src/Components/Mentoring.jsx",
-            lineNumber: 77,
-            columnNumber: 9
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/Mentoring.jsx",
-        lineNumber: 67,
-        columnNumber: 7
-    }, undefined);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            paddingLeft: isMobile ? "0.8rem" : "1rem",
-            paddingRight: isMobile ? "0.8rem" : "1rem",
-            paddingBottom: "2rem",
-            minHeight: "100vh",
-            backgroundColor: "#f5f7fa"
-        },
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    maxWidth: "1400px",
-                    margin: "0 auto"
-                },
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            backgroundColor: "white",
-                            padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
-                            borderRadius: "12px",
-                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                            marginBottom: isMobile ? "1.2rem" : "1.5rem"
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "flex-start",
-                                    marginBottom: isMobile ? "1rem" : "1.5rem",
-                                    flexDirection: isMobile ? "column" : "row",
-                                    gap: "1rem"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            flex: 1
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                                                style: {
-                                                    margin: 0,
-                                                    color: "#2c3e50",
-                                                    fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
-                                                    lineHeight: "1.2"
-                                                },
-                                                children: "Service de Mentorat"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 112,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                style: {
-                                                    color: "#5d6d7e",
-                                                    marginTop: "0.5rem",
-                                                    fontSize: isMobile ? "0.9rem" : "1rem",
-                                                    lineHeight: "1.4"
-                                                },
-                                                children: "Accompagnement personnalis\xe9 pour vos projets de d\xe9veloppement"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 120,
-                                                columnNumber: 15
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 111,
-                                        columnNumber: 13
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                        onClick: ()=>navigate("/schedule-mentoring"),
-                                        style: {
-                                            backgroundColor: "#3498db",
-                                            color: "white",
-                                            border: "none",
-                                            padding: isMobile ? "0.7rem 1.2rem" : "0.8rem 1.5rem",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            fontWeight: "500",
-                                            fontSize: isMobile ? "0.9rem" : "1rem",
-                                            whiteSpace: "nowrap",
-                                            width: isMobile ? "100%" : "auto"
-                                        },
-                                        children: "Planifier une session"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 130,
-                                        columnNumber: 13
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 103,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    backgroundColor: "#e8f4fc",
-                                    padding: isMobile ? "1rem" : "1.5rem",
-                                    borderRadius: "10px",
-                                    marginBottom: isMobile ? "1.2rem" : "1.5rem"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                        style: {
-                                            color: "#2c3e50",
-                                            marginBottom: "1rem",
-                                            fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                        },
-                                        children: "Comment fonctionne le mentorat ?"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 156,
-                                        columnNumber: 13
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            display: "grid",
-                                            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(auto-fit, minmax(240px, 1fr))",
-                                            gap: "1.2rem"
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "flex-start"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            width: isMobile ? "40px" : "50px",
-                                                            height: isMobile ? "40px" : "50px",
-                                                            backgroundColor: "#3498db",
-                                                            borderRadius: "50%",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            fontSize: isMobile ? "1rem" : "1.2rem",
-                                                            marginBottom: "0.8rem"
-                                                        },
-                                                        children: "1"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 173,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Planification"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 188,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
-                                                            lineHeight: "1.4",
-                                                            margin: 0
-                                                        },
-                                                        children: "Choisissez une date et un cr\xe9neau horaire qui vous convient."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 195,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 168,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "flex-start"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            width: isMobile ? "40px" : "50px",
-                                                            height: isMobile ? "40px" : "50px",
-                                                            backgroundColor: "#3498db",
-                                                            borderRadius: "50%",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            fontSize: isMobile ? "1rem" : "1.2rem",
-                                                            marginBottom: "0.8rem"
-                                                        },
-                                                        children: "2"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 210,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Pr\xe9paration"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 225,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
-                                                            lineHeight: "1.4",
-                                                            margin: 0
-                                                        },
-                                                        children: "Pr\xe9parez vos questions et probl\xe8mes techniques \xe0 aborder."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 232,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 205,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "flex-start"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            width: isMobile ? "40px" : "50px",
-                                                            height: isMobile ? "40px" : "50px",
-                                                            backgroundColor: "#3498db",
-                                                            borderRadius: "50%",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            fontSize: isMobile ? "1rem" : "1.2rem",
-                                                            marginBottom: "0.8rem"
-                                                        },
-                                                        children: "3"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 247,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Session"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 262,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
-                                                            lineHeight: "1.4",
-                                                            margin: 0
-                                                        },
-                                                        children: "\xc9change en direct avec Emmanuel pour r\xe9soudre vos probl\xe8mes."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 269,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 242,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    alignItems: "flex-start"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            width: isMobile ? "40px" : "50px",
-                                                            height: isMobile ? "40px" : "50px",
-                                                            backgroundColor: "#3498db",
-                                                            borderRadius: "50%",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            fontSize: isMobile ? "1rem" : "1.2rem",
-                                                            marginBottom: "0.8rem"
-                                                        },
-                                                        children: "4"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 284,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Suivi"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 299,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
-                                                            lineHeight: "1.4",
-                                                            margin: 0
-                                                        },
-                                                        children: "Recevez des ressources et conseils pour continuer \xe0 progresser."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 306,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 279,
-                                                columnNumber: 15
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 163,
-                                        columnNumber: 13
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 150,
-                                columnNumber: 11
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                        style: {
-                                            color: "#2c3e50",
-                                            marginBottom: isMobile ? "0.8rem" : "1rem",
-                                            fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                        },
-                                        children: "Types de sessions disponibles"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 320,
-                                        columnNumber: 13
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            display: "grid",
-                                            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(280px, 1fr))",
-                                            gap: "1.2rem"
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    backgroundColor: "#f8f9fa",
-                                                    padding: isMobile ? "1rem" : "1.2rem",
-                                                    borderRadius: "10px",
-                                                    borderTop: "4px solid #3498db",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    height: "100%"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Code Review"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 341,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                            marginBottom: "1rem",
-                                                            lineHeight: "1.4",
-                                                            flex: 1
-                                                        },
-                                                        children: "Analyse d\xe9taill\xe9e de votre code avec suggestions d'am\xe9lioration et bonnes pratiques."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 348,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: "0.5rem",
-                                                            flexWrap: "wrap"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                style: {
-                                                                    backgroundColor: "#e8f4fc",
-                                                                    color: "#3498db",
-                                                                    padding: "0.2rem 0.6rem",
-                                                                    borderRadius: "12px",
-                                                                    fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                                    whiteSpace: "nowrap"
-                                                                },
-                                                                children: "60-90 min"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Mentoring.jsx",
-                                                                lineNumber: 363,
-                                                                columnNumber: 19
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                style: {
-                                                                    backgroundColor: "#e8f6f3",
-                                                                    color: "#2ecc71",
-                                                                    padding: "0.2rem 0.6rem",
-                                                                    borderRadius: "12px",
-                                                                    fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                                    whiteSpace: "nowrap"
-                                                                },
-                                                                children: "Recommand\xe9"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Mentoring.jsx",
-                                                                lineNumber: 373,
-                                                                columnNumber: 19
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 357,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 332,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    backgroundColor: "#f8f9fa",
-                                                    padding: isMobile ? "1rem" : "1.2rem",
-                                                    borderRadius: "10px",
-                                                    borderTop: "4px solid #9b59b6",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    height: "100%"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Architecture & Design"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 395,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                            marginBottom: "1rem",
-                                                            lineHeight: "1.4",
-                                                            flex: 1
-                                                        },
-                                                        children: "Conseil sur l'architecture de votre projet et choix technologiques."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 402,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: "0.5rem",
-                                                            flexWrap: "wrap"
-                                                        },
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                            style: {
-                                                                backgroundColor: "#f4ecf7",
-                                                                color: "#9b59b6",
-                                                                padding: "0.2rem 0.6rem",
-                                                                borderRadius: "12px",
-                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                                whiteSpace: "nowrap"
-                                                            },
-                                                            children: "90-120 min"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/Mentoring.jsx",
-                                                            lineNumber: 417,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 411,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 386,
-                                                columnNumber: 15
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    backgroundColor: "#f8f9fa",
-                                                    padding: isMobile ? "1rem" : "1.2rem",
-                                                    borderRadius: "10px",
-                                                    borderTop: "4px solid #2ecc71",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    height: "100%"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            marginBottom: "0.5rem",
-                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
-                                                        },
-                                                        children: "Debugging & Probl\xe8mes"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 439,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        style: {
-                                                            color: "#5d6d7e",
-                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                            marginBottom: "1rem",
-                                                            lineHeight: "1.4",
-                                                            flex: 1
-                                                        },
-                                                        children: "Aide \xe0 la r\xe9solution de probl\xe8mes techniques sp\xe9cifiques."
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 446,
-                                                        columnNumber: 17
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: "0.5rem",
-                                                            flexWrap: "wrap"
-                                                        },
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                            style: {
-                                                                backgroundColor: "#e8f6f3",
-                                                                color: "#2ecc71",
-                                                                padding: "0.2rem 0.6rem",
-                                                                borderRadius: "12px",
-                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                                whiteSpace: "nowrap"
-                                                            },
-                                                            children: "45-60 min"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/Mentoring.jsx",
-                                                            lineNumber: 461,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 455,
-                                                        columnNumber: 17
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 430,
-                                                columnNumber: 15
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 327,
-                                        columnNumber: 13
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 319,
-                                columnNumber: 11
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Mentoring.jsx",
-                        lineNumber: 96,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            backgroundColor: "white",
-                            padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
-                            borderRadius: "12px",
-                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    marginBottom: isMobile ? "1rem" : "1.5rem",
-                                    flexDirection: isMobile ? "column" : "row",
-                                    gap: "0.8rem"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                                        style: {
-                                            margin: 0,
-                                            color: "#2c3e50",
-                                            fontSize: isMobile ? "1.3rem" : isTablet ? "1.5rem" : "1.8rem",
-                                            textAlign: isMobile ? "center" : "left"
-                                        },
-                                        children: "Mes sessions de mentorat"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 492,
-                                        columnNumber: 13
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            backgroundColor: "#f8f9fa",
-                                            color: "#5d6d7e",
-                                            padding: "0.4rem 0.8rem",
-                                            borderRadius: "16px",
-                                            fontSize: isMobile ? "0.8rem" : "0.9rem",
-                                            whiteSpace: "nowrap"
-                                        },
-                                        children: [
-                                            mentoringSessions.length,
-                                            " session(s)"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 501,
-                                        columnNumber: 13
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 484,
-                                columnNumber: 11
-                            }, undefined),
-                            mentoringSessions.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    textAlign: "center",
-                                    padding: isMobile ? "1.5rem" : "2rem",
-                                    color: "#7f8c8d"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                        style: {
-                                            fontSize: isMobile ? "0.95rem" : "1rem",
-                                            marginBottom: "1rem"
-                                        },
-                                        children: "Aucune session de mentorat planifi\xe9e."
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 519,
-                                        columnNumber: 15
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                        onClick: ()=>navigate("/schedule-mentoring"),
-                                        style: {
-                                            backgroundColor: "#3498db",
-                                            color: "white",
-                                            border: "none",
-                                            padding: isMobile ? "0.8rem 1.5rem" : "1rem 2rem",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            fontSize: isMobile ? "0.9rem" : "1rem",
-                                            fontWeight: "500",
-                                            minWidth: isMobile ? "100%" : "200px"
-                                        },
-                                        children: "Planifier ma premi\xe8re session"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 525,
-                                        columnNumber: 15
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 514,
-                                columnNumber: 13
-                            }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    display: "grid",
-                                    gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))",
-                                    gap: "1.2rem"
-                                },
-                                children: mentoringSessions.map((session)=>{
-                                    const sessionStatus = getSessionStatus(session.dateTime);
-                                    const isPast = sessionStatus === "past";
-                                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            backgroundColor: "#f8f9fa",
-                                            padding: isMobile ? "1rem" : "1.2rem",
-                                            borderRadius: "10px",
-                                            borderLeft: `4px solid ${isPast ? "#95a5a6" : "#3498db"}`,
-                                            opacity: isPast ? 0.8 : 1,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            height: "100%"
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "flex-start",
-                                                    marginBottom: "0.8rem"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                                        style: {
-                                                            margin: 0,
-                                                            color: "#2c3e50",
-                                                            fontSize: isMobile ? "1rem" : "1.1rem",
-                                                            lineHeight: "1.3",
-                                                            flex: 1,
-                                                            marginRight: "0.5rem"
-                                                        },
-                                                        children: session.topic
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 572,
-                                                        columnNumber: 23
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            backgroundColor: isPast ? "#95a5a6" : "#3498db",
-                                                            color: "white",
-                                                            padding: "0.2rem 0.6rem",
-                                                            borderRadius: "12px",
-                                                            fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                            whiteSpace: "nowrap"
-                                                        },
-                                                        children: isPast ? "Pass\xe9e" : "\xc0 venir"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 582,
-                                                        columnNumber: 23
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 566,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                style: {
-                                                    color: "#5d6d7e",
-                                                    marginBottom: "0.8rem",
-                                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                    lineHeight: "1.4",
-                                                    flex: 1
-                                                },
-                                                children: session.description
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 594,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    marginBottom: "0.4rem"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            fontWeight: "500",
-                                                            color: "#7f8c8d",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
-                                                        },
-                                                        children: "Date et heure:"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 605,
-                                                        columnNumber: 23
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
-                                                            marginLeft: "0.3rem"
-                                                        },
-                                                        children: [
-                                                            new Date(session.dateTime).toLocaleDateString("fr-FR", {
-                                                                day: "2-digit",
-                                                                month: "short",
-                                                                year: "numeric"
-                                                            }),
-                                                            " \xe0 ",
-                                                            new Date(session.dateTime).toLocaleTimeString([], {
-                                                                hour: "2-digit",
-                                                                minute: "2-digit"
-                                                            })
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 612,
-                                                        columnNumber: 23
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 604,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    marginBottom: "0.4rem"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            fontWeight: "500",
-                                                            color: "#7f8c8d",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
-                                                        },
-                                                        children: "Dur\xe9e:"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 626,
-                                                        columnNumber: 23
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            color: "#2c3e50",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
-                                                            marginLeft: "0.3rem"
-                                                        },
-                                                        children: [
-                                                            session.duration,
-                                                            " minutes"
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 633,
-                                                        columnNumber: 23
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 625,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    marginBottom: "0.8rem"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            fontWeight: "500",
-                                                            color: "#7f8c8d",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
-                                                        },
-                                                        children: "Type:"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 643,
-                                                        columnNumber: 23
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            backgroundColor: "#e8f4fc",
-                                                            color: "#3498db",
-                                                            padding: "0.15rem 0.5rem",
-                                                            borderRadius: "12px",
-                                                            fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                            marginLeft: "0.3rem"
-                                                        },
-                                                        children: session.sessionType === "video" ? "Vid\xe9o" : "Audio"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 650,
-                                                        columnNumber: 23
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 642,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            session.link && !isPast && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    marginBottom: "0.8rem"
-                                                },
-                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                                                    href: session.link,
-                                                    target: "_blank",
-                                                    rel: "noopener noreferrer",
-                                                    style: {
-                                                        color: "#3498db",
-                                                        textDecoration: "none",
-                                                        fontSize: isMobile ? "0.8rem" : "0.85rem",
-                                                        display: "inline-flex",
-                                                        alignItems: "center",
-                                                        gap: "0.3rem",
-                                                        fontWeight: "500"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        children: "\uD83D\uDD17 Lien de connexion"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 678,
-                                                        columnNumber: 27
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/Mentoring.jsx",
-                                                    lineNumber: 664,
-                                                    columnNumber: 25
-                                                }, undefined)
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 663,
-                                                columnNumber: 23
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                style: {
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center",
-                                                    marginTop: "auto",
-                                                    paddingTop: "0.8rem",
-                                                    borderTop: "1px solid #eee"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                            style: {
-                                                                fontSize: isMobile ? "0.7rem" : "0.75rem",
-                                                                color: "#7f8c8d"
-                                                            },
-                                                            children: [
-                                                                "Cr\xe9\xe9e le ",
-                                                                new Date(session.createdAt).toLocaleDateString("fr-FR", {
-                                                                    day: "2-digit",
-                                                                    month: "short",
-                                                                    year: "numeric"
-                                                                })
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/Mentoring.jsx",
-                                                            lineNumber: 692,
-                                                            columnNumber: 25
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 691,
-                                                        columnNumber: 23
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                        onClick: ()=>handleDeleteSession(session.id),
-                                                        style: {
-                                                            backgroundColor: "#e74c3c",
-                                                            color: "white",
-                                                            border: "none",
-                                                            padding: isMobile ? "0.4rem 0.8rem" : "0.5rem 1rem",
-                                                            borderRadius: "4px",
-                                                            cursor: "pointer",
-                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
-                                                            whiteSpace: "nowrap"
-                                                        },
-                                                        children: "Supprimer"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/Mentoring.jsx",
-                                                        lineNumber: 703,
-                                                        columnNumber: 23
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Mentoring.jsx",
-                                                lineNumber: 683,
-                                                columnNumber: 21
-                                            }, undefined)
-                                        ]
-                                    }, session.id, true, {
-                                        fileName: "src/Components/Mentoring.jsx",
-                                        lineNumber: 553,
-                                        columnNumber: 19
-                                    }, undefined);
-                                })
-                            }, void 0, false, {
-                                fileName: "src/Components/Mentoring.jsx",
-                                lineNumber: 543,
-                                columnNumber: 13
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Mentoring.jsx",
-                        lineNumber: 478,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/Components/Mentoring.jsx",
-                lineNumber: 91,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
-                children: `
-        /* Styles pour les petits écrans */
-        @media (max-width: 768px) {
-          .mentoring-container {
-            padding-top: 4.5rem !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-          }
-          
-          .steps-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 1rem !important;
-          }
-          
-          .types-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .sessions-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .header-section {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-          }
-          
-          .header-section button {
-            width: 100% !important;
-            margin-top: 0.5rem !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .mentoring-container {
-            padding-top: 4rem !important;
-          }
-          
-          .steps-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .step-item {
-            flex-direction: row !important;
-            align-items: flex-start !important;
-            gap: 1rem !important;
-          }
-          
-          .step-number {
-            flex-shrink: 0 !important;
-          }
-        }
-        
-        /* Améliorations pour tablettes */
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .steps-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          
-          .sessions-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        
-        /* Animation pour les cartes */
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .session-card {
-          animation: fadeInUp 0.3s ease forwards;
-          animation-delay: calc(var(--card-index, 0) * 0.1s);
-        }
-        
-        /* Amélioration du scroll sur mobile */
-        .mentoring-container {
-          overflow-x: hidden;
-        }
-        
-        /* Styles pour les liens */
-        a:hover {
-          text-decoration: underline;
-        }
-        
-        /* Styles pour les boutons au survol */
-        button:hover {
-          opacity: 0.9;
-          transform: translateY(-1px);
-          transition: all 0.2s ease;
-        }
-        
-        /* Amélioration de la lisibilité */
-        @media (max-width: 768px) {
-          h1, h2, h3, h4 {
-            line-height: 1.2 !important;
-          }
-          
-          p {
-            line-height: 1.4 !important;
-          }
-        }
-      `
-            }, void 0, false, {
-                fileName: "src/Components/Mentoring.jsx",
-                lineNumber: 728,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/Mentoring.jsx",
-        lineNumber: 83,
-        columnNumber: 5
-    }, undefined);
-};
-_s(Mentoring, "D8AvaB+AhCeMP2uuca7SulB2llo=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c = Mentoring;
-exports.default = Mentoring;
-var _c;
-$RefreshReg$(_c, "Mentoring");
-
-  $parcel$ReactRefreshHelpers$ab36.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cQ1Wh":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$e684 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$e684.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * ScheduleMentoring component - Formulaire de planification d'une session de mentorat
- * Version responsive
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const ScheduleMentoring = ()=>{
-    _s();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
-    const [isMobile, setIsMobile] = (0, _react.useState)(false);
-    const [isTablet, setIsTablet] = (0, _react.useState)(false);
-    const [sessionData, setSessionData] = (0, _react.useState)({
-        topic: "",
-        description: "",
-        dateTime: "",
-        duration: "60",
-        sessionType: "video",
-        objectives: "",
-        projectId: "",
-        urgency: "medium"
-    });
-    const [userProjects, setUserProjects] = (0, _react.useState)([]);
-    const [availableSlots, setAvailableSlots] = (0, _react.useState)([]);
-    const [isSubmitting, setIsSubmitting] = (0, _react.useState)(false);
-    (0, _react.useEffect)(()=>{
-        // Détecter la taille de l'écran
-        const checkScreenSize = ()=>{
-            const width = window.innerWidth;
-            setIsMobile(width <= 768);
-            setIsTablet(width > 768 && width <= 1024);
-        };
-        checkScreenSize();
-        window.addEventListener("resize", checkScreenSize);
-        const savedUser = localStorage.getItem("currentUser");
-        if (!savedUser) {
-            navigate("/");
-            return;
-        }
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        // Charger les projets de l'utilisateur
-        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-        const userProjects = allProjects.filter((p)=>p.clientId === user.id);
-        setUserProjects(userProjects);
-        // Générer des créneaux disponibles (démonstration)
-        generateAvailableSlots();
-        // Définir la date par défaut (demain à 14h)
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(14, 0, 0, 0);
-        setSessionData((prev)=>({
-                ...prev,
-                dateTime: tomorrow.toISOString().slice(0, 16)
-            }));
-        return ()=>{
-            window.removeEventListener("resize", checkScreenSize);
-        };
-    }, [
-        navigate
-    ]);
-    const generateAvailableSlots = ()=>{
-        const slots = [];
-        const today = new Date();
-        // Générer des créneaux pour les 7 prochains jours
-        for(let i = 1; i <= 7; i++){
-            const date = new Date(today);
-            date.setDate(today.getDate() + i);
-            // Ajouter des créneaux à 9h, 14h, 16h
-            [
-                9,
-                14,
-                16
-            ].forEach((hour)=>{
-                const slotDate = new Date(date);
-                slotDate.setHours(hour, 0, 0, 0);
-                slots.push({
-                    value: slotDate.toISOString().slice(0, 16),
-                    label: `${slotDate.toLocaleDateString("fr-FR", {
-                        day: "2-digit",
-                        month: "short"
-                    })} à ${hour}h00`
-                });
-            });
-        }
-        setAvailableSlots(slots);
-    };
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        if (!sessionData.topic.trim()) {
-            alert("Veuillez donner un titre \xe0 votre session");
-            return;
-        }
-        if (!sessionData.dateTime) {
-            alert("Veuillez s\xe9lectionner une date et heure");
-            return;
-        }
-        if (!sessionData.description.trim()) {
-            alert("Veuillez d\xe9crire l'objectif de la session");
-            return;
-        }
-        setIsSubmitting(true);
-        // Générer un lien de réunion (simulé)
-        const meetingLink = `https://meet.google.com/${Math.random().toString(36).substring(7)}`;
-        const newSession = {
-            id: Date.now(),
-            clientId: currentUser.id,
-            clientName: currentUser.name,
-            clientEmail: currentUser.email,
-            ...sessionData,
-            link: meetingLink,
-            status: "scheduled",
-            createdAt: new Date().toISOString(),
-            confirmed: false
-        };
-        // Sauvegarder la session
-        const existingSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
-        const updatedSessions = [
-            ...existingSessions,
-            newSession
-        ];
-        localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
-        // Simuler un délai d'envoi
-        setTimeout(()=>{
-            setIsSubmitting(false);
-            alert(`Session planifiée avec succès !\n\nEmmanuel a été notifié et vous enverra une confirmation.\n\nLien de la réunion : ${meetingLink}`);
-            navigate("/mentoring");
-        }, 1500);
-    };
-    const handleQuickSelect = (duration, type)=>{
-        setSessionData((prev)=>({
-                ...prev,
-                duration: duration.toString(),
-                sessionType: type
-            }));
-    };
-    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            textAlign: "center",
-            minHeight: "60vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#f5f7fa"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-            style: {
-                color: "#2c3e50"
-            },
-            children: "Chargement..."
-        }, void 0, false, {
-            fileName: "src/Components/ScheduleMentoring.jsx",
-            lineNumber: 166,
-            columnNumber: 9
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/ScheduleMentoring.jsx",
-        lineNumber: 156,
-        columnNumber: 7
-    }, undefined);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: isMobile ? "4.5rem" : "5rem",
-            paddingLeft: isMobile ? "0.8rem" : "1rem",
-            paddingRight: isMobile ? "0.8rem" : "1rem",
-            paddingBottom: "2rem",
-            minHeight: "100vh",
-            backgroundColor: "#f5f7fa"
-        },
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    maxWidth: "800px",
-                    margin: "0 auto"
-                },
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
-                        borderRadius: "12px",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                            style: {
-                                color: "#2c3e50",
-                                marginBottom: "0.5rem",
-                                fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
-                                lineHeight: "1.2"
-                            },
-                            children: "Planifier une session de mentorat"
-                        }, void 0, false, {
-                            fileName: "src/Components/ScheduleMentoring.jsx",
-                            lineNumber: 190,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                            style: {
-                                color: "#5d6d7e",
-                                marginBottom: "1.5rem",
-                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                lineHeight: "1.4"
-                            },
-                            children: "Remplissez les d\xe9tails de votre session. Emmanuel vous confirmera le rendez-vous par email."
-                        }, void 0, false, {
-                            fileName: "src/Components/ScheduleMentoring.jsx",
-                            lineNumber: 198,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
-                            onSubmit: handleSubmit,
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "1rem",
-                                                paddingBottom: "0.5rem",
-                                                borderBottom: "1px solid #eee",
-                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                            },
-                                            children: "Informations de la session"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 210,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Sujet / Titre de la session *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 221,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "text",
-                                                    value: sessionData.topic,
-                                                    onChange: (e)=>setSessionData({
-                                                            ...sessionData,
-                                                            topic: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.8rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: isMobile ? "0.95rem" : "1rem"
-                                                    },
-                                                    placeholder: "Ex: Review du code de mon API, Probl\xe8me de performance React, etc.",
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 229,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 220,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Description d\xe9taill\xe9e *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 246,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
-                                                    value: sessionData.description,
-                                                    onChange: (e)=>setSessionData({
-                                                            ...sessionData,
-                                                            description: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.8rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: isMobile ? "0.95rem" : "1rem",
-                                                        minHeight: isMobile ? "100px" : "120px",
-                                                        resize: "vertical"
-                                                    },
-                                                    placeholder: "D\xe9crivez ce que vous souhaitez aborder pendant la session, les probl\xe8mes sp\xe9cifiques, les attentes...",
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 254,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 245,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Objectifs de la session"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 272,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
-                                                    value: sessionData.objectives,
-                                                    onChange: (e)=>setSessionData({
-                                                            ...sessionData,
-                                                            objectives: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.8rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: isMobile ? "0.95rem" : "1rem",
-                                                        minHeight: isMobile ? "80px" : "100px",
-                                                        resize: "vertical"
-                                                    },
-                                                    placeholder: "Quels sont les r\xe9sultats attendus de cette session ?"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 280,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 271,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                    lineNumber: 209,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "1rem",
-                                                paddingBottom: "0.5rem",
-                                                borderBottom: "1px solid #eee",
-                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                            },
-                                            children: "Date, heure et dur\xe9e"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 299,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "grid",
-                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
-                                                gap: "1rem",
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Date et heure *"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 316,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                            type: "datetime-local",
-                                                            value: sessionData.dateTime,
-                                                            onChange: (e)=>setSessionData({
-                                                                    ...sessionData,
-                                                                    dateTime: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem"
-                                                            },
-                                                            required: true
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 324,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                fontSize: isMobile ? "0.8rem" : "0.85rem",
-                                                                color: "#7f8c8d",
-                                                                marginTop: "0.5rem"
-                                                            },
-                                                            children: [
-                                                                "Cr\xe9neaux recommand\xe9s disponibles :",
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                    style: {
-                                                                        marginTop: "0.3rem",
-                                                                        display: "flex",
-                                                                        flexWrap: "wrap",
-                                                                        gap: "0.3rem"
-                                                                    },
-                                                                    children: availableSlots.slice(0, isMobile ? 2 : 3).map((slot)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                            type: "button",
-                                                                            onClick: ()=>setSessionData({
-                                                                                    ...sessionData,
-                                                                                    dateTime: slot.value
-                                                                                }),
-                                                                            style: {
-                                                                                backgroundColor: sessionData.dateTime === slot.value ? "#3498db" : "#f8f9fa",
-                                                                                color: sessionData.dateTime === slot.value ? "white" : "#3498db",
-                                                                                border: `1px solid ${sessionData.dateTime === slot.value ? "#3498db" : "#3498db"}`,
-                                                                                padding: "0.3rem 0.6rem",
-                                                                                borderRadius: "12px",
-                                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
-                                                                                cursor: "pointer",
-                                                                                transition: "all 0.2s ease"
-                                                                            },
-                                                                            children: slot.label
-                                                                        }, slot.value, false, {
-                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                            lineNumber: 350,
-                                                                            columnNumber: 25
-                                                                        }, undefined))
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 343,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 337,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 315,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Dur\xe9e (minutes) *"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 373,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: sessionData.duration,
-                                                            onChange: (e)=>setSessionData({
-                                                                    ...sessionData,
-                                                                    duration: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                backgroundColor: "white",
-                                                                cursor: "pointer"
-                                                            },
-                                                            required: true,
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "30",
-                                                                    children: "30 minutes"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 395,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "45",
-                                                                    children: "45 minutes"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 396,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "60",
-                                                                    children: "60 minutes"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 397,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "90",
-                                                                    children: "90 minutes"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 398,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "120",
-                                                                    children: "120 minutes"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 399,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 381,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            style: {
-                                                                marginTop: "1rem"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                                    style: {
-                                                                        display: "block",
-                                                                        marginBottom: "0.5rem",
-                                                                        color: "#5d6d7e",
-                                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                                    },
-                                                                    children: "Type de session *"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 403,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                                    value: sessionData.sessionType,
-                                                                    onChange: (e)=>setSessionData({
-                                                                            ...sessionData,
-                                                                            sessionType: e.target.value
-                                                                        }),
-                                                                    style: {
-                                                                        width: "100%",
-                                                                        padding: "0.8rem",
-                                                                        border: "1px solid #ddd",
-                                                                        borderRadius: "6px",
-                                                                        fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                        backgroundColor: "white",
-                                                                        cursor: "pointer"
-                                                                    },
-                                                                    required: true,
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                            value: "video",
-                                                                            children: "Vid\xe9o (Google Meet)"
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                            lineNumber: 425,
-                                                                            columnNumber: 23
-                                                                        }, undefined),
-                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                            value: "audio",
-                                                                            children: "Audio seulement"
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                            lineNumber: 426,
-                                                                            columnNumber: 23
-                                                                        }, undefined),
-                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                            value: "chat",
-                                                                            children: "Chat/\xe9crit"
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                            lineNumber: 427,
-                                                                            columnNumber: 23
-                                                                        }, undefined)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 411,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 402,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 372,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 309,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: isMobile ? "0.9rem" : "1rem"
-                                                    },
-                                                    children: "Options rapides :"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 435,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        gap: "0.5rem",
-                                                        flexWrap: "wrap",
-                                                        justifyContent: isMobile ? "center" : "flex-start"
-                                                    },
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            type: "button",
-                                                            onClick: ()=>handleQuickSelect(60, "video"),
-                                                            style: {
-                                                                backgroundColor: sessionData.duration === "60" && sessionData.sessionType === "video" ? "#3498db" : "#f8f9fa",
-                                                                color: sessionData.duration === "60" && sessionData.sessionType === "video" ? "white" : "#5d6d7e",
-                                                                border: "1px solid #ddd",
-                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
-                                                                borderRadius: "6px",
-                                                                cursor: "pointer",
-                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                                transition: "all 0.2s ease",
-                                                                flex: isMobile ? "1" : "none",
-                                                                minWidth: isMobile ? "120px" : "auto"
-                                                            },
-                                                            children: "Code Review"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 449,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            type: "button",
-                                                            onClick: ()=>handleQuickSelect(45, "audio"),
-                                                            style: {
-                                                                backgroundColor: sessionData.duration === "45" && sessionData.sessionType === "audio" ? "#3498db" : "#f8f9fa",
-                                                                color: sessionData.duration === "45" && sessionData.sessionType === "audio" ? "white" : "#5d6d7e",
-                                                                border: "1px solid #ddd",
-                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
-                                                                borderRadius: "6px",
-                                                                cursor: "pointer",
-                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                                transition: "all 0.2s ease",
-                                                                flex: isMobile ? "1" : "none",
-                                                                minWidth: isMobile ? "120px" : "auto"
-                                                            },
-                                                            children: "Question rapide"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 467,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            type: "button",
-                                                            onClick: ()=>handleQuickSelect(90, "video"),
-                                                            style: {
-                                                                backgroundColor: sessionData.duration === "90" && sessionData.sessionType === "video" ? "#3498db" : "#f8f9fa",
-                                                                color: sessionData.duration === "90" && sessionData.sessionType === "video" ? "white" : "#5d6d7e",
-                                                                border: "1px solid #ddd",
-                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
-                                                                borderRadius: "6px",
-                                                                cursor: "pointer",
-                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                                transition: "all 0.2s ease",
-                                                                flex: isMobile ? "1" : "none",
-                                                                minWidth: isMobile ? "120px" : "auto"
-                                                            },
-                                                            children: "Design d'architecture"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 485,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 443,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 434,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                    lineNumber: 298,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "1rem",
-                                                paddingBottom: "0.5rem",
-                                                borderBottom: "1px solid #eee",
-                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
-                                            },
-                                            children: "Contexte et priorit\xe9"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 509,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "grid",
-                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
-                                                gap: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Associer \xe0 un projet (optionnel)"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 525,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: sessionData.projectId,
-                                                            onChange: (e)=>setSessionData({
-                                                                    ...sessionData,
-                                                                    projectId: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                backgroundColor: "white",
-                                                                cursor: "pointer"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "",
-                                                                    children: "Aucun projet sp\xe9cifique"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 546,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                userProjects.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                        value: project.id,
-                                                                        children: project.title.length > 40 ? project.title.substring(0, 40) + "..." : project.title
-                                                                    }, project.id, false, {
-                                                                        fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                        lineNumber: 548,
-                                                                        columnNumber: 23
-                                                                    }, undefined))
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 533,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 524,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: isMobile ? "0.9rem" : "1rem"
-                                                            },
-                                                            children: "Niveau d'urgence"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 556,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
-                                                            value: sessionData.urgency,
-                                                            onChange: (e)=>setSessionData({
-                                                                    ...sessionData,
-                                                                    urgency: e.target.value
-                                                                }),
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.8rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: isMobile ? "0.95rem" : "1rem",
-                                                                backgroundColor: "white",
-                                                                cursor: "pointer"
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "low",
-                                                                    children: "Faible (question g\xe9n\xe9rale)"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 577,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "medium",
-                                                                    children: "Moyen (bloquant mais pas urgent)"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 578,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "high",
-                                                                    children: "\xc9lev\xe9 (bloquant pour la progression)"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 579,
-                                                                    columnNumber: 21
-                                                                }, undefined),
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
-                                                                    value: "critical",
-                                                                    children: "Critique (production impact\xe9e)"
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                                    lineNumber: 580,
-                                                                    columnNumber: 21
-                                                                }, undefined)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                                            lineNumber: 564,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 555,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 519,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                    lineNumber: 508,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "#e8f4fc",
-                                        padding: isMobile ? "1rem" : "1.2rem",
-                                        borderRadius: "10px",
-                                        marginBottom: "1.5rem",
-                                        borderLeft: "4px solid #3498db"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "0.5rem",
-                                                fontSize: isMobile ? "1rem" : "1.1rem"
-                                            },
-                                            children: "\xc0 savoir avant de planifier :"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 594,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                margin: 0,
-                                                paddingLeft: "1.2rem",
-                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
-                                                lineHeight: "1.5"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                                    children: "Emmanuel confirmera ou proposera un autre cr\xe9neau dans les 24h"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 608,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                                    children: "Pr\xe9parez \xe0 l'avance vos questions et fichiers \xe0 partager"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 609,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                                    children: "Un lien de r\xe9union vous sera envoy\xe9 par email"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 610,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                                    children: "Annulation possible jusqu'\xe0 2h avant la session"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                                    lineNumber: 611,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 601,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                    lineNumber: 587,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        marginTop: "1.5rem",
-                                        paddingTop: "1.2rem",
-                                        borderTop: "1px solid #eee",
-                                        flexDirection: isMobile ? "column" : "row",
-                                        gap: isMobile ? "0.8rem" : "0"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            type: "button",
-                                            onClick: ()=>navigate("/mentoring"),
-                                            style: {
-                                                backgroundColor: "transparent",
-                                                color: "#7f8c8d",
-                                                border: "1px solid #ddd",
-                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 1.5rem",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontSize: isMobile ? "0.9rem" : "1rem",
-                                                width: isMobile ? "100%" : "auto"
-                                            },
-                                            children: "Annuler"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 626,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            type: "submit",
-                                            disabled: isSubmitting,
-                                            style: {
-                                                backgroundColor: isSubmitting ? "#95a5a6" : "#2ecc71",
-                                                color: "white",
-                                                border: "none",
-                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 2rem",
-                                                borderRadius: "6px",
-                                                cursor: isSubmitting ? "not-allowed" : "pointer",
-                                                fontSize: isMobile ? "0.9rem" : "1rem",
-                                                fontWeight: "500",
-                                                opacity: isSubmitting ? 0.7 : 1,
-                                                transition: "all 0.2s ease",
-                                                width: isMobile ? "100%" : "auto"
-                                            },
-                                            children: isSubmitting ? "Planification en cours..." : "Planifier la session"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ScheduleMentoring.jsx",
-                                            lineNumber: 643,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ScheduleMentoring.jsx",
-                                    lineNumber: 616,
-                                    columnNumber: 13
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ScheduleMentoring.jsx",
-                            lineNumber: 207,
-                            columnNumber: 11
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/ScheduleMentoring.jsx",
-                    lineNumber: 184,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/Components/ScheduleMentoring.jsx",
-                lineNumber: 180,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
-                children: `
-        /* Styles pour les petits écrans */
-        @media (max-width: 768px) {
-          .schedule-container {
-            padding-top: 4.5rem !important;
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-          }
-          
-          .form-container {
-            padding: 1rem !important;
-          }
-          
-          .form-grid {
-            grid-template-columns: 1fr !important;
-          }
-          
-          .quick-options {
-            flex-direction: column !important;
-          }
-          
-          .quick-options button {
-            width: 100% !important;
-          }
-          
-          .action-buttons {
-            flex-direction: column !important;
-            width: 100% !important;
-          }
-          
-          .action-buttons button {
-            width: 100% !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .schedule-container {
-            padding-top: 4rem !important;
-          }
-          
-          .form-container {
-            padding: 0.8rem !important;
-          }
-          
-          h1 {
-            font-size: 1.4rem !important;
-            text-align: center;
-          }
-          
-          .section-title {
-            font-size: 1.1rem !important;
-          }
-        }
-        
-        /* Améliorations pour tablettes */
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .form-container {
-            padding: 1.5rem !important;
-          }
-          
-          .form-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 1.2rem !important;
-          }
-        }
-        
-        /* Amélioration de l'expérience utilisateur */
-        input:focus, textarea:focus, select:focus {
-          outline: none;
-          border-color: #3498db !important;
-          box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-          transition: all 0.2s ease;
-        }
-        
-        button:active {
-          transform: translateY(1px);
-        }
-        
-        /* Style pour les boutons de slot rapide au survol */
-        .slot-button:hover {
-          background-color: #3498db !important;
-          color: white !important;
-        }
-        
-        /* Amélioration de la lisibilité */
-        label {
-          user-select: none;
-        }
-        
-        /* Ajustement pour les champs date sur mobile */
-        input[type="datetime-local"] {
-          min-height: 44px; /* Taille minimum pour le touch sur mobile */
-        }
-        
-        /* Styles pour les options de sélection */
-        option {
-          padding: 0.5rem;
-        }
-        
-        /* Animation pour le bouton de soumission */
-        @keyframes pulse {
-          0% { opacity: 1; }
-          50% { opacity: 0.8; }
-          100% { opacity: 1; }
-        }
-        
-        button[type="submit"]:disabled {
-          animation: pulse 1.5s infinite;
-        }
-      `
-            }, void 0, false, {
-                fileName: "src/Components/ScheduleMentoring.jsx",
-                lineNumber: 668,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/Components/ScheduleMentoring.jsx",
-        lineNumber: 172,
-        columnNumber: 5
-    }, undefined);
-};
-_s(ScheduleMentoring, "5iF//bP7E7SpW8NhcasAuuTYp7g=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c = ScheduleMentoring;
-exports.default = ScheduleMentoring;
-var _c;
-$RefreshReg$(_c, "ScheduleMentoring");
-
-  $parcel$ReactRefreshHelpers$e684.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"029VM":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$fca5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$fca5.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-/**
- * ClientProfile component - Gestion du profil utilisateur avec récapitulatif d'activité
- */ var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const ClientProfile = ()=>{
-    _s();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
-    const [profileData, setProfileData] = (0, _react.useState)({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        position: "",
-        bio: "",
-        skills: "",
-        website: ""
-    });
-    const [isEditing, setIsEditing] = (0, _react.useState)(false);
-    const [passwordData, setPasswordData] = (0, _react.useState)({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: ""
-    });
-    // États pour les statistiques
-    const [userProjects, setUserProjects] = (0, _react.useState)([]);
-    const [mentoringSessions, setMentoringSessions] = (0, _react.useState)([]);
-    const [stats, setStats] = (0, _react.useState)({
-        totalProjects: 0,
-        completedProjects: 0,
-        inProgressProjects: 0,
-        upcomingSessions: 0
-    });
-    (0, _react.useEffect)(()=>{
-        const savedUser = localStorage.getItem("currentUser");
-        if (!savedUser) {
-            navigate("/");
-            return;
-        }
-        const user = JSON.parse(savedUser);
-        setCurrentUser(user);
-        // Charger les données du profil
-        const userProfile = JSON.parse(localStorage.getItem(`userProfile_${user.id}`) || "{}");
-        setProfileData({
-            name: user.name || "",
-            email: user.email || "",
-            phone: userProfile.phone || "",
-            company: userProfile.company || "",
-            position: userProfile.position || "",
-            bio: userProfile.bio || "",
-            skills: userProfile.skills || "",
-            website: userProfile.website || ""
-        });
-        // Charger les projets de l'utilisateur
-        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-        const userProjects = allProjects.filter((p)=>p.clientId === user.id);
-        setUserProjects(userProjects);
-        // Charger les sessions de mentorat
-        const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
-        const userSessions = allSessions.filter((s)=>s.clientId === user.id);
-        setMentoringSessions(userSessions);
-        // Calculer les statistiques
-        setStats({
-            totalProjects: userProjects.length,
-            completedProjects: userProjects.filter((p)=>p.status === "completed").length,
-            inProgressProjects: userProjects.filter((p)=>p.status === "in-progress").length,
-            upcomingSessions: userSessions.filter((s)=>new Date(s.dateTime) > new Date()).length
-        });
-    }, [
-        navigate
-    ]);
-    const handleSaveProfile = ()=>{
-        // Mettre à jour les données utilisateur
-        const updatedUser = {
-            ...currentUser,
-            name: profileData.name,
-            email: profileData.email
-        };
-        // Sauvegarder l'utilisateur
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const updatedUsers = users.map((u)=>u.id === currentUser.id ? updatedUser : u);
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-        // Sauvegarder le profil
-        const userProfile = {
-            phone: profileData.phone,
-            company: profileData.company,
-            position: profileData.position,
-            bio: profileData.bio,
-            skills: profileData.skills,
-            website: profileData.website,
-            updatedAt: new Date().toISOString()
-        };
-        localStorage.setItem(`userProfile_${currentUser.id}`, JSON.stringify(userProfile));
-        setCurrentUser(updatedUser);
-        setIsEditing(false);
-        alert("Profil mis \xe0 jour avec succ\xe8s !");
-    };
-    const handleChangePassword = ()=>{
-        if (passwordData.newPassword !== passwordData.confirmPassword) {
-            alert("Les nouveaux mots de passe ne correspondent pas");
-            return;
-        }
-        if (passwordData.newPassword.length < 6) {
-            alert("Le mot de passe doit contenir au moins 6 caract\xe8res");
-            return;
-        }
-        // Vérifier l'ancien mot de passe
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const user = users.find((u)=>u.id === currentUser.id);
-        if (user.password !== passwordData.currentPassword) {
-            alert("Mot de passe actuel incorrect");
-            return;
-        }
-        // Mettre à jour le mot de passe
-        const updatedUsers = users.map((u)=>u.id === currentUser.id ? {
-                ...u,
-                password: passwordData.newPassword
-            } : u);
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        // Mettre à jour l'utilisateur courant
-        const updatedUser = {
-            ...currentUser,
-            password: passwordData.newPassword
-        };
-        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-        setPasswordData({
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: ""
-        });
-        alert("Mot de passe chang\xe9 avec succ\xe8s !");
-    };
-    const handleDeleteAccount = ()=>{
-        if (!window.confirm("\xcates-vous s\xfbr de vouloir supprimer votre compte ? Cette action est irr\xe9versible.")) return;
-        // Supprimer l'utilisateur
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const updatedUsers = users.filter((u)=>u.id !== currentUser.id);
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        // Supprimer le profil
-        localStorage.removeItem(`userProfile_${currentUser.id}`);
-        // Supprimer les sessions de l'utilisateur
-        const sessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
-        const updatedSessions = sessions.filter((s)=>s.clientId !== currentUser.id);
-        localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
-        // Supprimer les projets de l'utilisateur (ou les garder avec client inconnu)
-        const projects = JSON.parse(localStorage.getItem("projects") || "[]");
-        const updatedProjects = projects.filter((p)=>p.clientId !== currentUser.id);
-        localStorage.setItem("projects", JSON.stringify(updatedProjects));
-        // Déconnexion
-        localStorage.removeItem("currentUser");
-        navigate("/");
-        alert("Compte supprim\xe9 avec succ\xe8s.");
-    };
-    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: "6rem",
-            textAlign: "center",
-            minHeight: "60vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-            children: "Chargement..."
-        }, void 0, false, {
-            fileName: "src/Components/ClientProfile.jsx",
-            lineNumber: 195,
-            columnNumber: 9
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/ClientProfile.jsx",
-        lineNumber: 186,
-        columnNumber: 7
-    }, undefined);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: {
-            paddingTop: "5rem",
-            paddingLeft: "1rem",
-            paddingRight: "1rem",
-            paddingBottom: "2rem",
-            minHeight: "100vh",
-            backgroundColor: "#f5f7fa"
-        },
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            style: {
-                maxWidth: "1400px",
-                margin: "0 auto"
-            },
-            children: [
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: "1.5rem",
-                        borderRadius: "12px",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                        marginBottom: "1.5rem"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                            style: {
-                                margin: 0,
-                                color: "#2c3e50",
-                                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                                marginBottom: "0.5rem"
-                            },
-                            children: "Mon Profil"
-                        }, void 0, false, {
-                            fileName: "src/Components/ClientProfile.jsx",
-                            lineNumber: 221,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                            style: {
-                                color: "#5d6d7e",
-                                fontSize: "clamp(0.9rem, 1.2vw, 1rem)"
-                            },
-                            children: "G\xe9rez vos informations personnelles et consultez votre activit\xe9"
-                        }, void 0, false, {
-                            fileName: "src/Components/ClientProfile.jsx",
-                            lineNumber: 229,
-                            columnNumber: 11
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/ClientProfile.jsx",
-                    lineNumber: 214,
-                    columnNumber: 9
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                        gap: "1.5rem",
-                        marginBottom: "1.5rem"
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "white",
-                                        padding: "1.5rem",
-                                        borderRadius: "12px",
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "flex",
-                                                justifyContent: "space-between",
-                                                alignItems: "center",
-                                                marginBottom: "1.5rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                                                    style: {
-                                                        margin: 0,
-                                                        color: "#2c3e50",
-                                                        fontSize: "1.3rem"
-                                                    },
-                                                    children: "Informations personnelles"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 259,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                !isEditing ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                    onClick: ()=>setIsEditing(true),
-                                                    style: {
-                                                        backgroundColor: "#3498db",
-                                                        color: "white",
-                                                        border: "none",
-                                                        padding: "0.5rem 1rem",
-                                                        borderRadius: "6px",
-                                                        cursor: "pointer",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Modifier"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 267,
-                                                    columnNumber: 19
-                                                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        gap: "0.5rem"
-                                                    },
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            onClick: handleSaveProfile,
-                                                            style: {
-                                                                backgroundColor: "#2ecc71",
-                                                                color: "white",
-                                                                border: "none",
-                                                                padding: "0.5rem 1rem",
-                                                                borderRadius: "6px",
-                                                                cursor: "pointer",
-                                                                fontSize: "0.9rem"
-                                                            },
-                                                            children: "Enregistrer"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 283,
-                                                            columnNumber: 21
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            onClick: ()=>setIsEditing(false),
-                                                            style: {
-                                                                backgroundColor: "#95a5a6",
-                                                                color: "white",
-                                                                border: "none",
-                                                                padding: "0.5rem 1rem",
-                                                                borderRadius: "6px",
-                                                                cursor: "pointer",
-                                                                fontSize: "0.9rem"
-                                                            },
-                                                            children: "Annuler"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 297,
-                                                            columnNumber: 21
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 282,
-                                                    columnNumber: 19
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 253,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Nom complet *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 316,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "text",
-                                                    value: profileData.name,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            name: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 324,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 315,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Email *"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 342,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "email",
-                                                    value: profileData.email,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            email: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 350,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 341,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "T\xe9l\xe9phone"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 368,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "tel",
-                                                    value: profileData.phone,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            phone: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    placeholder: "+33 1 23 45 67 89"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 376,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 367,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                display: "grid",
-                                                gridTemplateColumns: "1fr 1fr",
-                                                gap: "1rem",
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: "0.9rem"
-                                                            },
-                                                            children: "Entreprise"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 400,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                            type: "text",
-                                                            value: profileData.company,
-                                                            onChange: (e)=>setProfileData({
-                                                                    ...profileData,
-                                                                    company: e.target.value
-                                                                }),
-                                                            disabled: !isEditing,
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.7rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: "0.95rem",
-                                                                backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                            },
-                                                            placeholder: "Nom de l'entreprise"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 408,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 399,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            style: {
-                                                                display: "block",
-                                                                marginBottom: "0.5rem",
-                                                                color: "#5d6d7e",
-                                                                fontSize: "0.9rem"
-                                                            },
-                                                            children: "Poste"
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 426,
-                                                            columnNumber: 19
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                            type: "text",
-                                                            value: profileData.position,
-                                                            onChange: (e)=>setProfileData({
-                                                                    ...profileData,
-                                                                    position: e.target.value
-                                                                }),
-                                                            disabled: !isEditing,
-                                                            style: {
-                                                                width: "100%",
-                                                                padding: "0.7rem",
-                                                                border: "1px solid #ddd",
-                                                                borderRadius: "6px",
-                                                                fontSize: "0.95rem",
-                                                                backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                            },
-                                                            placeholder: "D\xe9veloppeur, Chef de projet..."
-                                                        }, void 0, false, {
-                                                            fileName: "src/Components/ClientProfile.jsx",
-                                                            lineNumber: 434,
-                                                            columnNumber: 19
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 425,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 393,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Site web / Portfolio"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 453,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "url",
-                                                    value: profileData.website,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            website: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    placeholder: "https://votresite.com"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 461,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 452,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Comp\xe9tences"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 479,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "text",
-                                                    value: profileData.skills,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            skills: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    placeholder: "React, Node.js, Python, UX Design..."
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 487,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 478,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Biographie"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 505,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
-                                                    value: profileData.bio,
-                                                    onChange: (e)=>setProfileData({
-                                                            ...profileData,
-                                                            bio: e.target.value
-                                                        }),
-                                                    disabled: !isEditing,
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem",
-                                                        minHeight: "100px",
-                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
-                                                    },
-                                                    placeholder: "Pr\xe9sentez-vous en quelques mots..."
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 513,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 504,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 246,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "#f8f9fa",
-                                        padding: "1.5rem",
-                                        borderRadius: "8px",
-                                        marginBottom: "1.2rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                                            style: {
-                                                color: "#2c3e50",
-                                                marginBottom: "1rem",
-                                                fontSize: "1.1rem"
-                                            },
-                                            children: "R\xe9capitulatif d'activit\xe9"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 538,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1.2rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
-                                                    style: {
-                                                        color: "#5d6d7e",
-                                                        marginBottom: "0.5rem",
-                                                        fontSize: "1rem"
-                                                    },
-                                                    children: "Projets"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 547,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: "0.8rem",
-                                                        marginBottom: "0.5rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            flex: 1
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontSize: "0.9rem",
-                                                                            color: "#7f8c8d"
-                                                                        },
-                                                                        children: "Total"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 565,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontWeight: "500",
-                                                                            color: "#2c3e50"
-                                                                        },
-                                                                        children: stats.totalProjects
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 571,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 561,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    height: "6px",
-                                                                    backgroundColor: "#e1e8ed",
-                                                                    borderRadius: "3px",
-                                                                    marginTop: "0.3rem"
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 578,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                        lineNumber: 560,
-                                                        columnNumber: 19
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 554,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: "0.8rem",
-                                                        marginBottom: "0.5rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            flex: 1
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontSize: "0.9rem",
-                                                                            color: "#7f8c8d"
-                                                                        },
-                                                                        children: "En cours"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 597,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontWeight: "500",
-                                                                            color: "#3498db"
-                                                                        },
-                                                                        children: stats.inProgressProjects
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 603,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 593,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    height: "6px",
-                                                                    backgroundColor: "#3498db",
-                                                                    borderRadius: "3px",
-                                                                    marginTop: "0.3rem",
-                                                                    width: `${stats.totalProjects > 0 ? stats.inProgressProjects / stats.totalProjects * 100 : 0}%`
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 610,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                        lineNumber: 592,
-                                                        columnNumber: 19
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 586,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: "0.8rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            flex: 1
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontSize: "0.9rem",
-                                                                            color: "#7f8c8d"
-                                                                        },
-                                                                        children: "Termin\xe9s"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 629,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontWeight: "500",
-                                                                            color: "#2ecc71"
-                                                                        },
-                                                                        children: stats.completedProjects
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 635,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 625,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    height: "6px",
-                                                                    backgroundColor: "#2ecc71",
-                                                                    borderRadius: "3px",
-                                                                    marginTop: "0.3rem",
-                                                                    width: `${stats.totalProjects > 0 ? stats.completedProjects / stats.totalProjects * 100 : 0}%`
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 642,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                        lineNumber: 624,
-                                                        columnNumber: 19
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 619,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 546,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
-                                                    style: {
-                                                        color: "#5d6d7e",
-                                                        marginBottom: "0.5rem",
-                                                        fontSize: "1rem"
-                                                    },
-                                                    children: "Mentorat"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 654,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: "0.8rem"
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            flex: 1
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    display: "flex",
-                                                                    justifyContent: "space-between"
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontSize: "0.9rem",
-                                                                            color: "#7f8c8d"
-                                                                        },
-                                                                        children: "Sessions planifi\xe9es"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 671,
-                                                                        columnNumber: 23
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            fontWeight: "500",
-                                                                            color: "#9b59b6"
-                                                                        },
-                                                                        children: stats.upcomingSessions
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                                        lineNumber: 677,
-                                                                        columnNumber: 23
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 667,
-                                                                columnNumber: 21
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    height: "6px",
-                                                                    backgroundColor: "#9b59b6",
-                                                                    borderRadius: "3px",
-                                                                    marginTop: "0.3rem"
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/ClientProfile.jsx",
-                                                                lineNumber: 684,
-                                                                columnNumber: 21
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                        lineNumber: 666,
-                                                        columnNumber: 19
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 661,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 653,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 532,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                    onClick: ()=>{
-                                        localStorage.removeItem("currentUser");
-                                        navigate("/");
-                                    },
-                                    style: {
-                                        backgroundColor: "#e74c3c",
-                                        color: "white",
-                                        border: "none",
-                                        padding: "0.8rem 1.5rem",
-                                        borderRadius: "6px",
-                                        cursor: "pointer",
-                                        fontSize: "0.95rem",
-                                        width: "100%",
-                                        fontWeight: "500"
-                                    },
-                                    children: "D\xe9connexion"
-                                }, void 0, false, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 696,
-                                    columnNumber: 13
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ClientProfile.jsx",
-                            lineNumber: 245,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "white",
-                                        padding: "1.5rem",
-                                        borderRadius: "12px",
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                                            style: {
-                                                margin: "0 0 1.5rem 0",
-                                                color: "#2c3e50",
-                                                fontSize: "1.3rem"
-                                            },
-                                            children: "Changer le mot de passe"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 727,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Mot de passe actuel"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 736,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "password",
-                                                    value: passwordData.currentPassword,
-                                                    onChange: (e)=>setPasswordData({
-                                                            ...passwordData,
-                                                            currentPassword: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem"
-                                                    }
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 744,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 735,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Nouveau mot de passe"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 759,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "password",
-                                                    value: passwordData.newPassword,
-                                                    onChange: (e)=>setPasswordData({
-                                                            ...passwordData,
-                                                            newPassword: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem"
-                                                    }
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 767,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 758,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1.5rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                    style: {
-                                                        display: "block",
-                                                        marginBottom: "0.5rem",
-                                                        color: "#5d6d7e",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Confirmer le nouveau mot de passe"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 782,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                    type: "password",
-                                                    value: passwordData.confirmPassword,
-                                                    onChange: (e)=>setPasswordData({
-                                                            ...passwordData,
-                                                            confirmPassword: e.target.value
-                                                        }),
-                                                    style: {
-                                                        width: "100%",
-                                                        padding: "0.7rem",
-                                                        border: "1px solid #ddd",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.95rem"
-                                                    }
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 790,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 781,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            onClick: handleChangePassword,
-                                            style: {
-                                                backgroundColor: "#3498db",
-                                                color: "white",
-                                                border: "none",
-                                                padding: "0.8rem 1.5rem",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontSize: "0.95rem",
-                                                width: "100%",
-                                                fontWeight: "500"
-                                            },
-                                            children: "Changer le mot de passe"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 804,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 720,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "white",
-                                        padding: "1.5rem",
-                                        borderRadius: "12px",
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        marginBottom: "1.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                                            style: {
-                                                margin: "0 0 1.5rem 0",
-                                                color: "#2c3e50",
-                                                fontSize: "1.3rem"
-                                            },
-                                            children: "Informations du compte"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 830,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        fontWeight: "500",
-                                                        color: "#7f8c8d",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Type de compte:"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 839,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        backgroundColor: currentUser.userType === "admin" ? "#e74c3c" : "#3498db",
-                                                        color: "white",
-                                                        padding: "0.2rem 0.6rem",
-                                                        borderRadius: "12px",
-                                                        fontSize: "0.8rem",
-                                                        marginLeft: "0.5rem"
-                                                    },
-                                                    children: currentUser.userType === "admin" ? "Administrateur" : "Client"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 846,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 838,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        fontWeight: "500",
-                                                        color: "#7f8c8d",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Date d'inscription:"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 859,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        color: "#2c3e50",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: new Date(currentUser.createdAt).toLocaleDateString("fr-FR", {
-                                                        day: "2-digit",
-                                                        month: "long",
-                                                        year: "numeric"
-                                                    })
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 866,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 858,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        fontWeight: "500",
-                                                        color: "#7f8c8d",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "ID utilisateur:"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 879,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        color: "#2c3e50",
-                                                        fontFamily: "monospace",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: currentUser.id
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 886,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 878,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                marginBottom: "1.5rem"
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        fontWeight: "500",
-                                                        color: "#7f8c8d",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: "Derni\xe8re connexion:"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 896,
-                                                    columnNumber: 17
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        color: "#2c3e50",
-                                                        fontSize: "0.9rem"
-                                                    },
-                                                    children: new Date().toLocaleDateString("fr-FR", {
-                                                        day: "2-digit",
-                                                        month: "long",
-                                                        year: "numeric"
-                                                    })
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/ClientProfile.jsx",
-                                                    lineNumber: 903,
-                                                    columnNumber: 17
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 895,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                backgroundColor: "#fef9e7",
-                                                padding: "1rem",
-                                                borderRadius: "6px",
-                                                borderLeft: "4px solid #f39c12",
-                                                marginTop: "1rem"
-                                            },
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                style: {
-                                                    margin: 0,
-                                                    color: "#f39c12",
-                                                    fontSize: "0.85rem"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
-                                                        children: "Note :"
-                                                    }, void 0, false, {
-                                                        fileName: "src/Components/ClientProfile.jsx",
-                                                        lineNumber: 927,
-                                                        columnNumber: 19
-                                                    }, undefined),
-                                                    " Pour toute question concernant votre compte, contactez-nous \xe0 contact@emmanuelamela.com"
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/ClientProfile.jsx",
-                                                lineNumber: 922,
-                                                columnNumber: 17
-                                            }, undefined)
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 915,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 823,
-                                    columnNumber: 13
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        backgroundColor: "white",
-                                        padding: "1.5rem",
-                                        borderRadius: "12px",
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        border: "1px solid #e74c3c"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                                            style: {
-                                                margin: "0 0 1rem 0",
-                                                color: "#e74c3c",
-                                                fontSize: "1.3rem"
-                                            },
-                                            children: "Zone dangereuse"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 940,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                            style: {
-                                                color: "#5d6d7e",
-                                                marginBottom: "1.5rem",
-                                                fontSize: "0.9rem"
-                                            },
-                                            children: "La suppression de votre compte est irr\xe9versible. Toutes vos donn\xe9es, projets et sessions seront d\xe9finitivement supprim\xe9s."
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 947,
-                                            columnNumber: 15
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            onClick: handleDeleteAccount,
-                                            style: {
-                                                backgroundColor: "#e74c3c",
-                                                color: "white",
-                                                border: "none",
-                                                padding: "0.8rem 1.5rem",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontSize: "0.95rem",
-                                                width: "100%",
-                                                fontWeight: "500"
-                                            },
-                                            children: "Supprimer mon compte"
-                                        }, void 0, false, {
-                                            fileName: "src/Components/ClientProfile.jsx",
-                                            lineNumber: 955,
-                                            columnNumber: 15
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/Components/ClientProfile.jsx",
-                                    lineNumber: 933,
-                                    columnNumber: 13
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/Components/ClientProfile.jsx",
-                            lineNumber: 718,
-                            columnNumber: 11
-                        }, undefined)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/Components/ClientProfile.jsx",
-                    lineNumber: 238,
-                    columnNumber: 9
-                }, undefined)
-            ]
-        }, void 0, true, {
-            fileName: "src/Components/ClientProfile.jsx",
-            lineNumber: 209,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Components/ClientProfile.jsx",
-        lineNumber: 201,
-        columnNumber: 5
-    }, undefined);
-};
-_s(ClientProfile, "LJVHL6+hDVFiPZ2bEtRzyYWnSDE=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c = ClientProfile;
-exports.default = ClientProfile;
-var _c;
-$RefreshReg$(_c, "ClientProfile");
-
-  $parcel$ReactRefreshHelpers$fca5.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b6dt0":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "initializeData", ()=>initializeData);
-parcelHelpers.export(exports, "getCurrentUser", ()=>getCurrentUser);
-parcelHelpers.export(exports, "isAdmin", ()=>isAdmin);
-parcelHelpers.export(exports, "formatDate", ()=>formatDate);
-parcelHelpers.export(exports, "formatTime", ()=>formatTime);
-const initializeData = ()=>{
-    // Créer l'admin par défaut s'il n'existe pas
-    const adminUser = {
-        id: 1,
-        name: "Emmanuel Admin",
-        email: "admin@emmanuel.com",
-        password: "admin123",
-        userType: "admin",
-        createdAt: new Date().toISOString()
-    };
-    // Initialiser les données si elles n'existent pas
-    if (!localStorage.getItem("users")) localStorage.setItem("users", JSON.stringify([
-        adminUser
-    ]));
-    if (!localStorage.getItem("projects")) localStorage.setItem("projects", JSON.stringify([]));
-    if (!localStorage.getItem("adminResources")) localStorage.setItem("adminResources", JSON.stringify([]));
-    if (!localStorage.getItem("mentoringSessions")) localStorage.setItem("mentoringSessions", JSON.stringify([]));
-    // Créer quelques données de démonstration pour les ressources
-    const resources = JSON.parse(localStorage.getItem("adminResources") || "[]");
-    if (resources.length === 0) {
-        const demoResources = [
-            {
-                id: 1,
-                title: "Guide complet React Hooks",
-                description: "Tout ce que vous devez savoir sur les hooks React, avec des exemples pratiques et des cas d'utilisation avanc\xe9s.",
-                type: "tutorial",
-                category: "React",
-                date: new Date().toISOString(),
-                author: "Emmanuel AMELA",
-                status: "published"
-            },
-            {
-                id: 2,
-                title: "Package NPM: utils-js",
-                description: "Collection d'utilitaires JavaScript r\xe9utilisables pour les projets modernes.",
-                type: "package",
-                category: "JavaScript",
-                date: new Date().toISOString(),
-                author: "Emmanuel AMELA",
-                status: "published"
-            },
-            {
-                id: 3,
-                title: "Snippet: Hook useFetch personnalis\xe9",
-                description: "Hook React pour g\xe9rer les appels API avec gestion d'\xe9tat (loading, error, data).",
-                type: "snippet",
-                category: "React",
-                date: new Date().toISOString(),
-                author: "Emmanuel AMELA",
-                status: "published"
-            }
-        ];
-        localStorage.setItem("adminResources", JSON.stringify(demoResources));
-    }
-};
-const getCurrentUser = ()=>{
-    const savedUser = localStorage.getItem("currentUser");
-    return savedUser ? JSON.parse(savedUser) : null;
-};
-const isAdmin = ()=>{
-    const user = getCurrentUser();
-    return user && user.userType === "admin";
-};
-const formatDate = (dateString)=>{
-    const date = new Date(dateString);
-    return date.toLocaleDateString("fr-FR", {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    });
-};
-const formatTime = (dateString)=>{
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("fr-FR", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b7sRq":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b7sRq":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$e789 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -79656,7 +73019,6518 @@ var icons = {
     faBangladeshiTakaSign: faBangladeshiTakaSign
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3uBgY":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lN85F":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$b7dc = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$b7dc.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+/**
+ * NewProject component - Formulaire de création d'un nouveau projet
+ * Version responsive
+ */ var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const NewProject = ()=>{
+    _s();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
+    const [isMobile, setIsMobile] = (0, _react.useState)(false);
+    const [isTablet, setIsTablet] = (0, _react.useState)(false);
+    const [projectData, setProjectData] = (0, _react.useState)({
+        title: "",
+        description: "",
+        deadline: "",
+        priority: "medium",
+        budget: "",
+        category: "web"
+    });
+    const [tasks, setTasks] = (0, _react.useState)([
+        {
+            id: 1,
+            title: "Analyse des besoins",
+            description: "",
+            dueDate: "",
+            priority: "high"
+        },
+        {
+            id: 2,
+            title: "Conception technique",
+            description: "",
+            dueDate: "",
+            priority: "medium"
+        },
+        {
+            id: 3,
+            title: "D\xe9veloppement",
+            description: "",
+            dueDate: "",
+            priority: "medium"
+        },
+        {
+            id: 4,
+            title: "Tests et validation",
+            description: "",
+            dueDate: "",
+            priority: "medium"
+        },
+        {
+            id: 5,
+            title: "Livraison et d\xe9ploiement",
+            description: "",
+            dueDate: "",
+            priority: "high"
+        }
+    ]);
+    (0, _react.useEffect)(()=>{
+        // Détecter la taille de l'écran
+        const checkScreenSize = ()=>{
+            const width = window.innerWidth;
+            setIsMobile(width <= 768);
+            setIsTablet(width > 768 && width <= 1024);
+        };
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+        const savedUser = localStorage.getItem("currentUser");
+        if (!savedUser) {
+            navigate("/");
+            return;
+        }
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        // Définir la date par défaut (2 semaines à partir d'aujourd'hui)
+        const defaultDeadline = new Date();
+        defaultDeadline.setDate(defaultDeadline.getDate() + 14);
+        setProjectData((prev)=>({
+                ...prev,
+                deadline: defaultDeadline.toISOString().split("T")[0]
+            }));
+        return ()=>{
+            window.removeEventListener("resize", checkScreenSize);
+        };
+    }, [
+        navigate
+    ]);
+    const handleTaskChange = (id, field, value)=>{
+        setTasks(tasks.map((task)=>task.id === id ? {
+                ...task,
+                [field]: value
+            } : task));
+    };
+    const handleAddTask = ()=>{
+        const newTask = {
+            id: Date.now(),
+            title: "",
+            description: "",
+            dueDate: "",
+            priority: "medium"
+        };
+        setTasks([
+            ...tasks,
+            newTask
+        ]);
+    };
+    const handleRemoveTask = (id)=>{
+        if (tasks.length <= 1) {
+            alert("Un projet doit avoir au moins une t\xe2che");
+            return;
+        }
+        setTasks(tasks.filter((task)=>task.id !== id));
+    };
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        if (!projectData.title.trim()) {
+            alert("Veuillez donner un titre \xe0 votre projet");
+            return;
+        }
+        if (!projectData.deadline) {
+            alert("Veuillez d\xe9finir une date limite pour le projet");
+            return;
+        }
+        // Filtrer les tâches avec un titre
+        const validTasks = tasks.filter((task)=>task.title.trim() !== "").map((task, index)=>({
+                id: Date.now() + index,
+                title: task.title,
+                description: task.description,
+                dueDate: task.dueDate || projectData.deadline,
+                priority: task.priority,
+                status: "pending",
+                createdAt: new Date().toISOString(),
+                createdBy: currentUser.name
+            }));
+        if (validTasks.length === 0) {
+            alert("Veuillez ajouter au moins une t\xe2che avec un titre");
+            return;
+        }
+        const newProject = {
+            id: Date.now(),
+            clientId: currentUser.id,
+            clientName: currentUser.name,
+            clientEmail: currentUser.email,
+            ...projectData,
+            startDate: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            status: "pending",
+            tasks: validTasks,
+            progress: 0
+        };
+        // Sauvegarder le projet
+        const existingProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+        const updatedProjects = [
+            ...existingProjects,
+            newProject
+        ];
+        localStorage.setItem("projects", JSON.stringify(updatedProjects));
+        alert("Projet cr\xe9\xe9 avec succ\xe8s ! Emmanuel sera notifi\xe9 et vous contactera bient\xf4t.");
+        navigate("/dashboard");
+    };
+    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            textAlign: "center",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f5f7fa"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+            style: {
+                color: "#2c3e50"
+            },
+            children: "Chargement..."
+        }, void 0, false, {
+            fileName: "src/Components/NewProject.jsx",
+            lineNumber: 155,
+            columnNumber: 9
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/NewProject.jsx",
+        lineNumber: 145,
+        columnNumber: 7
+    }, undefined);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            paddingLeft: isMobile ? "0.8rem" : "1rem",
+            paddingRight: isMobile ? "0.8rem" : "1rem",
+            paddingBottom: "2rem",
+            minHeight: "100vh",
+            backgroundColor: "#f5f7fa"
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    maxWidth: "800px",
+                    margin: "0 auto"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                            style: {
+                                color: "#2c3e50",
+                                marginBottom: "0.5rem",
+                                fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
+                                lineHeight: "1.2"
+                            },
+                            children: "Nouveau Projet"
+                        }, void 0, false, {
+                            fileName: "src/Components/NewProject.jsx",
+                            lineNumber: 179,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            style: {
+                                color: "#5d6d7e",
+                                marginBottom: isMobile ? "1.5rem" : "2rem",
+                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                lineHeight: "1.4"
+                            },
+                            children: "Remplissez les d\xe9tails de votre nouveau projet. Emmanuel sera notifi\xe9 et pourra commencer \xe0 travailler dessus."
+                        }, void 0, false, {
+                            fileName: "src/Components/NewProject.jsx",
+                            lineNumber: 187,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
+                            onSubmit: handleSubmit,
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: isMobile ? "1.5rem" : "2rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "1rem",
+                                                paddingBottom: "0.5rem",
+                                                borderBottom: "1px solid #eee",
+                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                            },
+                                            children: "Informations du projet"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 199,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Titre du projet *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 210,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "text",
+                                                    value: projectData.title,
+                                                    onChange: (e)=>setProjectData({
+                                                            ...projectData,
+                                                            title: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.8rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: isMobile ? "0.95rem" : "1rem"
+                                                    },
+                                                    placeholder: "Ex: Site e-commerce pour boutique de v\xeatements",
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 218,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 209,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Description d\xe9taill\xe9e *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 235,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                                                    value: projectData.description,
+                                                    onChange: (e)=>setProjectData({
+                                                            ...projectData,
+                                                            description: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.8rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: isMobile ? "0.95rem" : "1rem",
+                                                        minHeight: isMobile ? "100px" : "120px",
+                                                        resize: "vertical"
+                                                    },
+                                                    placeholder: "D\xe9crivez votre projet en d\xe9tail : objectifs, fonctionnalit\xe9s souhait\xe9es, public cible, etc.",
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 243,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 234,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "grid",
+                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
+                                                gap: "1rem",
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Date limite *"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 267,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                            type: "date",
+                                                            value: projectData.deadline,
+                                                            onChange: (e)=>setProjectData({
+                                                                    ...projectData,
+                                                                    deadline: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem"
+                                                            },
+                                                            required: true
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 275,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 266,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Priorit\xe9"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 291,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: projectData.priority,
+                                                            onChange: (e)=>setProjectData({
+                                                                    ...projectData,
+                                                                    priority: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                backgroundColor: "white",
+                                                                cursor: "pointer"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "low",
+                                                                    children: "Basse"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 312,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "medium",
+                                                                    children: "Moyenne"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 313,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "high",
+                                                                    children: "Haute"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 314,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 299,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 290,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 260,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "grid",
+                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
+                                                gap: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Cat\xe9gorie"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 325,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: projectData.category,
+                                                            onChange: (e)=>setProjectData({
+                                                                    ...projectData,
+                                                                    category: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                backgroundColor: "white",
+                                                                cursor: "pointer"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "web",
+                                                                    children: "Site Web"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 346,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "mobile",
+                                                                    children: "Application Mobile"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 347,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "desktop",
+                                                                    children: "Application Desktop"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 348,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "ecommerce",
+                                                                    children: "E-commerce"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 349,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "api",
+                                                                    children: "API/Backend"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 350,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "design",
+                                                                    children: "Design UI/UX"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 351,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "other",
+                                                                    children: "Autre"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/NewProject.jsx",
+                                                                    lineNumber: 352,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 333,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 324,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Budget estim\xe9 (optionnel)"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 357,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                            type: "text",
+                                                            value: projectData.budget,
+                                                            onChange: (e)=>setProjectData({
+                                                                    ...projectData,
+                                                                    budget: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem"
+                                                            },
+                                                            placeholder: "Ex: 1500€ - 2000€"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/NewProject.jsx",
+                                                            lineNumber: 365,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 356,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 319,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/NewProject.jsx",
+                                    lineNumber: 198,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: isMobile ? "1.5rem" : "2rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                alignItems: "center",
+                                                marginBottom: "1rem",
+                                                flexDirection: isMobile ? "column" : "row",
+                                                gap: isMobile ? "0.8rem" : "0"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                                    style: {
+                                                        color: "#2c3e50",
+                                                        margin: 0,
+                                                        paddingBottom: "0.5rem",
+                                                        borderBottom: "1px solid #eee",
+                                                        fontSize: isMobile ? "1.1rem" : "1.3rem",
+                                                        textAlign: isMobile ? "center" : "left",
+                                                        width: isMobile ? "100%" : "auto"
+                                                    },
+                                                    children: "T\xe2ches du projet"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 392,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                    type: "button",
+                                                    onClick: handleAddTask,
+                                                    style: {
+                                                        backgroundColor: "#3498db",
+                                                        color: "white",
+                                                        border: "none",
+                                                        padding: isMobile ? "0.6rem 1rem" : "0.5rem 1rem",
+                                                        borderRadius: "6px",
+                                                        cursor: "pointer",
+                                                        fontSize: isMobile ? "0.9rem" : "0.9rem",
+                                                        width: isMobile ? "100%" : "auto"
+                                                    },
+                                                    children: "+ Ajouter une t\xe2che"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/NewProject.jsx",
+                                                    lineNumber: 403,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 384,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                marginBottom: "1.5rem",
+                                                fontSize: isMobile ? "0.9rem" : "0.95rem",
+                                                textAlign: isMobile ? "center" : "left"
+                                            },
+                                            children: "D\xe9finissez les principales \xe9tapes de votre projet. Vous pourrez en ajouter ou modifier plus tard."
+                                        }, void 0, false, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 421,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        tasks.map((task, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    backgroundColor: "#f8f9fa",
+                                                    padding: isMobile ? "1rem" : "1.2rem",
+                                                    borderRadius: "10px",
+                                                    marginBottom: "1rem",
+                                                    borderLeft: `4px solid ${task.priority === "high" ? "#e74c3c" : task.priority === "medium" ? "#f39c12" : "#2ecc71"}`
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                            alignItems: "flex-start",
+                                                            marginBottom: "1rem",
+                                                            flexWrap: "wrap",
+                                                            gap: "1rem"
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    flex: 1,
+                                                                    minWidth: isMobile ? "100%" : "200px"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                                        style: {
+                                                                            display: "block",
+                                                                            marginBottom: "0.5rem",
+                                                                            color: "#5d6d7e",
+                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
+                                                                        },
+                                                                        children: [
+                                                                            "T\xe2che #",
+                                                                            index + 1,
+                                                                            " *"
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 453,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                        type: "text",
+                                                                        value: task.title,
+                                                                        onChange: (e)=>handleTaskChange(task.id, "title", e.target.value),
+                                                                        style: {
+                                                                            width: "100%",
+                                                                            padding: "0.8rem",
+                                                                            border: "1px solid #ddd",
+                                                                            borderRadius: "6px",
+                                                                            fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                            marginBottom: "0.5rem"
+                                                                        },
+                                                                        placeholder: "Titre de la t\xe2che",
+                                                                        required: true
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 461,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 452,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            tasks.length > 1 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                type: "button",
+                                                                onClick: ()=>handleRemoveTask(task.id),
+                                                                style: {
+                                                                    backgroundColor: "#e74c3c",
+                                                                    color: "white",
+                                                                    border: "none",
+                                                                    padding: isMobile ? "0.5rem 0.8rem" : "0.5rem 1rem",
+                                                                    borderRadius: "6px",
+                                                                    cursor: "pointer",
+                                                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                                    alignSelf: isMobile ? "flex-end" : "flex-start",
+                                                                    marginTop: isMobile ? "0" : "1.8rem"
+                                                                },
+                                                                children: "Supprimer"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 479,
+                                                                columnNumber: 23
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/NewProject.jsx",
+                                                        lineNumber: 444,
+                                                        columnNumber: 19
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            marginBottom: "0.8rem"
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                                style: {
+                                                                    display: "block",
+                                                                    marginBottom: "0.5rem",
+                                                                    color: "#5d6d7e",
+                                                                    fontSize: isMobile ? "0.85rem" : "0.9rem"
+                                                                },
+                                                                children: "Description (optionnel)"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 500,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                                                                value: task.description,
+                                                                onChange: (e)=>handleTaskChange(task.id, "description", e.target.value),
+                                                                style: {
+                                                                    width: "100%",
+                                                                    padding: "0.8rem",
+                                                                    border: "1px solid #ddd",
+                                                                    borderRadius: "6px",
+                                                                    fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                    minHeight: isMobile ? "80px" : "60px",
+                                                                    resize: "vertical"
+                                                                },
+                                                                placeholder: "Description de cette t\xe2che..."
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 508,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/NewProject.jsx",
+                                                        lineNumber: 499,
+                                                        columnNumber: 19
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "grid",
+                                                            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(150px, 1fr))",
+                                                            gap: "1rem"
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                                        style: {
+                                                                            display: "block",
+                                                                            marginBottom: "0.5rem",
+                                                                            color: "#5d6d7e",
+                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
+                                                                        },
+                                                                        children: "Date d'\xe9ch\xe9ance"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 530,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                        type: "date",
+                                                                        value: task.dueDate,
+                                                                        onChange: (e)=>handleTaskChange(task.id, "dueDate", e.target.value),
+                                                                        style: {
+                                                                            width: "100%",
+                                                                            padding: "0.8rem",
+                                                                            border: "1px solid #ddd",
+                                                                            borderRadius: "6px",
+                                                                            fontSize: isMobile ? "0.95rem" : "1rem"
+                                                                        }
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 538,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 529,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                                        style: {
+                                                                            display: "block",
+                                                                            marginBottom: "0.5rem",
+                                                                            color: "#5d6d7e",
+                                                                            fontSize: isMobile ? "0.85rem" : "0.9rem"
+                                                                        },
+                                                                        children: "Priorit\xe9"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 553,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                                        value: task.priority,
+                                                                        onChange: (e)=>handleTaskChange(task.id, "priority", e.target.value),
+                                                                        style: {
+                                                                            width: "100%",
+                                                                            padding: "0.8rem",
+                                                                            border: "1px solid #ddd",
+                                                                            borderRadius: "6px",
+                                                                            fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                            backgroundColor: "white",
+                                                                            cursor: "pointer"
+                                                                        },
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                                value: "low",
+                                                                                children: "Basse"
+                                                                            }, void 0, false, {
+                                                                                fileName: "src/Components/NewProject.jsx",
+                                                                                lineNumber: 574,
+                                                                                columnNumber: 25
+                                                                            }, undefined),
+                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                                value: "medium",
+                                                                                children: "Moyenne"
+                                                                            }, void 0, false, {
+                                                                                fileName: "src/Components/NewProject.jsx",
+                                                                                lineNumber: 575,
+                                                                                columnNumber: 25
+                                                                            }, undefined),
+                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                                value: "high",
+                                                                                children: "Haute"
+                                                                            }, void 0, false, {
+                                                                                fileName: "src/Components/NewProject.jsx",
+                                                                                lineNumber: 576,
+                                                                                columnNumber: 25
+                                                                            }, undefined)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/Components/NewProject.jsx",
+                                                                        lineNumber: 561,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/NewProject.jsx",
+                                                                lineNumber: 552,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/NewProject.jsx",
+                                                        lineNumber: 524,
+                                                        columnNumber: 19
+                                                    }, undefined)
+                                                ]
+                                            }, task.id, true, {
+                                                fileName: "src/Components/NewProject.jsx",
+                                                lineNumber: 431,
+                                                columnNumber: 17
+                                            }, undefined))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/NewProject.jsx",
+                                    lineNumber: 383,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        marginTop: isMobile ? "1.5rem" : "2rem",
+                                        paddingTop: isMobile ? "1.2rem" : "1.5rem",
+                                        borderTop: "1px solid #eee",
+                                        flexDirection: isMobile ? "column" : "row",
+                                        gap: isMobile ? "0.8rem" : "0"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            type: "button",
+                                            onClick: ()=>navigate("/dashboard"),
+                                            style: {
+                                                backgroundColor: "transparent",
+                                                color: "#7f8c8d",
+                                                border: "1px solid #ddd",
+                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 1.5rem",
+                                                borderRadius: "6px",
+                                                cursor: "pointer",
+                                                fontSize: isMobile ? "0.9rem" : "1rem",
+                                                width: isMobile ? "100%" : "auto"
+                                            },
+                                            children: "Annuler"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 595,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            type: "submit",
+                                            style: {
+                                                backgroundColor: "#2ecc71",
+                                                color: "white",
+                                                border: "none",
+                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 2rem",
+                                                borderRadius: "6px",
+                                                cursor: "pointer",
+                                                fontSize: isMobile ? "0.9rem" : "1rem",
+                                                fontWeight: "500",
+                                                width: isMobile ? "100%" : "auto"
+                                            },
+                                            children: "Cr\xe9er le projet"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/NewProject.jsx",
+                                            lineNumber: 612,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/NewProject.jsx",
+                                    lineNumber: 585,
+                                    columnNumber: 13
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/NewProject.jsx",
+                            lineNumber: 196,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            style: {
+                                backgroundColor: "#e8f4fc",
+                                padding: isMobile ? "0.8rem" : "1rem",
+                                borderRadius: "8px",
+                                marginTop: isMobile ? "1.5rem" : "2rem",
+                                borderLeft: "4px solid #3498db"
+                            },
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                style: {
+                                    margin: 0,
+                                    color: "#3498db",
+                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                    lineHeight: "1.4"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
+                                        children: "Important :"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/NewProject.jsx",
+                                        lineNumber: 645,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    " Apr\xe8s cr\xe9ation de votre projet, Emmanuel sera automatiquement notifi\xe9. Il vous contactera dans les 24h pour discuter des d\xe9tails et \xe9tablir un devis pr\xe9cis."
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/NewProject.jsx",
+                                lineNumber: 639,
+                                columnNumber: 13
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "src/Components/NewProject.jsx",
+                            lineNumber: 632,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/NewProject.jsx",
+                    lineNumber: 173,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/Components/NewProject.jsx",
+                lineNumber: 169,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
+                children: `
+        /* Styles pour les petits écrans */
+        @media (max-width: 768px) {
+          .new-project-container {
+            padding-top: 4.5rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+          }
+          
+          .form-container {
+            padding: 1rem !important;
+          }
+          
+          .form-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .task-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .task-header {
+            flex-direction: column !important;
+            align-items: stretch !important;
+          }
+          
+          .task-header button {
+            width: 100% !important;
+            margin-top: 0.5rem !important;
+          }
+          
+          .task-card {
+            padding: 1rem !important;
+          }
+          
+          .action-buttons {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          
+          .action-buttons button {
+            width: 100% !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .new-project-container {
+            padding-top: 4rem !important;
+          }
+          
+          .form-container {
+            padding: 0.8rem !important;
+          }
+          
+          h1 {
+            font-size: 1.4rem !important;
+            text-align: center;
+          }
+          
+          .section-title {
+            font-size: 1.1rem !important;
+            text-align: center;
+          }
+          
+          .info-text {
+            font-size: 0.9rem !important;
+            text-align: center;
+          }
+        }
+        
+        /* Améliorations pour tablettes */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .form-container {
+            padding: 1.5rem !important;
+          }
+          
+          .form-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1.2rem !important;
+          }
+          
+          .task-card-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+        
+        /* Amélioration de l'expérience utilisateur */
+        input:focus, textarea:focus, select:focus {
+          outline: none;
+          border-color: #3498db !important;
+          box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+          transition: all 0.2s ease;
+        }
+        
+        button:active {
+          transform: translateY(1px);
+        }
+        
+        /* Styles pour les bordures de priorité */
+        .priority-high {
+          border-left-color: #e74c3c !important;
+        }
+        
+        .priority-medium {
+          border-left-color: #f39c12 !important;
+        }
+        
+        .priority-low {
+          border-left-color: #2ecc71 !important;
+        }
+        
+        /* Ajustement pour les champs date sur mobile */
+        input[type="date"] {
+          min-height: 44px; /* Taille minimum pour le touch sur mobile */
+        }
+        
+        /* Styles pour les boutons de suppression de tâche */
+        .delete-task-btn {
+          transition: all 0.2s ease;
+        }
+        
+        .delete-task-btn:hover {
+          background-color: #c0392b !important;
+        }
+        
+        /* Animation pour le bouton d'ajout de tâche */
+        .add-task-btn:hover {
+          background-color: #2980b9 !important;
+        }
+        
+        /* Animation pour le bouton de création */
+        .create-project-btn:hover {
+          background-color: #27ae60 !important;
+        }
+        
+        /* Amélioration de la lisibilité sur mobile */
+        @media (max-width: 768px) {
+          .task-title-input {
+            font-size: 1rem !important;
+          }
+          
+          .task-description {
+            min-height: 70px !important;
+          }
+        }
+      `
+            }, void 0, false, {
+                fileName: "src/Components/NewProject.jsx",
+                lineNumber: 653,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/Components/NewProject.jsx",
+        lineNumber: 161,
+        columnNumber: 5
+    }, undefined);
+};
+_s(NewProject, "6UyRXp3OByEe+3eZRWJrJp/Aa20=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
+_c = NewProject;
+exports.default = NewProject;
+var _c;
+$RefreshReg$(_c, "NewProject");
+
+  $parcel$ReactRefreshHelpers$b7dc.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"QG6Fm":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$dfb4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$dfb4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+/**
+ * ProjectsList component - Liste de tous les projets (vue admin)
+ */ var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const ProjectsList = ()=>{
+    _s();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
+    const [projects, setProjects] = (0, _react.useState)([]);
+    const [users, setUsers] = (0, _react.useState)([]);
+    const [filterStatus, setFilterStatus] = (0, _react.useState)("all");
+    const [searchTerm, setSearchTerm] = (0, _react.useState)("");
+    (0, _react.useEffect)(()=>{
+        const savedUser = localStorage.getItem("currentUser");
+        if (!savedUser) {
+            navigate("/");
+            return;
+        }
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        // Charger les projets
+        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+        setProjects(allProjects);
+        // Charger les utilisateurs
+        const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
+        setUsers(allUsers);
+    }, [
+        navigate
+    ]);
+    // Filtrer les projets
+    const filteredProjects = projects.filter((project)=>{
+        // Filtre par statut
+        if (filterStatus !== "all" && project.status !== filterStatus) return false;
+        // Filtre par recherche
+        if (searchTerm.trim() !== "") {
+            const term = searchTerm.toLowerCase();
+            return project.title.toLowerCase().includes(term) || project.description.toLowerCase().includes(term) || project.clientName.toLowerCase().includes(term);
+        }
+        return true;
+    });
+    const handleStatusChange = (projectId, newStatus)=>{
+        const updatedProjects = projects.map((project)=>{
+            if (project.id === projectId) return {
+                ...project,
+                status: newStatus
+            };
+            return project;
+        });
+        setProjects(updatedProjects);
+        localStorage.setItem("projects", JSON.stringify(updatedProjects));
+    };
+    const handleDeleteProject = (projectId)=>{
+        if (window.confirm("\xcates-vous s\xfbr de vouloir supprimer ce projet ? Cette action est irr\xe9versible.")) {
+            const updatedProjects = projects.filter((project)=>project.id !== projectId);
+            setProjects(updatedProjects);
+            localStorage.setItem("projects", JSON.stringify(updatedProjects));
+        }
+    };
+    const calculateProgress = (tasks)=>{
+        if (!tasks || tasks.length === 0) return 0;
+        const completed = tasks.filter((t)=>t.status === "completed").length;
+        return Math.round(completed / tasks.length * 100);
+    };
+    const getStatusColor = (status)=>{
+        switch(status){
+            case "completed":
+                return "#2ecc71";
+            case "in-progress":
+                return "#3498db";
+            case "pending":
+                return "#f39c12";
+            case "paused":
+                return "#95a5a6";
+            default:
+                return "#95a5a6";
+        }
+    };
+    const getStatusText = (status)=>{
+        switch(status){
+            case "completed":
+                return "Termin\xe9";
+            case "in-progress":
+                return "En cours";
+            case "pending":
+                return "En attente";
+            case "paused":
+                return "En pause";
+            default:
+                return "Inconnu";
+        }
+    };
+    if (!currentUser || currentUser.userType !== "admin") return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: "6rem",
+            textAlign: "center",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                children: "Acc\xe8s non autoris\xe9"
+            }, void 0, false, {
+                fileName: "src/Components/ProjectsList.jsx",
+                lineNumber: 112,
+                columnNumber: 9
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                children: "Cette page est r\xe9serv\xe9e aux administrateurs."
+            }, void 0, false, {
+                fileName: "src/Components/ProjectsList.jsx",
+                lineNumber: 113,
+                columnNumber: 9
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                onClick: ()=>navigate("/dashboard"),
+                style: {
+                    backgroundColor: "#3498db",
+                    color: "white",
+                    border: "none",
+                    padding: "0.8rem 1.5rem",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    marginTop: "1rem"
+                },
+                children: "Retour au tableau de bord"
+            }, void 0, false, {
+                fileName: "src/Components/ProjectsList.jsx",
+                lineNumber: 114,
+                columnNumber: 9
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/Components/ProjectsList.jsx",
+        lineNumber: 103,
+        columnNumber: 7
+    }, undefined);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: "6rem",
+            paddingBottom: "3rem",
+            width: "100%",
+            minHeight: "100vh",
+            backgroundColor: "#f5f7fa",
+            margin: 0,
+            boxSizing: "border-box"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            style: {
+                maxWidth: "1200px",
+                margin: "0 auto",
+                padding: "2rem 1rem"
+            },
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                    style: {
+                        color: "#2c3e50",
+                        marginBottom: "0.5rem",
+                        fontSize: "1.8rem"
+                    },
+                    children: "Gestion des Projets"
+                }, void 0, false, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 147,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    style: {
+                        color: "#5d6d7e",
+                        marginBottom: "2rem",
+                        fontSize: "1rem"
+                    },
+                    children: "Consultez et g\xe9rez tous les projets de vos clients"
+                }, void 0, false, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 154,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: "1.5rem",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                        marginBottom: "2rem",
+                        width: "100%"
+                    },
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1rem"
+                        },
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            style: {
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "1rem",
+                                alignItems: "flex-end"
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: "1",
+                                        minWidth: "200px"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                            style: {
+                                                display: "block",
+                                                marginBottom: "0.5rem",
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem",
+                                                fontWeight: "500"
+                                            },
+                                            children: "Filtrer par statut"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 183,
+                                            columnNumber: 17
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                            value: filterStatus,
+                                            onChange: (e)=>setFilterStatus(e.target.value),
+                                            style: {
+                                                padding: "0.6rem 1rem",
+                                                border: "1px solid #ddd",
+                                                borderRadius: "6px",
+                                                fontSize: "0.95rem",
+                                                width: "100%",
+                                                backgroundColor: "#fff"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                    value: "all",
+                                                    children: "Tous les statuts"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 204,
+                                                    columnNumber: 19
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                    value: "pending",
+                                                    children: "En attente"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 205,
+                                                    columnNumber: 19
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                    value: "in-progress",
+                                                    children: "En cours"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 206,
+                                                    columnNumber: 19
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                    value: "completed",
+                                                    children: "Termin\xe9"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 207,
+                                                    columnNumber: 19
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                    value: "paused",
+                                                    children: "En pause"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 208,
+                                                    columnNumber: 19
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 192,
+                                            columnNumber: 17
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 182,
+                                    columnNumber: 15
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: "1",
+                                        minWidth: "200px"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                            style: {
+                                                display: "block",
+                                                marginBottom: "0.5rem",
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem",
+                                                fontWeight: "500"
+                                            },
+                                            children: "Rechercher"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 213,
+                                            columnNumber: 17
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                            type: "text",
+                                            value: searchTerm,
+                                            onChange: (e)=>setSearchTerm(e.target.value),
+                                            placeholder: "Rechercher un projet...",
+                                            style: {
+                                                padding: "0.6rem 1rem",
+                                                border: "1px solid #ddd",
+                                                borderRadius: "6px",
+                                                fontSize: "0.95rem",
+                                                width: "100%"
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 222,
+                                            columnNumber: 17
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 212,
+                                    columnNumber: 15
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        display: "flex",
+                                        alignItems: "center",
+                                        height: "42px",
+                                        marginBottom: "0.5rem"
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        style: {
+                                            backgroundColor: "#f8f9fa",
+                                            color: "#5d6d7e",
+                                            padding: "0.5rem 1rem",
+                                            borderRadius: "6px",
+                                            fontSize: "0.9rem",
+                                            border: "1px solid #eee"
+                                        },
+                                        children: [
+                                            filteredProjects.length,
+                                            " projet(s) trouv\xe9(s)"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/ProjectsList.jsx",
+                                        lineNumber: 243,
+                                        columnNumber: 17
+                                    }, undefined)
+                                }, void 0, false, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 237,
+                                    columnNumber: 15
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 176,
+                            columnNumber: 13
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/Components/ProjectsList.jsx",
+                        lineNumber: 171,
+                        columnNumber: 11
+                    }, undefined)
+                }, void 0, false, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 163,
+                    columnNumber: 9
+                }, undefined),
+                filteredProjects.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: "3rem",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                        textAlign: "center",
+                        width: "100%"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                            style: {
+                                color: "#5d6d7e",
+                                marginBottom: "1rem"
+                            },
+                            children: "Aucun projet trouv\xe9"
+                        }, void 0, false, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 268,
+                            columnNumber: 13
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            style: {
+                                color: "#7f8c8d"
+                            },
+                            children: "Aucun projet ne correspond \xe0 vos crit\xe8res de recherche."
+                        }, void 0, false, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 269,
+                            columnNumber: 13
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 260,
+                    columnNumber: 11
+                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                        overflow: "hidden",
+                        width: "100%"
+                    },
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            overflowX: "auto",
+                            width: "100%"
+                        },
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("table", {
+                            style: {
+                                width: "100%",
+                                borderCollapse: "collapse",
+                                minWidth: "800px"
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("thead", {
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tr", {
+                                        style: {
+                                            backgroundColor: "#f8f9fa"
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
+                                                style: {
+                                                    padding: "1rem",
+                                                    textAlign: "left",
+                                                    borderBottom: "2px solid #eee",
+                                                    fontWeight: "600",
+                                                    color: "#2c3e50",
+                                                    fontSize: "0.9rem"
+                                                },
+                                                children: "Client"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/ProjectsList.jsx",
+                                                lineNumber: 287,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
+                                                style: {
+                                                    padding: "1rem",
+                                                    textAlign: "left",
+                                                    borderBottom: "2px solid #eee",
+                                                    fontWeight: "600",
+                                                    color: "#2c3e50",
+                                                    fontSize: "0.9rem"
+                                                },
+                                                children: "Projet"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/ProjectsList.jsx",
+                                                lineNumber: 297,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
+                                                style: {
+                                                    padding: "1rem",
+                                                    textAlign: "left",
+                                                    borderBottom: "2px solid #eee",
+                                                    fontWeight: "600",
+                                                    color: "#2c3e50",
+                                                    fontSize: "0.9rem"
+                                                },
+                                                children: "Statut"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/ProjectsList.jsx",
+                                                lineNumber: 307,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
+                                                style: {
+                                                    padding: "1rem",
+                                                    textAlign: "left",
+                                                    borderBottom: "2px solid #eee",
+                                                    fontWeight: "600",
+                                                    color: "#2c3e50",
+                                                    fontSize: "0.9rem"
+                                                },
+                                                children: "Progression"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/ProjectsList.jsx",
+                                                lineNumber: 317,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("th", {
+                                                style: {
+                                                    padding: "1rem",
+                                                    textAlign: "left",
+                                                    borderBottom: "2px solid #eee",
+                                                    fontWeight: "600",
+                                                    color: "#2c3e50",
+                                                    fontSize: "0.9rem"
+                                                },
+                                                children: "Actions"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/ProjectsList.jsx",
+                                                lineNumber: 327,
+                                                columnNumber: 21
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/ProjectsList.jsx",
+                                        lineNumber: 286,
+                                        columnNumber: 19
+                                    }, undefined)
+                                }, void 0, false, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 285,
+                                    columnNumber: 17
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tbody", {
+                                    children: filteredProjects.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tr", {
+                                            style: {
+                                                borderBottom: "1px solid #eee",
+                                                transition: "background-color 0.2s ease",
+                                                fontSize: "0.9rem"
+                                            },
+                                            onMouseEnter: (e)=>e.currentTarget.style.backgroundColor = "#f8f9fa",
+                                            onMouseLeave: (e)=>e.currentTarget.style.backgroundColor = "transparent",
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
+                                                    style: {
+                                                        padding: "1rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    fontWeight: "500",
+                                                                    color: "#2c3e50"
+                                                                },
+                                                                children: project.clientName
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 350,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    fontSize: "0.85rem",
+                                                                    color: "#7f8c8d",
+                                                                    marginTop: "0.2rem"
+                                                                },
+                                                                children: project.clientEmail
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 351,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    fontSize: "0.85rem",
+                                                                    color: "#3498db",
+                                                                    marginTop: "0.2rem"
+                                                                },
+                                                                children: users.find((u)=>u.id === project.clientId)?.userType === "admin" ? "Admin" : "Client"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 354,
+                                                                columnNumber: 27
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                        lineNumber: 349,
+                                                        columnNumber: 25
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 348,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
+                                                    style: {
+                                                        padding: "1rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    fontWeight: "500",
+                                                                    color: "#2c3e50",
+                                                                    marginBottom: "0.3rem"
+                                                                },
+                                                                children: project.title
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 361,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    fontSize: "0.9rem",
+                                                                    color: "#5d6d7e",
+                                                                    lineHeight: "1.4"
+                                                                },
+                                                                children: project.description.length > 80 ? project.description.substring(0, 80) + "..." : project.description
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 364,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: "flex",
+                                                                    gap: "0.5rem",
+                                                                    marginTop: "0.5rem",
+                                                                    flexWrap: "wrap"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            backgroundColor: "#e8f4fc",
+                                                                            color: "#3498db",
+                                                                            padding: "0.2rem 0.5rem",
+                                                                            borderRadius: "4px",
+                                                                            fontSize: "0.75rem"
+                                                                        },
+                                                                        children: project.category || "Non cat\xe9goris\xe9"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                                        lineNumber: 375,
+                                                                        columnNumber: 29
+                                                                    }, undefined),
+                                                                    project.budget && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            backgroundColor: "#e8f6f3",
+                                                                            color: "#2ecc71",
+                                                                            padding: "0.2rem 0.5rem",
+                                                                            borderRadius: "4px",
+                                                                            fontSize: "0.75rem"
+                                                                        },
+                                                                        children: project.budget
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                                        lineNumber: 385,
+                                                                        columnNumber: 31
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontSize: "0.75rem",
+                                                                            color: "#7f8c8d"
+                                                                        },
+                                                                        children: [
+                                                                            "D\xe9but: ",
+                                                                            new Date(project.startDate).toLocaleDateString()
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                                        lineNumber: 395,
+                                                                        columnNumber: 29
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 369,
+                                                                columnNumber: 27
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                        lineNumber: 360,
+                                                        columnNumber: 25
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 359,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
+                                                    style: {
+                                                        padding: "1rem"
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: project.status,
+                                                            onChange: (e)=>handleStatusChange(project.id, e.target.value),
+                                                            style: {
+                                                                padding: "0.5rem",
+                                                                borderRadius: "5px",
+                                                                border: `1px solid ${getStatusColor(project.status)}`,
+                                                                backgroundColor: getStatusColor(project.status),
+                                                                color: "white",
+                                                                cursor: "pointer",
+                                                                fontWeight: "500",
+                                                                width: "100%",
+                                                                maxWidth: "140px",
+                                                                fontSize: "0.85rem"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "pending",
+                                                                    style: {
+                                                                        backgroundColor: "white",
+                                                                        color: "#333"
+                                                                    },
+                                                                    children: "En attente"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 421,
+                                                                    columnNumber: 27
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "in-progress",
+                                                                    style: {
+                                                                        backgroundColor: "white",
+                                                                        color: "#333"
+                                                                    },
+                                                                    children: "En cours"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 422,
+                                                                    columnNumber: 27
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "completed",
+                                                                    style: {
+                                                                        backgroundColor: "white",
+                                                                        color: "#333"
+                                                                    },
+                                                                    children: "Termin\xe9"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 423,
+                                                                    columnNumber: 27
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "paused",
+                                                                    style: {
+                                                                        backgroundColor: "white",
+                                                                        color: "#333"
+                                                                    },
+                                                                    children: "En pause"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 424,
+                                                                    columnNumber: 27
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ProjectsList.jsx",
+                                                            lineNumber: 405,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontSize: "0.8rem",
+                                                                color: "#7f8c8d",
+                                                                marginTop: "0.3rem"
+                                                            },
+                                                            children: getStatusText(project.status)
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ProjectsList.jsx",
+                                                            lineNumber: 426,
+                                                            columnNumber: 25
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 404,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
+                                                    style: {
+                                                        padding: "1rem"
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                gap: "0.5rem"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                    style: {
+                                                                        flex: 1,
+                                                                        maxWidth: "100px",
+                                                                        height: "6px",
+                                                                        backgroundColor: "#e1e8ed",
+                                                                        borderRadius: "3px",
+                                                                        overflow: "hidden"
+                                                                    },
+                                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                        style: {
+                                                                            width: `${calculateProgress(project.tasks)}%`,
+                                                                            height: "100%",
+                                                                            backgroundColor: "#3498db"
+                                                                        }
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                                        lineNumber: 440,
+                                                                        columnNumber: 29
+                                                                    }, undefined)
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 432,
+                                                                    columnNumber: 27
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                    style: {
+                                                                        fontSize: "0.9rem",
+                                                                        color: "#3498db",
+                                                                        fontWeight: "500"
+                                                                    },
+                                                                    children: [
+                                                                        calculateProgress(project.tasks),
+                                                                        "%"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                                    lineNumber: 446,
+                                                                    columnNumber: 27
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ProjectsList.jsx",
+                                                            lineNumber: 431,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontSize: "0.8rem",
+                                                                color: "#7f8c8d",
+                                                                marginTop: "0.3rem"
+                                                            },
+                                                            children: [
+                                                                project.tasks ? project.tasks.filter((t)=>t.status === "completed").length : 0,
+                                                                " /",
+                                                                project.tasks ? project.tasks.length : 0,
+                                                                " t\xe2ches"
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ProjectsList.jsx",
+                                                            lineNumber: 450,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontSize: "0.8rem",
+                                                                color: "#7f8c8d",
+                                                                marginTop: "0.2rem"
+                                                            },
+                                                            children: [
+                                                                "\xc9ch\xe9ance: ",
+                                                                new Date(project.deadline).toLocaleDateString()
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ProjectsList.jsx",
+                                                            lineNumber: 454,
+                                                            columnNumber: 25
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 430,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("td", {
+                                                    style: {
+                                                        padding: "1rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "flex",
+                                                            gap: "0.5rem",
+                                                            flexWrap: "wrap"
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                onClick: ()=>navigate(`/project-view/${project.id}`),
+                                                                style: {
+                                                                    backgroundColor: "#3498db",
+                                                                    color: "white",
+                                                                    border: "none",
+                                                                    padding: "0.5rem 1rem",
+                                                                    borderRadius: "5px",
+                                                                    cursor: "pointer",
+                                                                    fontSize: "0.85rem",
+                                                                    flex: "1 1 auto",
+                                                                    minWidth: "70px"
+                                                                },
+                                                                children: "Voir"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 460,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                onClick: ()=>handleDeleteProject(project.id),
+                                                                style: {
+                                                                    backgroundColor: "#e74c3c",
+                                                                    color: "white",
+                                                                    border: "none",
+                                                                    padding: "0.5rem 1rem",
+                                                                    borderRadius: "5px",
+                                                                    cursor: "pointer",
+                                                                    fontSize: "0.85rem",
+                                                                    flex: "1 1 auto",
+                                                                    minWidth: "70px"
+                                                                },
+                                                                children: "Suppr"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ProjectsList.jsx",
+                                                                lineNumber: 476,
+                                                                columnNumber: 27
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ProjectsList.jsx",
+                                                        lineNumber: 459,
+                                                        columnNumber: 25
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ProjectsList.jsx",
+                                                    lineNumber: 458,
+                                                    columnNumber: 23
+                                                }, undefined)
+                                            ]
+                                        }, project.id, true, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 341,
+                                            columnNumber: 21
+                                        }, undefined))
+                                }, void 0, false, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 339,
+                                    columnNumber: 17
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 280,
+                            columnNumber: 15
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/Components/ProjectsList.jsx",
+                        lineNumber: 279,
+                        columnNumber: 13
+                    }, undefined)
+                }, void 0, false, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 272,
+                    columnNumber: 11
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: "1.5rem",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+                        marginTop: "2rem",
+                        width: "100%"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                            style: {
+                                color: "#2c3e50",
+                                marginBottom: "1rem",
+                                fontSize: "1.1rem"
+                            },
+                            children: "Statistiques des projets"
+                        }, void 0, false, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 511,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            style: {
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+                                gap: "1rem"
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        textAlign: "center"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                fontSize: "1.8rem",
+                                                fontWeight: "bold",
+                                                color: "#3498db"
+                                            },
+                                            children: projects.length
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 524,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem"
+                                            },
+                                            children: "Total projets"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 527,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 523,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        textAlign: "center"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                fontSize: "1.8rem",
+                                                fontWeight: "bold",
+                                                color: "#2ecc71"
+                                            },
+                                            children: projects.filter((p)=>p.status === "completed").length
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 530,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem"
+                                            },
+                                            children: "Termin\xe9s"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 533,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 529,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        textAlign: "center"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                fontSize: "1.8rem",
+                                                fontWeight: "bold",
+                                                color: "#f39c12"
+                                            },
+                                            children: projects.filter((p)=>p.status === "in-progress").length
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 536,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem"
+                                            },
+                                            children: "En cours"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 539,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 535,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        textAlign: "center"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                fontSize: "1.8rem",
+                                                fontWeight: "bold",
+                                                color: "#e74c3c"
+                                            },
+                                            children: projects.filter((p)=>p.status === "pending").length
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 542,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                fontSize: "0.9rem"
+                                            },
+                                            children: "En attente"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ProjectsList.jsx",
+                                            lineNumber: 545,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ProjectsList.jsx",
+                                    lineNumber: 541,
+                                    columnNumber: 13
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ProjectsList.jsx",
+                            lineNumber: 518,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/ProjectsList.jsx",
+                    lineNumber: 503,
+                    columnNumber: 9
+                }, undefined)
+            ]
+        }, void 0, true, {
+            fileName: "src/Components/ProjectsList.jsx",
+            lineNumber: 142,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/ProjectsList.jsx",
+        lineNumber: 133,
+        columnNumber: 5
+    }, undefined);
+};
+_s(ProjectsList, "1LmrT6MAzXxrea3NaNQw4Tws9AM=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
+_c = ProjectsList;
+exports.default = ProjectsList;
+var _c;
+$RefreshReg$(_c, "ProjectsList");
+
+  $parcel$ReactRefreshHelpers$dfb4.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cFqqg":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$ab36 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$ab36.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+/**
+ * Mentoring component - Page de mentorat
+ * Version responsive
+ */ var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const Mentoring = ()=>{
+    _s();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
+    const [mentoringSessions, setMentoringSessions] = (0, _react.useState)([]);
+    const [isMobile, setIsMobile] = (0, _react.useState)(false);
+    const [isTablet, setIsTablet] = (0, _react.useState)(false);
+    (0, _react.useEffect)(()=>{
+        // Détecter la taille de l'écran
+        const checkScreenSize = ()=>{
+            const width = window.innerWidth;
+            setIsMobile(width <= 768);
+            setIsTablet(width > 768 && width <= 1024);
+        };
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+        const savedUser = localStorage.getItem("currentUser");
+        if (!savedUser) {
+            navigate("/");
+            return;
+        }
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        // Charger les sessions de mentorat
+        const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
+        const userSessions = allSessions.filter((s)=>s.clientId === user.id || user.userType === "admin");
+        setMentoringSessions(userSessions);
+        return ()=>{
+            window.removeEventListener("resize", checkScreenSize);
+        };
+    }, [
+        navigate
+    ]);
+    const handleDeleteSession = (sessionId)=>{
+        if (window.confirm("\xcates-vous s\xfbr de vouloir supprimer cette session ?")) {
+            const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
+            const updatedSessions = allSessions.filter((s)=>s.id !== sessionId);
+            localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
+            const userSessions = updatedSessions.filter((s)=>s.clientId === currentUser.id || currentUser.userType === "admin");
+            setMentoringSessions(userSessions);
+        }
+    };
+    const getSessionStatus = (dateTime)=>{
+        const now = new Date();
+        const sessionDate = new Date(dateTime);
+        return sessionDate < now ? "past" : "upcoming";
+    };
+    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            textAlign: "center",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f5f7fa"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+            style: {
+                color: "#2c3e50"
+            },
+            children: "Chargement..."
+        }, void 0, false, {
+            fileName: "src/Components/Mentoring.jsx",
+            lineNumber: 77,
+            columnNumber: 9
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/Mentoring.jsx",
+        lineNumber: 67,
+        columnNumber: 7
+    }, undefined);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            paddingLeft: isMobile ? "0.8rem" : "1rem",
+            paddingRight: isMobile ? "0.8rem" : "1rem",
+            paddingBottom: "2rem",
+            minHeight: "100vh",
+            backgroundColor: "#f5f7fa"
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    maxWidth: "1400px",
+                    margin: "0 auto"
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            backgroundColor: "white",
+                            padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
+                            borderRadius: "12px",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                            marginBottom: isMobile ? "1.2rem" : "1.5rem"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "flex-start",
+                                    marginBottom: isMobile ? "1rem" : "1.5rem",
+                                    flexDirection: isMobile ? "column" : "row",
+                                    gap: "1rem"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            flex: 1
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                                                style: {
+                                                    margin: 0,
+                                                    color: "#2c3e50",
+                                                    fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
+                                                    lineHeight: "1.2"
+                                                },
+                                                children: "Service de Mentorat"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 112,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                style: {
+                                                    color: "#5d6d7e",
+                                                    marginTop: "0.5rem",
+                                                    fontSize: isMobile ? "0.9rem" : "1rem",
+                                                    lineHeight: "1.4"
+                                                },
+                                                children: "Accompagnement personnalis\xe9 pour vos projets de d\xe9veloppement"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 120,
+                                                columnNumber: 15
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 111,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: ()=>navigate("/schedule-mentoring"),
+                                        style: {
+                                            backgroundColor: "#3498db",
+                                            color: "white",
+                                            border: "none",
+                                            padding: isMobile ? "0.7rem 1.2rem" : "0.8rem 1.5rem",
+                                            borderRadius: "6px",
+                                            cursor: "pointer",
+                                            fontWeight: "500",
+                                            fontSize: isMobile ? "0.9rem" : "1rem",
+                                            whiteSpace: "nowrap",
+                                            width: isMobile ? "100%" : "auto"
+                                        },
+                                        children: "Planifier une session"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 130,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 103,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    backgroundColor: "#e8f4fc",
+                                    padding: isMobile ? "1rem" : "1.5rem",
+                                    borderRadius: "10px",
+                                    marginBottom: isMobile ? "1.2rem" : "1.5rem"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                        style: {
+                                            color: "#2c3e50",
+                                            marginBottom: "1rem",
+                                            fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                        },
+                                        children: "Comment fonctionne le mentorat ?"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 156,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            display: "grid",
+                                            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(auto-fit, minmax(240px, 1fr))",
+                                            gap: "1.2rem"
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "flex-start"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            width: isMobile ? "40px" : "50px",
+                                                            height: isMobile ? "40px" : "50px",
+                                                            backgroundColor: "#3498db",
+                                                            borderRadius: "50%",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                            fontSize: isMobile ? "1rem" : "1.2rem",
+                                                            marginBottom: "0.8rem"
+                                                        },
+                                                        children: "1"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 173,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Planification"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 188,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
+                                                            lineHeight: "1.4",
+                                                            margin: 0
+                                                        },
+                                                        children: "Choisissez une date et un cr\xe9neau horaire qui vous convient."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 195,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 168,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "flex-start"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            width: isMobile ? "40px" : "50px",
+                                                            height: isMobile ? "40px" : "50px",
+                                                            backgroundColor: "#3498db",
+                                                            borderRadius: "50%",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                            fontSize: isMobile ? "1rem" : "1.2rem",
+                                                            marginBottom: "0.8rem"
+                                                        },
+                                                        children: "2"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 210,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Pr\xe9paration"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 225,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
+                                                            lineHeight: "1.4",
+                                                            margin: 0
+                                                        },
+                                                        children: "Pr\xe9parez vos questions et probl\xe8mes techniques \xe0 aborder."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 232,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 205,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "flex-start"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            width: isMobile ? "40px" : "50px",
+                                                            height: isMobile ? "40px" : "50px",
+                                                            backgroundColor: "#3498db",
+                                                            borderRadius: "50%",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                            fontSize: isMobile ? "1rem" : "1.2rem",
+                                                            marginBottom: "0.8rem"
+                                                        },
+                                                        children: "3"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 247,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Session"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 262,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
+                                                            lineHeight: "1.4",
+                                                            margin: 0
+                                                        },
+                                                        children: "\xc9change en direct avec Emmanuel pour r\xe9soudre vos probl\xe8mes."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 269,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 242,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "flex-start"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            width: isMobile ? "40px" : "50px",
+                                                            height: isMobile ? "40px" : "50px",
+                                                            backgroundColor: "#3498db",
+                                                            borderRadius: "50%",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                            fontSize: isMobile ? "1rem" : "1.2rem",
+                                                            marginBottom: "0.8rem"
+                                                        },
+                                                        children: "4"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 284,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Suivi"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 299,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.95rem",
+                                                            lineHeight: "1.4",
+                                                            margin: 0
+                                                        },
+                                                        children: "Recevez des ressources et conseils pour continuer \xe0 progresser."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 306,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 279,
+                                                columnNumber: 15
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 163,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 150,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                        style: {
+                                            color: "#2c3e50",
+                                            marginBottom: isMobile ? "0.8rem" : "1rem",
+                                            fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                        },
+                                        children: "Types de sessions disponibles"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 320,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            display: "grid",
+                                            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(280px, 1fr))",
+                                            gap: "1.2rem"
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    backgroundColor: "#f8f9fa",
+                                                    padding: isMobile ? "1rem" : "1.2rem",
+                                                    borderRadius: "10px",
+                                                    borderTop: "4px solid #3498db",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    height: "100%"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Code Review"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 341,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                            marginBottom: "1rem",
+                                                            lineHeight: "1.4",
+                                                            flex: 1
+                                                        },
+                                                        children: "Analyse d\xe9taill\xe9e de votre code avec suggestions d'am\xe9lioration et bonnes pratiques."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 348,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: "0.5rem",
+                                                            flexWrap: "wrap"
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                style: {
+                                                                    backgroundColor: "#e8f4fc",
+                                                                    color: "#3498db",
+                                                                    padding: "0.2rem 0.6rem",
+                                                                    borderRadius: "12px",
+                                                                    fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                                    whiteSpace: "nowrap"
+                                                                },
+                                                                children: "60-90 min"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/Mentoring.jsx",
+                                                                lineNumber: 363,
+                                                                columnNumber: 19
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                style: {
+                                                                    backgroundColor: "#e8f6f3",
+                                                                    color: "#2ecc71",
+                                                                    padding: "0.2rem 0.6rem",
+                                                                    borderRadius: "12px",
+                                                                    fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                                    whiteSpace: "nowrap"
+                                                                },
+                                                                children: "Recommand\xe9"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/Mentoring.jsx",
+                                                                lineNumber: 373,
+                                                                columnNumber: 19
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 357,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 332,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    backgroundColor: "#f8f9fa",
+                                                    padding: isMobile ? "1rem" : "1.2rem",
+                                                    borderRadius: "10px",
+                                                    borderTop: "4px solid #9b59b6",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    height: "100%"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Architecture & Design"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 395,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                            marginBottom: "1rem",
+                                                            lineHeight: "1.4",
+                                                            flex: 1
+                                                        },
+                                                        children: "Conseil sur l'architecture de votre projet et choix technologiques."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 402,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: "0.5rem",
+                                                            flexWrap: "wrap"
+                                                        },
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                            style: {
+                                                                backgroundColor: "#f4ecf7",
+                                                                color: "#9b59b6",
+                                                                padding: "0.2rem 0.6rem",
+                                                                borderRadius: "12px",
+                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                                whiteSpace: "nowrap"
+                                                            },
+                                                            children: "90-120 min"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Mentoring.jsx",
+                                                            lineNumber: 417,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 411,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 386,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    backgroundColor: "#f8f9fa",
+                                                    padding: isMobile ? "1rem" : "1.2rem",
+                                                    borderRadius: "10px",
+                                                    borderTop: "4px solid #2ecc71",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    height: "100%"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            marginBottom: "0.5rem",
+                                                            fontSize: isMobile ? "0.95rem" : "1.05rem"
+                                                        },
+                                                        children: "Debugging & Probl\xe8mes"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 439,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                        style: {
+                                                            color: "#5d6d7e",
+                                                            fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                            marginBottom: "1rem",
+                                                            lineHeight: "1.4",
+                                                            flex: 1
+                                                        },
+                                                        children: "Aide \xe0 la r\xe9solution de probl\xe8mes techniques sp\xe9cifiques."
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 446,
+                                                        columnNumber: 17
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: "0.5rem",
+                                                            flexWrap: "wrap"
+                                                        },
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                            style: {
+                                                                backgroundColor: "#e8f6f3",
+                                                                color: "#2ecc71",
+                                                                padding: "0.2rem 0.6rem",
+                                                                borderRadius: "12px",
+                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                                whiteSpace: "nowrap"
+                                                            },
+                                                            children: "45-60 min"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Mentoring.jsx",
+                                                            lineNumber: 461,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 455,
+                                                        columnNumber: 17
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 430,
+                                                columnNumber: 15
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 327,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 319,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/Components/Mentoring.jsx",
+                        lineNumber: 96,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            backgroundColor: "white",
+                            padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
+                            borderRadius: "12px",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginBottom: isMobile ? "1rem" : "1.5rem",
+                                    flexDirection: isMobile ? "column" : "row",
+                                    gap: "0.8rem"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                        style: {
+                                            margin: 0,
+                                            color: "#2c3e50",
+                                            fontSize: isMobile ? "1.3rem" : isTablet ? "1.5rem" : "1.8rem",
+                                            textAlign: isMobile ? "center" : "left"
+                                        },
+                                        children: "Mes sessions de mentorat"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 492,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        style: {
+                                            backgroundColor: "#f8f9fa",
+                                            color: "#5d6d7e",
+                                            padding: "0.4rem 0.8rem",
+                                            borderRadius: "16px",
+                                            fontSize: isMobile ? "0.8rem" : "0.9rem",
+                                            whiteSpace: "nowrap"
+                                        },
+                                        children: [
+                                            mentoringSessions.length,
+                                            " session(s)"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 501,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 484,
+                                columnNumber: 11
+                            }, undefined),
+                            mentoringSessions.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    textAlign: "center",
+                                    padding: isMobile ? "1.5rem" : "2rem",
+                                    color: "#7f8c8d"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                        style: {
+                                            fontSize: isMobile ? "0.95rem" : "1rem",
+                                            marginBottom: "1rem"
+                                        },
+                                        children: "Aucune session de mentorat planifi\xe9e."
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 519,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: ()=>navigate("/schedule-mentoring"),
+                                        style: {
+                                            backgroundColor: "#3498db",
+                                            color: "white",
+                                            border: "none",
+                                            padding: isMobile ? "0.8rem 1.5rem" : "1rem 2rem",
+                                            borderRadius: "6px",
+                                            cursor: "pointer",
+                                            fontSize: isMobile ? "0.9rem" : "1rem",
+                                            fontWeight: "500",
+                                            minWidth: isMobile ? "100%" : "200px"
+                                        },
+                                        children: "Planifier ma premi\xe8re session"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 525,
+                                        columnNumber: 15
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 514,
+                                columnNumber: 13
+                            }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    display: "grid",
+                                    gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))",
+                                    gap: "1.2rem"
+                                },
+                                children: mentoringSessions.map((session)=>{
+                                    const sessionStatus = getSessionStatus(session.dateTime);
+                                    const isPast = sessionStatus === "past";
+                                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            backgroundColor: "#f8f9fa",
+                                            padding: isMobile ? "1rem" : "1.2rem",
+                                            borderRadius: "10px",
+                                            borderLeft: `4px solid ${isPast ? "#95a5a6" : "#3498db"}`,
+                                            opacity: isPast ? 0.8 : 1,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            height: "100%"
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    alignItems: "flex-start",
+                                                    marginBottom: "0.8rem"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                                        style: {
+                                                            margin: 0,
+                                                            color: "#2c3e50",
+                                                            fontSize: isMobile ? "1rem" : "1.1rem",
+                                                            lineHeight: "1.3",
+                                                            flex: 1,
+                                                            marginRight: "0.5rem"
+                                                        },
+                                                        children: session.topic
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 572,
+                                                        columnNumber: 23
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            backgroundColor: isPast ? "#95a5a6" : "#3498db",
+                                                            color: "white",
+                                                            padding: "0.2rem 0.6rem",
+                                                            borderRadius: "12px",
+                                                            fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                            whiteSpace: "nowrap"
+                                                        },
+                                                        children: isPast ? "Pass\xe9e" : "\xc0 venir"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 582,
+                                                        columnNumber: 23
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 566,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                style: {
+                                                    color: "#5d6d7e",
+                                                    marginBottom: "0.8rem",
+                                                    fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                    lineHeight: "1.4",
+                                                    flex: 1
+                                                },
+                                                children: session.description
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 594,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    marginBottom: "0.4rem"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            fontWeight: "500",
+                                                            color: "#7f8c8d",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
+                                                        },
+                                                        children: "Date et heure:"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 605,
+                                                        columnNumber: 23
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
+                                                            marginLeft: "0.3rem"
+                                                        },
+                                                        children: [
+                                                            new Date(session.dateTime).toLocaleDateString("fr-FR", {
+                                                                day: "2-digit",
+                                                                month: "short",
+                                                                year: "numeric"
+                                                            }),
+                                                            " \xe0 ",
+                                                            new Date(session.dateTime).toLocaleTimeString([], {
+                                                                hour: "2-digit",
+                                                                minute: "2-digit"
+                                                            })
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 612,
+                                                        columnNumber: 23
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 604,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    marginBottom: "0.4rem"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            fontWeight: "500",
+                                                            color: "#7f8c8d",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
+                                                        },
+                                                        children: "Dur\xe9e:"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 626,
+                                                        columnNumber: 23
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            color: "#2c3e50",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
+                                                            marginLeft: "0.3rem"
+                                                        },
+                                                        children: [
+                                                            session.duration,
+                                                            " minutes"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 633,
+                                                        columnNumber: 23
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 625,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    marginBottom: "0.8rem"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            fontWeight: "500",
+                                                            color: "#7f8c8d",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem"
+                                                        },
+                                                        children: "Type:"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 643,
+                                                        columnNumber: 23
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        style: {
+                                                            backgroundColor: "#e8f4fc",
+                                                            color: "#3498db",
+                                                            padding: "0.15rem 0.5rem",
+                                                            borderRadius: "12px",
+                                                            fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                            marginLeft: "0.3rem"
+                                                        },
+                                                        children: session.sessionType === "video" ? "Vid\xe9o" : "Audio"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 650,
+                                                        columnNumber: 23
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 642,
+                                                columnNumber: 21
+                                            }, undefined),
+                                            session.link && !isPast && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    marginBottom: "0.8rem"
+                                                },
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                                    href: session.link,
+                                                    target: "_blank",
+                                                    rel: "noopener noreferrer",
+                                                    style: {
+                                                        color: "#3498db",
+                                                        textDecoration: "none",
+                                                        fontSize: isMobile ? "0.8rem" : "0.85rem",
+                                                        display: "inline-flex",
+                                                        alignItems: "center",
+                                                        gap: "0.3rem",
+                                                        fontWeight: "500"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        children: "\uD83D\uDD17 Lien de connexion"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 678,
+                                                        columnNumber: 27
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/Mentoring.jsx",
+                                                    lineNumber: 664,
+                                                    columnNumber: 25
+                                                }, undefined)
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 663,
+                                                columnNumber: 23
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    alignItems: "center",
+                                                    marginTop: "auto",
+                                                    paddingTop: "0.8rem",
+                                                    borderTop: "1px solid #eee"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                            style: {
+                                                                fontSize: isMobile ? "0.7rem" : "0.75rem",
+                                                                color: "#7f8c8d"
+                                                            },
+                                                            children: [
+                                                                "Cr\xe9\xe9e le ",
+                                                                new Date(session.createdAt).toLocaleDateString("fr-FR", {
+                                                                    day: "2-digit",
+                                                                    month: "short",
+                                                                    year: "numeric"
+                                                                })
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/Mentoring.jsx",
+                                                            lineNumber: 692,
+                                                            columnNumber: 25
+                                                        }, undefined)
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 691,
+                                                        columnNumber: 23
+                                                    }, undefined),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                        onClick: ()=>handleDeleteSession(session.id),
+                                                        style: {
+                                                            backgroundColor: "#e74c3c",
+                                                            color: "white",
+                                                            border: "none",
+                                                            padding: isMobile ? "0.4rem 0.8rem" : "0.5rem 1rem",
+                                                            borderRadius: "4px",
+                                                            cursor: "pointer",
+                                                            fontSize: isMobile ? "0.8rem" : "0.85rem",
+                                                            whiteSpace: "nowrap"
+                                                        },
+                                                        children: "Supprimer"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/Mentoring.jsx",
+                                                        lineNumber: 703,
+                                                        columnNumber: 23
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/Mentoring.jsx",
+                                                lineNumber: 683,
+                                                columnNumber: 21
+                                            }, undefined)
+                                        ]
+                                    }, session.id, true, {
+                                        fileName: "src/Components/Mentoring.jsx",
+                                        lineNumber: 553,
+                                        columnNumber: 19
+                                    }, undefined);
+                                })
+                            }, void 0, false, {
+                                fileName: "src/Components/Mentoring.jsx",
+                                lineNumber: 543,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/Components/Mentoring.jsx",
+                        lineNumber: 478,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/Components/Mentoring.jsx",
+                lineNumber: 91,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
+                children: `
+        /* Styles pour les petits écrans */
+        @media (max-width: 768px) {
+          .mentoring-container {
+            padding-top: 4.5rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+          }
+          
+          .steps-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1rem !important;
+          }
+          
+          .types-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .sessions-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .header-section {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          
+          .header-section button {
+            width: 100% !important;
+            margin-top: 0.5rem !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .mentoring-container {
+            padding-top: 4rem !important;
+          }
+          
+          .steps-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .step-item {
+            flex-direction: row !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+          }
+          
+          .step-number {
+            flex-shrink: 0 !important;
+          }
+        }
+        
+        /* Améliorations pour tablettes */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .steps-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          
+          .sessions-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        
+        /* Animation pour les cartes */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .session-card {
+          animation: fadeInUp 0.3s ease forwards;
+          animation-delay: calc(var(--card-index, 0) * 0.1s);
+        }
+        
+        /* Amélioration du scroll sur mobile */
+        .mentoring-container {
+          overflow-x: hidden;
+        }
+        
+        /* Styles pour les liens */
+        a:hover {
+          text-decoration: underline;
+        }
+        
+        /* Styles pour les boutons au survol */
+        button:hover {
+          opacity: 0.9;
+          transform: translateY(-1px);
+          transition: all 0.2s ease;
+        }
+        
+        /* Amélioration de la lisibilité */
+        @media (max-width: 768px) {
+          h1, h2, h3, h4 {
+            line-height: 1.2 !important;
+          }
+          
+          p {
+            line-height: 1.4 !important;
+          }
+        }
+      `
+            }, void 0, false, {
+                fileName: "src/Components/Mentoring.jsx",
+                lineNumber: 728,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/Components/Mentoring.jsx",
+        lineNumber: 83,
+        columnNumber: 5
+    }, undefined);
+};
+_s(Mentoring, "D8AvaB+AhCeMP2uuca7SulB2llo=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
+_c = Mentoring;
+exports.default = Mentoring;
+var _c;
+$RefreshReg$(_c, "Mentoring");
+
+  $parcel$ReactRefreshHelpers$ab36.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cQ1Wh":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$e684 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$e684.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+/**
+ * ScheduleMentoring component - Formulaire de planification d'une session de mentorat
+ * Version responsive
+ */ var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const ScheduleMentoring = ()=>{
+    _s();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
+    const [isMobile, setIsMobile] = (0, _react.useState)(false);
+    const [isTablet, setIsTablet] = (0, _react.useState)(false);
+    const [sessionData, setSessionData] = (0, _react.useState)({
+        topic: "",
+        description: "",
+        dateTime: "",
+        duration: "60",
+        sessionType: "video",
+        objectives: "",
+        projectId: "",
+        urgency: "medium"
+    });
+    const [userProjects, setUserProjects] = (0, _react.useState)([]);
+    const [availableSlots, setAvailableSlots] = (0, _react.useState)([]);
+    const [isSubmitting, setIsSubmitting] = (0, _react.useState)(false);
+    (0, _react.useEffect)(()=>{
+        // Détecter la taille de l'écran
+        const checkScreenSize = ()=>{
+            const width = window.innerWidth;
+            setIsMobile(width <= 768);
+            setIsTablet(width > 768 && width <= 1024);
+        };
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+        const savedUser = localStorage.getItem("currentUser");
+        if (!savedUser) {
+            navigate("/");
+            return;
+        }
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        // Charger les projets de l'utilisateur
+        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+        const userProjects = allProjects.filter((p)=>p.clientId === user.id);
+        setUserProjects(userProjects);
+        // Générer des créneaux disponibles (démonstration)
+        generateAvailableSlots();
+        // Définir la date par défaut (demain à 14h)
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(14, 0, 0, 0);
+        setSessionData((prev)=>({
+                ...prev,
+                dateTime: tomorrow.toISOString().slice(0, 16)
+            }));
+        return ()=>{
+            window.removeEventListener("resize", checkScreenSize);
+        };
+    }, [
+        navigate
+    ]);
+    const generateAvailableSlots = ()=>{
+        const slots = [];
+        const today = new Date();
+        // Générer des créneaux pour les 7 prochains jours
+        for(let i = 1; i <= 7; i++){
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+            // Ajouter des créneaux à 9h, 14h, 16h
+            [
+                9,
+                14,
+                16
+            ].forEach((hour)=>{
+                const slotDate = new Date(date);
+                slotDate.setHours(hour, 0, 0, 0);
+                slots.push({
+                    value: slotDate.toISOString().slice(0, 16),
+                    label: `${slotDate.toLocaleDateString("fr-FR", {
+                        day: "2-digit",
+                        month: "short"
+                    })} à ${hour}h00`
+                });
+            });
+        }
+        setAvailableSlots(slots);
+    };
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        if (!sessionData.topic.trim()) {
+            alert("Veuillez donner un titre \xe0 votre session");
+            return;
+        }
+        if (!sessionData.dateTime) {
+            alert("Veuillez s\xe9lectionner une date et heure");
+            return;
+        }
+        if (!sessionData.description.trim()) {
+            alert("Veuillez d\xe9crire l'objectif de la session");
+            return;
+        }
+        setIsSubmitting(true);
+        // Générer un lien de réunion (simulé)
+        const meetingLink = `https://meet.google.com/${Math.random().toString(36).substring(7)}`;
+        const newSession = {
+            id: Date.now(),
+            clientId: currentUser.id,
+            clientName: currentUser.name,
+            clientEmail: currentUser.email,
+            ...sessionData,
+            link: meetingLink,
+            status: "scheduled",
+            createdAt: new Date().toISOString(),
+            confirmed: false
+        };
+        // Sauvegarder la session
+        const existingSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
+        const updatedSessions = [
+            ...existingSessions,
+            newSession
+        ];
+        localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
+        // Simuler un délai d'envoi
+        setTimeout(()=>{
+            setIsSubmitting(false);
+            alert(`Session planifiée avec succès !\n\nEmmanuel a été notifié et vous enverra une confirmation.\n\nLien de la réunion : ${meetingLink}`);
+            navigate("/mentoring");
+        }, 1500);
+    };
+    const handleQuickSelect = (duration, type)=>{
+        setSessionData((prev)=>({
+                ...prev,
+                duration: duration.toString(),
+                sessionType: type
+            }));
+    };
+    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            textAlign: "center",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#f5f7fa"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+            style: {
+                color: "#2c3e50"
+            },
+            children: "Chargement..."
+        }, void 0, false, {
+            fileName: "src/Components/ScheduleMentoring.jsx",
+            lineNumber: 166,
+            columnNumber: 9
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/ScheduleMentoring.jsx",
+        lineNumber: 156,
+        columnNumber: 7
+    }, undefined);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: isMobile ? "4.5rem" : "5rem",
+            paddingLeft: isMobile ? "0.8rem" : "1rem",
+            paddingRight: isMobile ? "0.8rem" : "1rem",
+            paddingBottom: "2rem",
+            minHeight: "100vh",
+            backgroundColor: "#f5f7fa"
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    maxWidth: "800px",
+                    margin: "0 auto"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: isMobile ? "1.2rem" : isTablet ? "1.5rem" : "2rem",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                            style: {
+                                color: "#2c3e50",
+                                marginBottom: "0.5rem",
+                                fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2rem",
+                                lineHeight: "1.2"
+                            },
+                            children: "Planifier une session de mentorat"
+                        }, void 0, false, {
+                            fileName: "src/Components/ScheduleMentoring.jsx",
+                            lineNumber: 190,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            style: {
+                                color: "#5d6d7e",
+                                marginBottom: "1.5rem",
+                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                lineHeight: "1.4"
+                            },
+                            children: "Remplissez les d\xe9tails de votre session. Emmanuel vous confirmera le rendez-vous par email."
+                        }, void 0, false, {
+                            fileName: "src/Components/ScheduleMentoring.jsx",
+                            lineNumber: 198,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
+                            onSubmit: handleSubmit,
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "1rem",
+                                                paddingBottom: "0.5rem",
+                                                borderBottom: "1px solid #eee",
+                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                            },
+                                            children: "Informations de la session"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 210,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Sujet / Titre de la session *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 221,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "text",
+                                                    value: sessionData.topic,
+                                                    onChange: (e)=>setSessionData({
+                                                            ...sessionData,
+                                                            topic: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.8rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: isMobile ? "0.95rem" : "1rem"
+                                                    },
+                                                    placeholder: "Ex: Review du code de mon API, Probl\xe8me de performance React, etc.",
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 229,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 220,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Description d\xe9taill\xe9e *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 246,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                                                    value: sessionData.description,
+                                                    onChange: (e)=>setSessionData({
+                                                            ...sessionData,
+                                                            description: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.8rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: isMobile ? "0.95rem" : "1rem",
+                                                        minHeight: isMobile ? "100px" : "120px",
+                                                        resize: "vertical"
+                                                    },
+                                                    placeholder: "D\xe9crivez ce que vous souhaitez aborder pendant la session, les probl\xe8mes sp\xe9cifiques, les attentes...",
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 254,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 245,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Objectifs de la session"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 272,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                                                    value: sessionData.objectives,
+                                                    onChange: (e)=>setSessionData({
+                                                            ...sessionData,
+                                                            objectives: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.8rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: isMobile ? "0.95rem" : "1rem",
+                                                        minHeight: isMobile ? "80px" : "100px",
+                                                        resize: "vertical"
+                                                    },
+                                                    placeholder: "Quels sont les r\xe9sultats attendus de cette session ?"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 280,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 271,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                    lineNumber: 209,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "1rem",
+                                                paddingBottom: "0.5rem",
+                                                borderBottom: "1px solid #eee",
+                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                            },
+                                            children: "Date, heure et dur\xe9e"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 299,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "grid",
+                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
+                                                gap: "1rem",
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Date et heure *"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 316,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                            type: "datetime-local",
+                                                            value: sessionData.dateTime,
+                                                            onChange: (e)=>setSessionData({
+                                                                    ...sessionData,
+                                                                    dateTime: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem"
+                                                            },
+                                                            required: true
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 324,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontSize: isMobile ? "0.8rem" : "0.85rem",
+                                                                color: "#7f8c8d",
+                                                                marginTop: "0.5rem"
+                                                            },
+                                                            children: [
+                                                                "Cr\xe9neaux recommand\xe9s disponibles :",
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                    style: {
+                                                                        marginTop: "0.3rem",
+                                                                        display: "flex",
+                                                                        flexWrap: "wrap",
+                                                                        gap: "0.3rem"
+                                                                    },
+                                                                    children: availableSlots.slice(0, isMobile ? 2 : 3).map((slot)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                            type: "button",
+                                                                            onClick: ()=>setSessionData({
+                                                                                    ...sessionData,
+                                                                                    dateTime: slot.value
+                                                                                }),
+                                                                            style: {
+                                                                                backgroundColor: sessionData.dateTime === slot.value ? "#3498db" : "#f8f9fa",
+                                                                                color: sessionData.dateTime === slot.value ? "white" : "#3498db",
+                                                                                border: `1px solid ${sessionData.dateTime === slot.value ? "#3498db" : "#3498db"}`,
+                                                                                padding: "0.3rem 0.6rem",
+                                                                                borderRadius: "12px",
+                                                                                fontSize: isMobile ? "0.75rem" : "0.8rem",
+                                                                                cursor: "pointer",
+                                                                                transition: "all 0.2s ease"
+                                                                            },
+                                                                            children: slot.label
+                                                                        }, slot.value, false, {
+                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                            lineNumber: 350,
+                                                                            columnNumber: 25
+                                                                        }, undefined))
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 343,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 337,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 315,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Dur\xe9e (minutes) *"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 373,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: sessionData.duration,
+                                                            onChange: (e)=>setSessionData({
+                                                                    ...sessionData,
+                                                                    duration: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                backgroundColor: "white",
+                                                                cursor: "pointer"
+                                                            },
+                                                            required: true,
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "30",
+                                                                    children: "30 minutes"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 395,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "45",
+                                                                    children: "45 minutes"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 396,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "60",
+                                                                    children: "60 minutes"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 397,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "90",
+                                                                    children: "90 minutes"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 398,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "120",
+                                                                    children: "120 minutes"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 399,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 381,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginTop: "1rem"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                                    style: {
+                                                                        display: "block",
+                                                                        marginBottom: "0.5rem",
+                                                                        color: "#5d6d7e",
+                                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                                    },
+                                                                    children: "Type de session *"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 403,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                                    value: sessionData.sessionType,
+                                                                    onChange: (e)=>setSessionData({
+                                                                            ...sessionData,
+                                                                            sessionType: e.target.value
+                                                                        }),
+                                                                    style: {
+                                                                        width: "100%",
+                                                                        padding: "0.8rem",
+                                                                        border: "1px solid #ddd",
+                                                                        borderRadius: "6px",
+                                                                        fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                        backgroundColor: "white",
+                                                                        cursor: "pointer"
+                                                                    },
+                                                                    required: true,
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                            value: "video",
+                                                                            children: "Vid\xe9o (Google Meet)"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                            lineNumber: 425,
+                                                                            columnNumber: 23
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                            value: "audio",
+                                                                            children: "Audio seulement"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                            lineNumber: 426,
+                                                                            columnNumber: 23
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                            value: "chat",
+                                                                            children: "Chat/\xe9crit"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                            lineNumber: 427,
+                                                                            columnNumber: 23
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 411,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 402,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 372,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 309,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: isMobile ? "0.9rem" : "1rem"
+                                                    },
+                                                    children: "Options rapides :"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 435,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        gap: "0.5rem",
+                                                        flexWrap: "wrap",
+                                                        justifyContent: isMobile ? "center" : "flex-start"
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            type: "button",
+                                                            onClick: ()=>handleQuickSelect(60, "video"),
+                                                            style: {
+                                                                backgroundColor: sessionData.duration === "60" && sessionData.sessionType === "video" ? "#3498db" : "#f8f9fa",
+                                                                color: sessionData.duration === "60" && sessionData.sessionType === "video" ? "white" : "#5d6d7e",
+                                                                border: "1px solid #ddd",
+                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
+                                                                borderRadius: "6px",
+                                                                cursor: "pointer",
+                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                                transition: "all 0.2s ease",
+                                                                flex: isMobile ? "1" : "none",
+                                                                minWidth: isMobile ? "120px" : "auto"
+                                                            },
+                                                            children: "Code Review"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 449,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            type: "button",
+                                                            onClick: ()=>handleQuickSelect(45, "audio"),
+                                                            style: {
+                                                                backgroundColor: sessionData.duration === "45" && sessionData.sessionType === "audio" ? "#3498db" : "#f8f9fa",
+                                                                color: sessionData.duration === "45" && sessionData.sessionType === "audio" ? "white" : "#5d6d7e",
+                                                                border: "1px solid #ddd",
+                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
+                                                                borderRadius: "6px",
+                                                                cursor: "pointer",
+                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                                transition: "all 0.2s ease",
+                                                                flex: isMobile ? "1" : "none",
+                                                                minWidth: isMobile ? "120px" : "auto"
+                                                            },
+                                                            children: "Question rapide"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 467,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            type: "button",
+                                                            onClick: ()=>handleQuickSelect(90, "video"),
+                                                            style: {
+                                                                backgroundColor: sessionData.duration === "90" && sessionData.sessionType === "video" ? "#3498db" : "#f8f9fa",
+                                                                color: sessionData.duration === "90" && sessionData.sessionType === "video" ? "white" : "#5d6d7e",
+                                                                border: "1px solid #ddd",
+                                                                padding: isMobile ? "0.6rem 0.8rem" : "0.5rem 1rem",
+                                                                borderRadius: "6px",
+                                                                cursor: "pointer",
+                                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                                transition: "all 0.2s ease",
+                                                                flex: isMobile ? "1" : "none",
+                                                                minWidth: isMobile ? "120px" : "auto"
+                                                            },
+                                                            children: "Design d'architecture"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 485,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 443,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 434,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                    lineNumber: 298,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "1rem",
+                                                paddingBottom: "0.5rem",
+                                                borderBottom: "1px solid #eee",
+                                                fontSize: isMobile ? "1.1rem" : "1.3rem"
+                                            },
+                                            children: "Contexte et priorit\xe9"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 509,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "grid",
+                                                gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(250px, 1fr))",
+                                                gap: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Associer \xe0 un projet (optionnel)"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 525,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: sessionData.projectId,
+                                                            onChange: (e)=>setSessionData({
+                                                                    ...sessionData,
+                                                                    projectId: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                backgroundColor: "white",
+                                                                cursor: "pointer"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "",
+                                                                    children: "Aucun projet sp\xe9cifique"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 546,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                userProjects.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                        value: project.id,
+                                                                        children: project.title.length > 40 ? project.title.substring(0, 40) + "..." : project.title
+                                                                    }, project.id, false, {
+                                                                        fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                        lineNumber: 548,
+                                                                        columnNumber: 23
+                                                                    }, undefined))
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 533,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 524,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: isMobile ? "0.9rem" : "1rem"
+                                                            },
+                                                            children: "Niveau d'urgence"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 556,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                                                            value: sessionData.urgency,
+                                                            onChange: (e)=>setSessionData({
+                                                                    ...sessionData,
+                                                                    urgency: e.target.value
+                                                                }),
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.8rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: isMobile ? "0.95rem" : "1rem",
+                                                                backgroundColor: "white",
+                                                                cursor: "pointer"
+                                                            },
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "low",
+                                                                    children: "Faible (question g\xe9n\xe9rale)"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 577,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "medium",
+                                                                    children: "Moyen (bloquant mais pas urgent)"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 578,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "high",
+                                                                    children: "\xc9lev\xe9 (bloquant pour la progression)"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 579,
+                                                                    columnNumber: 21
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                                                    value: "critical",
+                                                                    children: "Critique (production impact\xe9e)"
+                                                                }, void 0, false, {
+                                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                                    lineNumber: 580,
+                                                                    columnNumber: 21
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                                            lineNumber: 564,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 555,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 519,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                    lineNumber: 508,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "#e8f4fc",
+                                        padding: isMobile ? "1rem" : "1.2rem",
+                                        borderRadius: "10px",
+                                        marginBottom: "1.5rem",
+                                        borderLeft: "4px solid #3498db"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "0.5rem",
+                                                fontSize: isMobile ? "1rem" : "1.1rem"
+                                            },
+                                            children: "\xc0 savoir avant de planifier :"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 594,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                margin: 0,
+                                                paddingLeft: "1.2rem",
+                                                fontSize: isMobile ? "0.85rem" : "0.9rem",
+                                                lineHeight: "1.5"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                                    children: "Emmanuel confirmera ou proposera un autre cr\xe9neau dans les 24h"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 608,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                                    children: "Pr\xe9parez \xe0 l'avance vos questions et fichiers \xe0 partager"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 609,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                                    children: "Un lien de r\xe9union vous sera envoy\xe9 par email"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 610,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                                    children: "Annulation possible jusqu'\xe0 2h avant la session"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                                    lineNumber: 611,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 601,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                    lineNumber: 587,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        marginTop: "1.5rem",
+                                        paddingTop: "1.2rem",
+                                        borderTop: "1px solid #eee",
+                                        flexDirection: isMobile ? "column" : "row",
+                                        gap: isMobile ? "0.8rem" : "0"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            type: "button",
+                                            onClick: ()=>navigate("/mentoring"),
+                                            style: {
+                                                backgroundColor: "transparent",
+                                                color: "#7f8c8d",
+                                                border: "1px solid #ddd",
+                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 1.5rem",
+                                                borderRadius: "6px",
+                                                cursor: "pointer",
+                                                fontSize: isMobile ? "0.9rem" : "1rem",
+                                                width: isMobile ? "100%" : "auto"
+                                            },
+                                            children: "Annuler"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 626,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            type: "submit",
+                                            disabled: isSubmitting,
+                                            style: {
+                                                backgroundColor: isSubmitting ? "#95a5a6" : "#2ecc71",
+                                                color: "white",
+                                                border: "none",
+                                                padding: isMobile ? "0.7rem 1rem" : "0.8rem 2rem",
+                                                borderRadius: "6px",
+                                                cursor: isSubmitting ? "not-allowed" : "pointer",
+                                                fontSize: isMobile ? "0.9rem" : "1rem",
+                                                fontWeight: "500",
+                                                opacity: isSubmitting ? 0.7 : 1,
+                                                transition: "all 0.2s ease",
+                                                width: isMobile ? "100%" : "auto"
+                                            },
+                                            children: isSubmitting ? "Planification en cours..." : "Planifier la session"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ScheduleMentoring.jsx",
+                                            lineNumber: 643,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ScheduleMentoring.jsx",
+                                    lineNumber: 616,
+                                    columnNumber: 13
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ScheduleMentoring.jsx",
+                            lineNumber: 207,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/ScheduleMentoring.jsx",
+                    lineNumber: 184,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/Components/ScheduleMentoring.jsx",
+                lineNumber: 180,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
+                children: `
+        /* Styles pour les petits écrans */
+        @media (max-width: 768px) {
+          .schedule-container {
+            padding-top: 4.5rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+          }
+          
+          .form-container {
+            padding: 1rem !important;
+          }
+          
+          .form-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .quick-options {
+            flex-direction: column !important;
+          }
+          
+          .quick-options button {
+            width: 100% !important;
+          }
+          
+          .action-buttons {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          
+          .action-buttons button {
+            width: 100% !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .schedule-container {
+            padding-top: 4rem !important;
+          }
+          
+          .form-container {
+            padding: 0.8rem !important;
+          }
+          
+          h1 {
+            font-size: 1.4rem !important;
+            text-align: center;
+          }
+          
+          .section-title {
+            font-size: 1.1rem !important;
+          }
+        }
+        
+        /* Améliorations pour tablettes */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .form-container {
+            padding: 1.5rem !important;
+          }
+          
+          .form-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1.2rem !important;
+          }
+        }
+        
+        /* Amélioration de l'expérience utilisateur */
+        input:focus, textarea:focus, select:focus {
+          outline: none;
+          border-color: #3498db !important;
+          box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+          transition: all 0.2s ease;
+        }
+        
+        button:active {
+          transform: translateY(1px);
+        }
+        
+        /* Style pour les boutons de slot rapide au survol */
+        .slot-button:hover {
+          background-color: #3498db !important;
+          color: white !important;
+        }
+        
+        /* Amélioration de la lisibilité */
+        label {
+          user-select: none;
+        }
+        
+        /* Ajustement pour les champs date sur mobile */
+        input[type="datetime-local"] {
+          min-height: 44px; /* Taille minimum pour le touch sur mobile */
+        }
+        
+        /* Styles pour les options de sélection */
+        option {
+          padding: 0.5rem;
+        }
+        
+        /* Animation pour le bouton de soumission */
+        @keyframes pulse {
+          0% { opacity: 1; }
+          50% { opacity: 0.8; }
+          100% { opacity: 1; }
+        }
+        
+        button[type="submit"]:disabled {
+          animation: pulse 1.5s infinite;
+        }
+      `
+            }, void 0, false, {
+                fileName: "src/Components/ScheduleMentoring.jsx",
+                lineNumber: 668,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/Components/ScheduleMentoring.jsx",
+        lineNumber: 172,
+        columnNumber: 5
+    }, undefined);
+};
+_s(ScheduleMentoring, "5iF//bP7E7SpW8NhcasAuuTYp7g=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
+_c = ScheduleMentoring;
+exports.default = ScheduleMentoring;
+var _c;
+$RefreshReg$(_c, "ScheduleMentoring");
+
+  $parcel$ReactRefreshHelpers$e684.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"029VM":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$fca5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$fca5.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+/**
+ * ClientProfile component - Gestion du profil utilisateur avec récapitulatif d'activité
+ */ var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const ClientProfile = ()=>{
+    _s();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const [currentUser, setCurrentUser] = (0, _react.useState)(null);
+    const [profileData, setProfileData] = (0, _react.useState)({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        position: "",
+        bio: "",
+        skills: "",
+        website: ""
+    });
+    const [isEditing, setIsEditing] = (0, _react.useState)(false);
+    const [passwordData, setPasswordData] = (0, _react.useState)({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+    });
+    // États pour les statistiques
+    const [userProjects, setUserProjects] = (0, _react.useState)([]);
+    const [mentoringSessions, setMentoringSessions] = (0, _react.useState)([]);
+    const [stats, setStats] = (0, _react.useState)({
+        totalProjects: 0,
+        completedProjects: 0,
+        inProgressProjects: 0,
+        upcomingSessions: 0
+    });
+    (0, _react.useEffect)(()=>{
+        const savedUser = localStorage.getItem("currentUser");
+        if (!savedUser) {
+            navigate("/");
+            return;
+        }
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        // Charger les données du profil
+        const userProfile = JSON.parse(localStorage.getItem(`userProfile_${user.id}`) || "{}");
+        setProfileData({
+            name: user.name || "",
+            email: user.email || "",
+            phone: userProfile.phone || "",
+            company: userProfile.company || "",
+            position: userProfile.position || "",
+            bio: userProfile.bio || "",
+            skills: userProfile.skills || "",
+            website: userProfile.website || ""
+        });
+        // Charger les projets de l'utilisateur
+        const allProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+        const userProjects = allProjects.filter((p)=>p.clientId === user.id);
+        setUserProjects(userProjects);
+        // Charger les sessions de mentorat
+        const allSessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
+        const userSessions = allSessions.filter((s)=>s.clientId === user.id);
+        setMentoringSessions(userSessions);
+        // Calculer les statistiques
+        setStats({
+            totalProjects: userProjects.length,
+            completedProjects: userProjects.filter((p)=>p.status === "completed").length,
+            inProgressProjects: userProjects.filter((p)=>p.status === "in-progress").length,
+            upcomingSessions: userSessions.filter((s)=>new Date(s.dateTime) > new Date()).length
+        });
+    }, [
+        navigate
+    ]);
+    const handleSaveProfile = ()=>{
+        // Mettre à jour les données utilisateur
+        const updatedUser = {
+            ...currentUser,
+            name: profileData.name,
+            email: profileData.email
+        };
+        // Sauvegarder l'utilisateur
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const updatedUsers = users.map((u)=>u.id === currentUser.id ? updatedUser : u);
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+        // Sauvegarder le profil
+        const userProfile = {
+            phone: profileData.phone,
+            company: profileData.company,
+            position: profileData.position,
+            bio: profileData.bio,
+            skills: profileData.skills,
+            website: profileData.website,
+            updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem(`userProfile_${currentUser.id}`, JSON.stringify(userProfile));
+        setCurrentUser(updatedUser);
+        setIsEditing(false);
+        alert("Profil mis \xe0 jour avec succ\xe8s !");
+    };
+    const handleChangePassword = ()=>{
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            alert("Les nouveaux mots de passe ne correspondent pas");
+            return;
+        }
+        if (passwordData.newPassword.length < 6) {
+            alert("Le mot de passe doit contenir au moins 6 caract\xe8res");
+            return;
+        }
+        // Vérifier l'ancien mot de passe
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const user = users.find((u)=>u.id === currentUser.id);
+        if (user.password !== passwordData.currentPassword) {
+            alert("Mot de passe actuel incorrect");
+            return;
+        }
+        // Mettre à jour le mot de passe
+        const updatedUsers = users.map((u)=>u.id === currentUser.id ? {
+                ...u,
+                password: passwordData.newPassword
+            } : u);
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        // Mettre à jour l'utilisateur courant
+        const updatedUser = {
+            ...currentUser,
+            password: passwordData.newPassword
+        };
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+        setPasswordData({
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        });
+        alert("Mot de passe chang\xe9 avec succ\xe8s !");
+    };
+    const handleDeleteAccount = ()=>{
+        if (!window.confirm("\xcates-vous s\xfbr de vouloir supprimer votre compte ? Cette action est irr\xe9versible.")) return;
+        // Supprimer l'utilisateur
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const updatedUsers = users.filter((u)=>u.id !== currentUser.id);
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        // Supprimer le profil
+        localStorage.removeItem(`userProfile_${currentUser.id}`);
+        // Supprimer les sessions de l'utilisateur
+        const sessions = JSON.parse(localStorage.getItem("mentoringSessions") || "[]");
+        const updatedSessions = sessions.filter((s)=>s.clientId !== currentUser.id);
+        localStorage.setItem("mentoringSessions", JSON.stringify(updatedSessions));
+        // Supprimer les projets de l'utilisateur (ou les garder avec client inconnu)
+        const projects = JSON.parse(localStorage.getItem("projects") || "[]");
+        const updatedProjects = projects.filter((p)=>p.clientId !== currentUser.id);
+        localStorage.setItem("projects", JSON.stringify(updatedProjects));
+        // Déconnexion
+        localStorage.removeItem("currentUser");
+        navigate("/");
+        alert("Compte supprim\xe9 avec succ\xe8s.");
+    };
+    if (!currentUser) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: "6rem",
+            textAlign: "center",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+            children: "Chargement..."
+        }, void 0, false, {
+            fileName: "src/Components/ClientProfile.jsx",
+            lineNumber: 195,
+            columnNumber: 9
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/ClientProfile.jsx",
+        lineNumber: 186,
+        columnNumber: 7
+    }, undefined);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            paddingTop: "5rem",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
+            paddingBottom: "2rem",
+            minHeight: "100vh",
+            backgroundColor: "#f5f7fa"
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            style: {
+                maxWidth: "1400px",
+                margin: "0 auto"
+            },
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: "white",
+                        padding: "1.5rem",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                        marginBottom: "1.5rem"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                            style: {
+                                margin: 0,
+                                color: "#2c3e50",
+                                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                                marginBottom: "0.5rem"
+                            },
+                            children: "Mon Profil"
+                        }, void 0, false, {
+                            fileName: "src/Components/ClientProfile.jsx",
+                            lineNumber: 221,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            style: {
+                                color: "#5d6d7e",
+                                fontSize: "clamp(0.9rem, 1.2vw, 1rem)"
+                            },
+                            children: "G\xe9rez vos informations personnelles et consultez votre activit\xe9"
+                        }, void 0, false, {
+                            fileName: "src/Components/ClientProfile.jsx",
+                            lineNumber: 229,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/ClientProfile.jsx",
+                    lineNumber: 214,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    style: {
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                        gap: "1.5rem",
+                        marginBottom: "1.5rem"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "white",
+                                        padding: "1.5rem",
+                                        borderRadius: "12px",
+                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                alignItems: "center",
+                                                marginBottom: "1.5rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                                    style: {
+                                                        margin: 0,
+                                                        color: "#2c3e50",
+                                                        fontSize: "1.3rem"
+                                                    },
+                                                    children: "Informations personnelles"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 259,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                !isEditing ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                    onClick: ()=>setIsEditing(true),
+                                                    style: {
+                                                        backgroundColor: "#3498db",
+                                                        color: "white",
+                                                        border: "none",
+                                                        padding: "0.5rem 1rem",
+                                                        borderRadius: "6px",
+                                                        cursor: "pointer",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Modifier"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 267,
+                                                    columnNumber: 19
+                                                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        gap: "0.5rem"
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            onClick: handleSaveProfile,
+                                                            style: {
+                                                                backgroundColor: "#2ecc71",
+                                                                color: "white",
+                                                                border: "none",
+                                                                padding: "0.5rem 1rem",
+                                                                borderRadius: "6px",
+                                                                cursor: "pointer",
+                                                                fontSize: "0.9rem"
+                                                            },
+                                                            children: "Enregistrer"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 283,
+                                                            columnNumber: 21
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            onClick: ()=>setIsEditing(false),
+                                                            style: {
+                                                                backgroundColor: "#95a5a6",
+                                                                color: "white",
+                                                                border: "none",
+                                                                padding: "0.5rem 1rem",
+                                                                borderRadius: "6px",
+                                                                cursor: "pointer",
+                                                                fontSize: "0.9rem"
+                                                            },
+                                                            children: "Annuler"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 297,
+                                                            columnNumber: 21
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 282,
+                                                    columnNumber: 19
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 253,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Nom complet *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 316,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "text",
+                                                    value: profileData.name,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            name: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 324,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 315,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Email *"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 342,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "email",
+                                                    value: profileData.email,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            email: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    required: true
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 350,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 341,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "T\xe9l\xe9phone"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 368,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "tel",
+                                                    value: profileData.phone,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            phone: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    placeholder: "+33 1 23 45 67 89"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 376,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 367,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                display: "grid",
+                                                gridTemplateColumns: "1fr 1fr",
+                                                gap: "1rem",
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: "0.9rem"
+                                                            },
+                                                            children: "Entreprise"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 400,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                            type: "text",
+                                                            value: profileData.company,
+                                                            onChange: (e)=>setProfileData({
+                                                                    ...profileData,
+                                                                    company: e.target.value
+                                                                }),
+                                                            disabled: !isEditing,
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.7rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: "0.95rem",
+                                                                backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                            },
+                                                            placeholder: "Nom de l'entreprise"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 408,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 399,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                            style: {
+                                                                display: "block",
+                                                                marginBottom: "0.5rem",
+                                                                color: "#5d6d7e",
+                                                                fontSize: "0.9rem"
+                                                            },
+                                                            children: "Poste"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 426,
+                                                            columnNumber: 19
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                            type: "text",
+                                                            value: profileData.position,
+                                                            onChange: (e)=>setProfileData({
+                                                                    ...profileData,
+                                                                    position: e.target.value
+                                                                }),
+                                                            disabled: !isEditing,
+                                                            style: {
+                                                                width: "100%",
+                                                                padding: "0.7rem",
+                                                                border: "1px solid #ddd",
+                                                                borderRadius: "6px",
+                                                                fontSize: "0.95rem",
+                                                                backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                            },
+                                                            placeholder: "D\xe9veloppeur, Chef de projet..."
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/ClientProfile.jsx",
+                                                            lineNumber: 434,
+                                                            columnNumber: 19
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 425,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 393,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Site web / Portfolio"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 453,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "url",
+                                                    value: profileData.website,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            website: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    placeholder: "https://votresite.com"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 461,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 452,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Comp\xe9tences"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 479,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "text",
+                                                    value: profileData.skills,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            skills: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    placeholder: "React, Node.js, Python, UX Design..."
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 487,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 478,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Biographie"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 505,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                                                    value: profileData.bio,
+                                                    onChange: (e)=>setProfileData({
+                                                            ...profileData,
+                                                            bio: e.target.value
+                                                        }),
+                                                    disabled: !isEditing,
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem",
+                                                        minHeight: "100px",
+                                                        backgroundColor: isEditing ? "white" : "#f8f9fa"
+                                                    },
+                                                    placeholder: "Pr\xe9sentez-vous en quelques mots..."
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 513,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 504,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 246,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "#f8f9fa",
+                                        padding: "1.5rem",
+                                        borderRadius: "8px",
+                                        marginBottom: "1.2rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
+                                            style: {
+                                                color: "#2c3e50",
+                                                marginBottom: "1rem",
+                                                fontSize: "1.1rem"
+                                            },
+                                            children: "R\xe9capitulatif d'activit\xe9"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 538,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1.2rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
+                                                    style: {
+                                                        color: "#5d6d7e",
+                                                        marginBottom: "0.5rem",
+                                                        fontSize: "1rem"
+                                                    },
+                                                    children: "Projets"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 547,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "0.8rem",
+                                                        marginBottom: "0.5rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            flex: 1
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontSize: "0.9rem",
+                                                                            color: "#7f8c8d"
+                                                                        },
+                                                                        children: "Total"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 565,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontWeight: "500",
+                                                                            color: "#2c3e50"
+                                                                        },
+                                                                        children: stats.totalProjects
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 571,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 561,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    height: "6px",
+                                                                    backgroundColor: "#e1e8ed",
+                                                                    borderRadius: "3px",
+                                                                    marginTop: "0.3rem"
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 578,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                        lineNumber: 560,
+                                                        columnNumber: 19
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 554,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "0.8rem",
+                                                        marginBottom: "0.5rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            flex: 1
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontSize: "0.9rem",
+                                                                            color: "#7f8c8d"
+                                                                        },
+                                                                        children: "En cours"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 597,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontWeight: "500",
+                                                                            color: "#3498db"
+                                                                        },
+                                                                        children: stats.inProgressProjects
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 603,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 593,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    height: "6px",
+                                                                    backgroundColor: "#3498db",
+                                                                    borderRadius: "3px",
+                                                                    marginTop: "0.3rem",
+                                                                    width: `${stats.totalProjects > 0 ? stats.inProgressProjects / stats.totalProjects * 100 : 0}%`
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 610,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                        lineNumber: 592,
+                                                        columnNumber: 19
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 586,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "0.8rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            flex: 1
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontSize: "0.9rem",
+                                                                            color: "#7f8c8d"
+                                                                        },
+                                                                        children: "Termin\xe9s"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 629,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontWeight: "500",
+                                                                            color: "#2ecc71"
+                                                                        },
+                                                                        children: stats.completedProjects
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 635,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 625,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    height: "6px",
+                                                                    backgroundColor: "#2ecc71",
+                                                                    borderRadius: "3px",
+                                                                    marginTop: "0.3rem",
+                                                                    width: `${stats.totalProjects > 0 ? stats.completedProjects / stats.totalProjects * 100 : 0}%`
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 642,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                        lineNumber: 624,
+                                                        columnNumber: 19
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 619,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 546,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
+                                                    style: {
+                                                        color: "#5d6d7e",
+                                                        marginBottom: "0.5rem",
+                                                        fontSize: "1rem"
+                                                    },
+                                                    children: "Mentorat"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 654,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: "0.8rem"
+                                                    },
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        style: {
+                                                            flex: 1
+                                                        },
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontSize: "0.9rem",
+                                                                            color: "#7f8c8d"
+                                                                        },
+                                                                        children: "Sessions planifi\xe9es"
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 671,
+                                                                        columnNumber: 23
+                                                                    }, undefined),
+                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            fontWeight: "500",
+                                                                            color: "#9b59b6"
+                                                                        },
+                                                                        children: stats.upcomingSessions
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                                        lineNumber: 677,
+                                                                        columnNumber: 23
+                                                                    }, undefined)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 667,
+                                                                columnNumber: 21
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    height: "6px",
+                                                                    backgroundColor: "#9b59b6",
+                                                                    borderRadius: "3px",
+                                                                    marginTop: "0.3rem"
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/ClientProfile.jsx",
+                                                                lineNumber: 684,
+                                                                columnNumber: 21
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                        lineNumber: 666,
+                                                        columnNumber: 19
+                                                    }, undefined)
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 661,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 653,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 532,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    onClick: ()=>{
+                                        localStorage.removeItem("currentUser");
+                                        navigate("/");
+                                    },
+                                    style: {
+                                        backgroundColor: "#e74c3c",
+                                        color: "white",
+                                        border: "none",
+                                        padding: "0.8rem 1.5rem",
+                                        borderRadius: "6px",
+                                        cursor: "pointer",
+                                        fontSize: "0.95rem",
+                                        width: "100%",
+                                        fontWeight: "500"
+                                    },
+                                    children: "D\xe9connexion"
+                                }, void 0, false, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 696,
+                                    columnNumber: 13
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ClientProfile.jsx",
+                            lineNumber: 245,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "white",
+                                        padding: "1.5rem",
+                                        borderRadius: "12px",
+                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                            style: {
+                                                margin: "0 0 1.5rem 0",
+                                                color: "#2c3e50",
+                                                fontSize: "1.3rem"
+                                            },
+                                            children: "Changer le mot de passe"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 727,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Mot de passe actuel"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 736,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "password",
+                                                    value: passwordData.currentPassword,
+                                                    onChange: (e)=>setPasswordData({
+                                                            ...passwordData,
+                                                            currentPassword: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem"
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 744,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 735,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Nouveau mot de passe"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 759,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "password",
+                                                    value: passwordData.newPassword,
+                                                    onChange: (e)=>setPasswordData({
+                                                            ...passwordData,
+                                                            newPassword: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem"
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 767,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 758,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1.5rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                    style: {
+                                                        display: "block",
+                                                        marginBottom: "0.5rem",
+                                                        color: "#5d6d7e",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Confirmer le nouveau mot de passe"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 782,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                    type: "password",
+                                                    value: passwordData.confirmPassword,
+                                                    onChange: (e)=>setPasswordData({
+                                                            ...passwordData,
+                                                            confirmPassword: e.target.value
+                                                        }),
+                                                    style: {
+                                                        width: "100%",
+                                                        padding: "0.7rem",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "6px",
+                                                        fontSize: "0.95rem"
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 790,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 781,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            onClick: handleChangePassword,
+                                            style: {
+                                                backgroundColor: "#3498db",
+                                                color: "white",
+                                                border: "none",
+                                                padding: "0.8rem 1.5rem",
+                                                borderRadius: "6px",
+                                                cursor: "pointer",
+                                                fontSize: "0.95rem",
+                                                width: "100%",
+                                                fontWeight: "500"
+                                            },
+                                            children: "Changer le mot de passe"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 804,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 720,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "white",
+                                        padding: "1.5rem",
+                                        borderRadius: "12px",
+                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                        marginBottom: "1.5rem"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                            style: {
+                                                margin: "0 0 1.5rem 0",
+                                                color: "#2c3e50",
+                                                fontSize: "1.3rem"
+                                            },
+                                            children: "Informations du compte"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 830,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        fontWeight: "500",
+                                                        color: "#7f8c8d",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Type de compte:"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 839,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        backgroundColor: currentUser.userType === "admin" ? "#e74c3c" : "#3498db",
+                                                        color: "white",
+                                                        padding: "0.2rem 0.6rem",
+                                                        borderRadius: "12px",
+                                                        fontSize: "0.8rem",
+                                                        marginLeft: "0.5rem"
+                                                    },
+                                                    children: currentUser.userType === "admin" ? "Administrateur" : "Client"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 846,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 838,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        fontWeight: "500",
+                                                        color: "#7f8c8d",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Date d'inscription:"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 859,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        color: "#2c3e50",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: new Date(currentUser.createdAt).toLocaleDateString("fr-FR", {
+                                                        day: "2-digit",
+                                                        month: "long",
+                                                        year: "numeric"
+                                                    })
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 866,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 858,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        fontWeight: "500",
+                                                        color: "#7f8c8d",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "ID utilisateur:"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 879,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        color: "#2c3e50",
+                                                        fontFamily: "monospace",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: currentUser.id
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 886,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 878,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: "1.5rem"
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        fontWeight: "500",
+                                                        color: "#7f8c8d",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: "Derni\xe8re connexion:"
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 896,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    style: {
+                                                        color: "#2c3e50",
+                                                        fontSize: "0.9rem"
+                                                    },
+                                                    children: new Date().toLocaleDateString("fr-FR", {
+                                                        day: "2-digit",
+                                                        month: "long",
+                                                        year: "numeric"
+                                                    })
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/ClientProfile.jsx",
+                                                    lineNumber: 903,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 895,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            style: {
+                                                backgroundColor: "#fef9e7",
+                                                padding: "1rem",
+                                                borderRadius: "6px",
+                                                borderLeft: "4px solid #f39c12",
+                                                marginTop: "1rem"
+                                            },
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                style: {
+                                                    margin: 0,
+                                                    color: "#f39c12",
+                                                    fontSize: "0.85rem"
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
+                                                        children: "Note :"
+                                                    }, void 0, false, {
+                                                        fileName: "src/Components/ClientProfile.jsx",
+                                                        lineNumber: 927,
+                                                        columnNumber: 19
+                                                    }, undefined),
+                                                    " Pour toute question concernant votre compte, contactez-nous \xe0 contact@emmanuelamela.com"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Components/ClientProfile.jsx",
+                                                lineNumber: 922,
+                                                columnNumber: 17
+                                            }, undefined)
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 915,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 823,
+                                    columnNumber: 13
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    style: {
+                                        backgroundColor: "white",
+                                        padding: "1.5rem",
+                                        borderRadius: "12px",
+                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                        border: "1px solid #e74c3c"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                            style: {
+                                                margin: "0 0 1rem 0",
+                                                color: "#e74c3c",
+                                                fontSize: "1.3rem"
+                                            },
+                                            children: "Zone dangereuse"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 940,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                            style: {
+                                                color: "#5d6d7e",
+                                                marginBottom: "1.5rem",
+                                                fontSize: "0.9rem"
+                                            },
+                                            children: "La suppression de votre compte est irr\xe9versible. Toutes vos donn\xe9es, projets et sessions seront d\xe9finitivement supprim\xe9s."
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 947,
+                                            columnNumber: 15
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            onClick: handleDeleteAccount,
+                                            style: {
+                                                backgroundColor: "#e74c3c",
+                                                color: "white",
+                                                border: "none",
+                                                padding: "0.8rem 1.5rem",
+                                                borderRadius: "6px",
+                                                cursor: "pointer",
+                                                fontSize: "0.95rem",
+                                                width: "100%",
+                                                fontWeight: "500"
+                                            },
+                                            children: "Supprimer mon compte"
+                                        }, void 0, false, {
+                                            fileName: "src/Components/ClientProfile.jsx",
+                                            lineNumber: 955,
+                                            columnNumber: 15
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/ClientProfile.jsx",
+                                    lineNumber: 933,
+                                    columnNumber: 13
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/Components/ClientProfile.jsx",
+                            lineNumber: 718,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/ClientProfile.jsx",
+                    lineNumber: 238,
+                    columnNumber: 9
+                }, undefined)
+            ]
+        }, void 0, true, {
+            fileName: "src/Components/ClientProfile.jsx",
+            lineNumber: 209,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Components/ClientProfile.jsx",
+        lineNumber: 201,
+        columnNumber: 5
+    }, undefined);
+};
+_s(ClientProfile, "LJVHL6+hDVFiPZ2bEtRzyYWnSDE=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
+_c = ClientProfile;
+exports.default = ClientProfile;
+var _c;
+$RefreshReg$(_c, "ClientProfile");
+
+  $parcel$ReactRefreshHelpers$fca5.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"3uBgY":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$a714 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -90757,6 +90631,93 @@ $RefreshReg$(_c, "Securite");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["1xC6H","ShInH","8lqZg"], "8lqZg", "parcelRequire6158")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lW6qc":[function() {},{}],"b6dt0":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initializeData", ()=>initializeData);
+parcelHelpers.export(exports, "getCurrentUser", ()=>getCurrentUser);
+parcelHelpers.export(exports, "isAdmin", ()=>isAdmin);
+parcelHelpers.export(exports, "formatDate", ()=>formatDate);
+parcelHelpers.export(exports, "formatTime", ()=>formatTime);
+const initializeData = ()=>{
+    // Créer l'admin par défaut s'il n'existe pas
+    const adminUser = {
+        id: 1,
+        name: "Emmanuel Admin",
+        email: "admin@emmanuel.com",
+        password: "admin123",
+        userType: "admin",
+        createdAt: new Date().toISOString()
+    };
+    // Initialiser les données si elles n'existent pas
+    if (!localStorage.getItem("users")) localStorage.setItem("users", JSON.stringify([
+        adminUser
+    ]));
+    if (!localStorage.getItem("projects")) localStorage.setItem("projects", JSON.stringify([]));
+    if (!localStorage.getItem("adminResources")) localStorage.setItem("adminResources", JSON.stringify([]));
+    if (!localStorage.getItem("mentoringSessions")) localStorage.setItem("mentoringSessions", JSON.stringify([]));
+    // Créer quelques données de démonstration pour les ressources
+    const resources = JSON.parse(localStorage.getItem("adminResources") || "[]");
+    if (resources.length === 0) {
+        const demoResources = [
+            {
+                id: 1,
+                title: "Guide complet React Hooks",
+                description: "Tout ce que vous devez savoir sur les hooks React, avec des exemples pratiques et des cas d'utilisation avanc\xe9s.",
+                type: "tutorial",
+                category: "React",
+                date: new Date().toISOString(),
+                author: "Emmanuel AMELA",
+                status: "published"
+            },
+            {
+                id: 2,
+                title: "Package NPM: utils-js",
+                description: "Collection d'utilitaires JavaScript r\xe9utilisables pour les projets modernes.",
+                type: "package",
+                category: "JavaScript",
+                date: new Date().toISOString(),
+                author: "Emmanuel AMELA",
+                status: "published"
+            },
+            {
+                id: 3,
+                title: "Snippet: Hook useFetch personnalis\xe9",
+                description: "Hook React pour g\xe9rer les appels API avec gestion d'\xe9tat (loading, error, data).",
+                type: "snippet",
+                category: "React",
+                date: new Date().toISOString(),
+                author: "Emmanuel AMELA",
+                status: "published"
+            }
+        ];
+        localStorage.setItem("adminResources", JSON.stringify(demoResources));
+    }
+};
+const getCurrentUser = ()=>{
+    const savedUser = localStorage.getItem("currentUser");
+    return savedUser ? JSON.parse(savedUser) : null;
+};
+const isAdmin = ()=>{
+    const user = getCurrentUser();
+    return user && user.userType === "admin";
+};
+const formatDate = (dateString)=>{
+    const date = new Date(dateString);
+    return date.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+};
+const formatTime = (dateString)=>{
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1xC6H","ShInH","8lqZg"], "8lqZg", "parcelRequire6158")
 
 //# sourceMappingURL=index.975ef6c8.js.map
