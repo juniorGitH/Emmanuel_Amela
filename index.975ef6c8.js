@@ -27388,6 +27388,10 @@ const HomePage = ({ name , title  })=>{
 _c1 = HomePage;
 const App = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.BrowserRouter), {
+        future: {
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+        },
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Routes), {
             children: [
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -34875,24 +34879,13 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 /**
  * About component
- *
- * Space for you to describe more about yourself.
  */ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-/**
- * About background image
- *
- * Upload the image of your choice into the "images" directory
- * and import it here.
- */ var _fondoTecnologiaJpg = require("../images/fondo-tecnologia.jpg");
+var _fondoTecnologiaJpg = require("../images/fondo-tecnologia.jpg");
 var _fondoTecnologiaJpgDefault = parcelHelpers.interopDefault(_fondoTecnologiaJpg);
 const imageAltText = "purple and blue abstract technology background";
-/**
- * Short description that expands on your title on the Home component.
- */ const description = "I am a Software Engineer and Microsoft Student Ambassador, currently pursuing a Master of Science (MSc) in Computer Systems through a double-degree program between the \xc9cole Polytechnique de Lom\xe9 (EPL) and the Universit\xe9 de Technologie de Belfort-Montb\xe9liard (UTBM). My academic focus is on advanced computing, intelligent systems, and scientific computing, with a strong interest in research-driven technological innovation.";
-/**
- * List of skills, technologies, and areas of expertise.
- */ const skillsList = [
+const description = "I am a Software Engineer and Microsoft Student Ambassador, currently pursuing a Master of Science (MSc) in Computer Systems through a double-degree program between the \xc9cole Polytechnique de Lom\xe9 (EPL) and the Universit\xe9 de Technologie de Belfort-Montb\xe9liard (UTBM). My academic focus is on advanced computing, intelligent systems, and scientific computing, with a strong interest in research-driven technological innovation.";
+const skillsList = [
     "Software engineering and system design",
     "Backend and RESTful API development",
     "Artificial intelligence and machine learning fundamentals",
@@ -34902,13 +34895,18 @@ const imageAltText = "purple and blue abstract technology background";
     "Database design and data management",
     "Research-oriented problem solving and experimentation", 
 ];
-/**
- * Additional information or personal statement.
- */ const detailOrQuote = "I am driven by the application of computing to scientific and societal challenges. Through research, engineering, and community engagement, I strive to contribute to the development of intelligent, reliable, and accessible systems that can create meaningful impact in Africa and beyond.";
+const detailOrQuote = "I am driven by the application of computing to scientific and societal challenges. Through research, engineering, and community engagement, I strive to contribute to the development of intelligent, reliable, and accessible systems that can create meaningful impact in Africa and beyond.";
 const About = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
         className: "padding",
         id: "about",
+        style: {
+            width: "100%",
+            maxWidth: "100%",
+            boxSizing: "border-box",
+            overflowX: "hidden",
+            position: "relative"
+        },
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                 className: "background",
@@ -34917,23 +34915,26 @@ const About = ()=>{
                 style: {
                     width: "100%",
                     height: "auto",
-                    objectFit: "cover"
+                    objectFit: "cover",
+                    display: "block"
                 }
             }, void 0, false, {
                 fileName: "src/Components/About.jsx",
-                lineNumber: 47,
-                columnNumber: 13
+                lineNumber: 39,
+                columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 style: {
                     backgroundColor: "white",
                     width: "90%",
                     maxWidth: "1000px",
-                    padding: "2rem",
+                    padding: "clamp(1rem, 4vw, 2rem)",
                     margin: "3rem auto",
                     textAlign: "center",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    borderRadius: "8px"
+                    borderRadius: "8px",
+                    boxSizing: "border-box",
+                    wordBreak: "break-word"
                 },
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -34943,19 +34944,21 @@ const About = ()=>{
                         children: "About Myself"
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 70,
-                        columnNumber: 17
+                        lineNumber: 65,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                         className: "large",
                         style: {
-                            fontSize: "calc(1rem + 0.5vw)"
+                            fontSize: "calc(0.9rem + 0.4vw)",
+                            lineHeight: "1.7",
+                            wordBreak: "break-word"
                         },
                         children: description
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 74,
-                        columnNumber: 17
+                        lineNumber: 67,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("hr", {
                         style: {
@@ -34964,42 +34967,46 @@ const About = ()=>{
                         }
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 81,
-                        columnNumber: 17
+                        lineNumber: 78,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         style: {
                             textAlign: "left",
                             margin: "2rem auto",
-                            maxWidth: "800px"
+                            maxWidth: "800px",
+                            boxSizing: "border-box"
                         },
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
                             style: {
                                 columns: "auto 2",
-                                columnGap: "3rem",
-                                fontSize: "calc(0.9rem + 0.4vw)",
-                                padding: "0 1rem",
-                                listStylePosition: "inside"
+                                columnGap: "2rem",
+                                fontSize: "calc(0.85rem + 0.3vw)",
+                                padding: "0 0.5rem",
+                                listStylePosition: "inside",
+                                boxSizing: "border-box"
                             },
                             children: skillsList.map((skill)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                                     style: {
-                                        marginBottom: "0.75rem"
+                                        marginBottom: "0.75rem",
+                                        breakInside: "avoid",
+                                        wordBreak: "break-word"
                                     },
                                     children: skill
                                 }, skill, false, {
                                     fileName: "src/Components/About.jsx",
-                                    lineNumber: 100,
-                                    columnNumber: 29
+                                    lineNumber: 99,
+                                    columnNumber: 15
                                 }, undefined))
                         }, void 0, false, {
                             fileName: "src/Components/About.jsx",
-                            lineNumber: 90,
-                            columnNumber: 21
+                            lineNumber: 88,
+                            columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 83,
-                        columnNumber: 17
+                        lineNumber: 80,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("hr", {
                         style: {
@@ -35008,33 +35015,35 @@ const About = ()=>{
                         }
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 110,
-                        columnNumber: 17
+                        lineNumber: 113,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                         style: {
                             padding: "1rem",
-                            fontSize: "calc(0.9rem + 0.4vw)",
+                            fontSize: "calc(0.85rem + 0.3vw)",
                             maxWidth: "800px",
-                            margin: "0 auto"
+                            margin: "0 auto",
+                            lineHeight: "1.7",
+                            wordBreak: "break-word"
                         },
                         children: detailOrQuote
                     }, void 0, false, {
                         fileName: "src/Components/About.jsx",
-                        lineNumber: 112,
-                        columnNumber: 17
+                        lineNumber: 115,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/About.jsx",
-                lineNumber: 58,
-                columnNumber: 13
+                lineNumber: 51,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/About.jsx",
-        lineNumber: 46,
-        columnNumber: 9
+        lineNumber: 28,
+        columnNumber: 5
     }, undefined);
 };
 _c = About;
@@ -35475,7 +35484,7 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 /**
  * Header component avec authentification multi-utilisateurs
- * Version responsive optimisée
+ * Version responsive optimisée - Boutons visibles sur tous les écrans
  */ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
@@ -35509,8 +35518,7 @@ const Header = ()=>{
     (0, _react.useEffect)(()=>{
         const checkScreenSize = ()=>{
             const width = window.innerWidth;
-            // Utilisation de breakpoints adaptés
-            const mobileBreakpoint = 992; // 992px pour tablette
+            const mobileBreakpoint = 992;
             setIsMobile(width <= mobileBreakpoint);
             if (width > mobileBreakpoint) setIsMenuOpen(false);
         };
@@ -35523,11 +35531,9 @@ const Header = ()=>{
     // Gérer les clics en dehors du menu profil et du menu mobile
     (0, _react.useEffect)(()=>{
         const handleClickOutside = (event)=>{
-            // Fermer le menu mobile
             const hamburgerButton = document.querySelector(".hamburger-button");
             const mobileMenu = document.querySelector(".mobile-menu");
             if (isMenuOpen && mobileMenu && !mobileMenu.contains(event.target) && hamburgerButton && !hamburgerButton.contains(event.target)) setIsMenuOpen(false);
-            // Fermer le menu profil
             if (showProfileMenu && profileMenuRef.current && !profileMenuRef.current.contains(event.target) && profileButtonRef.current && !profileButtonRef.current.contains(event.target)) setShowProfileMenu(false);
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -35556,7 +35562,6 @@ const Header = ()=>{
         if (e) e.preventDefault();
         if (isMenuOpen) setIsMenuOpen(false);
         setShowProfileMenu(false);
-        // Always navigate to '/' with state to trigger Layout's scrolling logic
         navigate("/", {
             state: {
                 scrollTo: "home"
@@ -35568,7 +35573,6 @@ const Header = ()=>{
         if (e) e.preventDefault();
         if (isMenuOpen) setIsMenuOpen(false);
         setShowProfileMenu(false);
-        // Always navigate to '/' with state to trigger Layout's scrolling logic
         navigate("/", {
             state: {
                 scrollTo: sectionId
@@ -35579,7 +35583,6 @@ const Header = ()=>{
     const handleAuth = (e)=>{
         e.preventDefault();
         if (isLoginMode) {
-            // Connexion
             const users = JSON.parse(localStorage.getItem("users") || "[]");
             const user = users.find((u)=>u.email === authData.email && u.password === authData.password);
             if (user) {
@@ -35595,9 +35598,7 @@ const Header = ()=>{
                 navigate(user.userType === "admin" ? "/admin" : "/dashboard");
             } else alert("Identifiants incorrects. Inscrivez-vous si vous n'avez pas de compte.");
         } else {
-            // Inscription
             const users1 = JSON.parse(localStorage.getItem("users") || "[]");
-            // Vérifier si l'email existe déjà
             if (users1.find((u)=>u.email === authData.email)) {
                 alert("Cet email est d\xe9j\xe0 utilis\xe9. Connectez-vous ou utilisez un autre email.");
                 return;
@@ -35639,7 +35640,7 @@ const Header = ()=>{
     const toggleProfileMenu = ()=>{
         setShowProfileMenu(!showProfileMenu);
     };
-    // Styles optimisés pour mobile
+    // Styles optimisés
     const navLinkStyle = (isActive)=>({
             color: isActive ? "#3498db" : "#2c3e50",
             textDecoration: "none",
@@ -35696,7 +35697,6 @@ const Header = ()=>{
             fontSize: "0.85rem"
         };
     };
-    // Style pour les boutons du menu profil
     const profileMenuItemStyle = {
         width: "100%",
         padding: "0.7rem 0.85rem",
@@ -35718,33 +35718,10 @@ const Header = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("header", {
-                style: {
-                    position: "fixed",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    background: "rgba(255,255,255,0.98)",
-                    padding: "0.85rem clamp(0.75rem, 3vw, 2rem)",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    zIndex: 1000,
-                    boxShadow: "0 2px 15px rgba(0, 0, 0, 0.1)",
-                    backdropFilter: "blur(10px)",
-                    maxWidth: "100vw",
-                    boxSizing: "border-box",
-                    overflow: "visible",
-                    height: "65px",
-                    WebkitTapHighlightColor: "transparent"
-                },
+                className: "site-header",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        style: {
-                            display: "flex",
-                            alignItems: "center",
-                            flexShrink: 0,
-                            minWidth: "100px"
-                        },
+                        className: "header-logo",
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
                             to: "/",
                             onClick: handleHomeClick,
@@ -35765,31 +35742,23 @@ const Header = ()=>{
                                 loading: "eager"
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 313,
+                                lineNumber: 271,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 302,
+                            lineNumber: 260,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 296,
+                        lineNumber: 259,
                         columnNumber: 9
                     }, undefined),
                     !isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("nav", {
-                                style: {
-                                    display: "flex",
-                                    gap: "clamp(0.8rem, 1.5vw, 1.8rem)",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flex: 1,
-                                    maxWidth: "550px",
-                                    margin: "0 1rem"
-                                },
+                                className: "desktop-nav",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                         onClick: handleHomeClick,
@@ -35798,7 +35767,7 @@ const Header = ()=>{
                                         children: "Accueil"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 338,
+                                        lineNumber: 287,
                                         columnNumber: 15
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -35808,7 +35777,7 @@ const Header = ()=>{
                                         children: "\xc0 propos"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 346,
+                                        lineNumber: 295,
                                         columnNumber: 15
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -35818,7 +35787,7 @@ const Header = ()=>{
                                         children: "Portfolio"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 354,
+                                        lineNumber: 303,
                                         columnNumber: 15
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -35828,380 +35797,280 @@ const Header = ()=>{
                                         children: "Ressources"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 362,
+                                        lineNumber: 311,
                                         columnNumber: 15
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 329,
+                                lineNumber: 286,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "0.7rem",
-                                    flexShrink: 0,
-                                    minWidth: "50px",
-                                    justifyContent: "flex-end",
-                                    position: "relative"
-                                },
-                                children: currentUser ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            position: "relative",
-                                            zIndex: 9999
-                                        },
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                ref: profileButtonRef,
-                                                onClick: toggleProfileMenu,
-                                                style: {
-                                                    width: "40px",
-                                                    height: "40px",
-                                                    borderRadius: "50%",
-                                                    backgroundColor: "#3498db",
-                                                    border: "none",
-                                                    cursor: "pointer",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    fontSize: "1.1rem",
-                                                    transition: "all 0.3s ease",
-                                                    boxShadow: showProfileMenu ? "0 0 0 3px rgba(52, 152, 219, 0.3)" : "none",
-                                                    color: "white",
-                                                    padding: 0,
-                                                    marginLeft: "0.3rem",
-                                                    fontWeight: "bold",
-                                                    WebkitTapHighlightColor: "transparent"
-                                                },
-                                                title: currentUser.name,
-                                                "aria-label": "Menu profil",
-                                                "aria-expanded": showProfileMenu,
-                                                children: currentUser.name.charAt(0).toUpperCase()
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Header.jsx",
-                                                lineNumber: 388,
-                                                columnNumber: 21
-                                            }, undefined),
-                                            showProfileMenu && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                ref: profileMenuRef,
-                                                style: {
-                                                    position: "fixed",
-                                                    top: "65px",
-                                                    right: "clamp(0.75rem, 3vw, 1rem)",
-                                                    backgroundColor: "white",
-                                                    border: "1px solid #ddd",
-                                                    borderRadius: "8px",
-                                                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
-                                                    zIndex: 99999,
-                                                    minWidth: "220px",
-                                                    maxWidth: "min(90vw, 280px)",
-                                                    overflow: "hidden",
-                                                    animation: "slideDown 0.2s ease"
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            padding: "0.9rem",
-                                                            borderBottom: "1px solid #eee",
-                                                            backgroundColor: "#f8f9fa"
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontWeight: "bold",
-                                                                    color: "#2c3e50",
-                                                                    fontSize: "0.9rem",
-                                                                    marginBottom: "0.2rem",
-                                                                    wordBreak: "break-word"
-                                                                },
-                                                                children: currentUser.name
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 441,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontSize: "0.8rem",
-                                                                    color: "#7f8c8d",
-                                                                    wordBreak: "break-word"
-                                                                },
-                                                                children: currentUser.email
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 450,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    fontSize: "0.7rem",
-                                                                    color: currentUser.userType === "admin" ? "#e74c3c" : "#3498db",
-                                                                    marginTop: "0.3rem",
-                                                                    fontWeight: "500"
-                                                                },
-                                                                children: currentUser.userType === "admin" ? "Administrateur" : "Client"
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 457,
-                                                                columnNumber: 27
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 436,
-                                                        columnNumber: 25
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            padding: "0.2rem 0"
-                                                        },
-                                                        children: [
-                                                            currentUser.userType === "client" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                        onClick: ()=>{
-                                                                            navigate("/dashboard");
-                                                                            setShowProfileMenu(false);
-                                                                        },
-                                                                        style: profileMenuItemStyle,
-                                                                        className: "profile-menu-item",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                style: {
-                                                                                    minWidth: "22px",
-                                                                                    fontSize: "0.95rem"
-                                                                                },
-                                                                                children: "\uD83D\uDCCA"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 479,
-                                                                                columnNumber: 33
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                children: "Mon Tableau de Bord"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 480,
-                                                                                columnNumber: 33
-                                                                            }, undefined)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 471,
-                                                                        columnNumber: 31
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                        onClick: ()=>{
-                                                                            navigate("/mentoring");
-                                                                            setShowProfileMenu(false);
-                                                                        },
-                                                                        style: profileMenuItemStyle,
-                                                                        className: "profile-menu-item",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                style: {
-                                                                                    minWidth: "22px",
-                                                                                    fontSize: "0.95rem"
-                                                                                },
-                                                                                children: "\uD83D\uDC68‍\uD83C\uDFEB"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 490,
-                                                                                columnNumber: 33
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                children: "Mentorat"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 491,
-                                                                                columnNumber: 33
-                                                                            }, undefined)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 482,
-                                                                        columnNumber: 31
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true),
-                                                            currentUser.userType === "admin" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                        onClick: ()=>{
-                                                                            navigate("/admin");
-                                                                            setShowProfileMenu(false);
-                                                                        },
-                                                                        style: profileMenuItemStyle,
-                                                                        className: "profile-menu-item",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                style: {
-                                                                                    minWidth: "22px",
-                                                                                    fontSize: "0.95rem"
-                                                                                },
-                                                                                children: "⚙️"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 507,
-                                                                                columnNumber: 33
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                children: "Administration"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 508,
-                                                                                columnNumber: 33
-                                                                            }, undefined)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 499,
-                                                                        columnNumber: 31
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                        onClick: ()=>{
-                                                                            navigate("/projects");
-                                                                            setShowProfileMenu(false);
-                                                                        },
-                                                                        style: profileMenuItemStyle,
-                                                                        className: "profile-menu-item",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                style: {
-                                                                                    minWidth: "22px",
-                                                                                    fontSize: "0.95rem"
-                                                                                },
-                                                                                children: "\uD83D\uDCC1"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 518,
-                                                                                columnNumber: 33
-                                                                            }, undefined),
-                                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                                children: "Projets"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/Components/Header.jsx",
-                                                                                lineNumber: 519,
-                                                                                columnNumber: 33
-                                                                            }, undefined)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 510,
-                                                                        columnNumber: 31
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    height: "1px",
-                                                                    backgroundColor: "#eee",
-                                                                    margin: "0.2rem 0"
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 525,
-                                                                columnNumber: 27
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                                onClick: ()=>{
-                                                                    navigate("/profile");
-                                                                    setShowProfileMenu(false);
-                                                                },
-                                                                style: profileMenuItemStyle,
-                                                                className: "profile-menu-item",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        style: {
-                                                                            minWidth: "22px",
-                                                                            fontSize: "0.95rem"
-                                                                        },
-                                                                        children: "\uD83D\uDC64"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 540,
-                                                                        columnNumber: 29
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                        children: "Profile"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/Components/Header.jsx",
-                                                                        lineNumber: 541,
-                                                                        columnNumber: 29
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/Components/Header.jsx",
-                                                                lineNumber: 532,
-                                                                columnNumber: 27
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 467,
-                                                        columnNumber: 25
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        style: {
-                                                            borderTop: "1px solid #eee",
-                                                            padding: "0.2rem 0"
-                                                        },
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                                            onClick: handleLogout,
-                                                            style: {
-                                                                ...profileMenuItemStyle,
-                                                                backgroundColor: "#fff5f5",
-                                                                color: "#e74c3c",
-                                                                fontWeight: "600",
-                                                                justifyContent: "center",
-                                                                gap: "0.5rem"
+                                className: "header-actions",
+                                children: currentUser ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "profile-wrapper",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            ref: profileButtonRef,
+                                            onClick: toggleProfileMenu,
+                                            className: "profile-button",
+                                            style: {
+                                                boxShadow: showProfileMenu ? "0 0 0 3px rgba(52, 152, 219, 0.3)" : "none"
+                                            },
+                                            title: currentUser.name,
+                                            "aria-label": "Menu profil",
+                                            "aria-expanded": showProfileMenu,
+                                            children: currentUser.name.charAt(0).toUpperCase()
+                                        }, void 0, false, {
+                                            fileName: "src/Components/Header.jsx",
+                                            lineNumber: 324,
+                                            columnNumber: 19
+                                        }, undefined),
+                                        showProfileMenu && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            ref: profileMenuRef,
+                                            className: "profile-menu",
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    className: "profile-menu-header",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            className: "profile-name",
+                                                            children: currentUser.name
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Header.jsx",
+                                                            lineNumber: 341,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            className: "profile-email",
+                                                            children: currentUser.email
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Header.jsx",
+                                                            lineNumber: 342,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            className: "profile-type",
+                                                            children: currentUser.userType === "admin" ? "Administrateur" : "Client"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Header.jsx",
+                                                            lineNumber: 343,
+                                                            columnNumber: 25
+                                                        }, undefined)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/Header.jsx",
+                                                    lineNumber: 340,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    className: "profile-menu-items",
+                                                    children: [
+                                                        currentUser.userType === "client" ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                    onClick: ()=>{
+                                                                        navigate("/dashboard");
+                                                                        setShowProfileMenu(false);
+                                                                    },
+                                                                    style: profileMenuItemStyle,
+                                                                    className: "profile-menu-item",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "\uD83D\uDCCA"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 359,
+                                                                            columnNumber: 31
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "Mon Tableau de Bord"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 360,
+                                                                            columnNumber: 31
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/Header.jsx",
+                                                                    lineNumber: 351,
+                                                                    columnNumber: 29
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                    onClick: ()=>{
+                                                                        navigate("/mentoring");
+                                                                        setShowProfileMenu(false);
+                                                                    },
+                                                                    style: profileMenuItemStyle,
+                                                                    className: "profile-menu-item",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "\uD83D\uDC68‍\uD83C\uDFEB"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 370,
+                                                                            columnNumber: 31
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "Mentorat"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 371,
+                                                                            columnNumber: 31
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/Header.jsx",
+                                                                    lineNumber: 362,
+                                                                    columnNumber: 29
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                    onClick: ()=>{
+                                                                        navigate("/admin");
+                                                                        setShowProfileMenu(false);
+                                                                    },
+                                                                    style: profileMenuItemStyle,
+                                                                    className: "profile-menu-item",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "⚙️"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 384,
+                                                                            columnNumber: 31
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "Administration"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 385,
+                                                                            columnNumber: 31
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/Header.jsx",
+                                                                    lineNumber: 376,
+                                                                    columnNumber: 29
+                                                                }, undefined),
+                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                                    onClick: ()=>{
+                                                                        navigate("/projects");
+                                                                        setShowProfileMenu(false);
+                                                                    },
+                                                                    style: profileMenuItemStyle,
+                                                                    className: "profile-menu-item",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "\uD83D\uDCC1"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 395,
+                                                                            columnNumber: 31
+                                                                        }, undefined),
+                                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                            children: "Projets"
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/Components/Header.jsx",
+                                                                            lineNumber: 396,
+                                                                            columnNumber: 31
+                                                                        }, undefined)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/Components/Header.jsx",
+                                                                    lineNumber: 387,
+                                                                    columnNumber: 29
+                                                                }, undefined)
+                                                            ]
+                                                        }, void 0, true),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                            className: "menu-divider"
+                                                        }, void 0, false, {
+                                                            fileName: "src/Components/Header.jsx",
+                                                            lineNumber: 401,
+                                                            columnNumber: 25
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                            onClick: ()=>{
+                                                                navigate("/profile");
+                                                                setShowProfileMenu(false);
                                                             },
+                                                            style: profileMenuItemStyle,
                                                             className: "profile-menu-item",
                                                             children: [
                                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                    style: {
-                                                                        fontSize: "0.95rem"
-                                                                    },
-                                                                    children: "\uD83D\uDEAA"
+                                                                    children: "\uD83D\uDC64"
                                                                 }, void 0, false, {
                                                                     fileName: "src/Components/Header.jsx",
-                                                                    lineNumber: 561,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 411,
+                                                                    columnNumber: 27
                                                                 }, undefined),
                                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                    children: "D\xe9connexion"
+                                                                    children: "Profile"
                                                                 }, void 0, false, {
                                                                     fileName: "src/Components/Header.jsx",
-                                                                    lineNumber: 562,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 412,
+                                                                    columnNumber: 27
                                                                 }, undefined)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/Components/Header.jsx",
-                                                            lineNumber: 549,
-                                                            columnNumber: 27
+                                                            lineNumber: 403,
+                                                            columnNumber: 25
                                                         }, undefined)
-                                                    }, void 0, false, {
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/Components/Header.jsx",
+                                                    lineNumber: 348,
+                                                    columnNumber: 23
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    className: "profile-menu-footer",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                        onClick: handleLogout,
+                                                        className: "logout-button",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                children: "\uD83D\uDEAA"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/Header.jsx",
+                                                                lineNumber: 421,
+                                                                columnNumber: 27
+                                                            }, undefined),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                children: "D\xe9connexion"
+                                                            }, void 0, false, {
+                                                                fileName: "src/Components/Header.jsx",
+                                                                lineNumber: 422,
+                                                                columnNumber: 27
+                                                            }, undefined)
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 545,
+                                                        lineNumber: 417,
                                                         columnNumber: 25
                                                     }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/Components/Header.jsx",
-                                                lineNumber: 419,
-                                                columnNumber: 23
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Header.jsx",
-                                        lineNumber: 384,
-                                        columnNumber: 19
-                                    }, undefined)
-                                }, void 0, false) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                                                }, void 0, false, {
+                                                    fileName: "src/Components/Header.jsx",
+                                                    lineNumber: 416,
+                                                    columnNumber: 23
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/Components/Header.jsx",
+                                            lineNumber: 339,
+                                            columnNumber: 21
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/Components/Header.jsx",
+                                    lineNumber: 323,
+                                    columnNumber: 17
+                                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "auth-buttons",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                             onClick: ()=>{
@@ -36209,11 +36078,12 @@ const Header = ()=>{
                                                 setIsLoginMode(true);
                                             },
                                             style: buttonStyle("primary", "medium"),
+                                            className: "auth-btn",
                                             "aria-label": "Se connecter",
                                             children: "Connexion"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 571,
+                                            lineNumber: 430,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36222,227 +36092,214 @@ const Header = ()=>{
                                                 setIsLoginMode(false);
                                             },
                                             style: buttonStyle("success", "medium"),
+                                            className: "auth-btn",
                                             "aria-label": "S'inscrire",
                                             children: "Inscription"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 581,
-                                            columnNumber: 19
-                                        }, undefined)
-                                    ]
-                                }, void 0, true)
-                            }, void 0, false, {
-                                fileName: "src/Components/Header.jsx",
-                                lineNumber: 372,
-                                columnNumber: 13
-                            }, undefined)
-                        ]
-                    }, void 0, true),
-                    isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "hamburger-button",
-                        onClick: toggleMenu,
-                        style: {
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            padding: "0.5rem",
-                            zIndex: 1101,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "5px",
-                            transition: "all 0.3s ease",
-                            WebkitTapHighlightColor: "transparent"
-                        },
-                        "aria-label": "Menu",
-                        "aria-expanded": isMenuOpen,
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                style: {
-                                    display: "block",
-                                    width: "22px",
-                                    height: "2px",
-                                    backgroundColor: isMenuOpen ? "#3498db" : "#2c3e50",
-                                    margin: "3.5px 0",
-                                    transition: "all 0.3s ease",
-                                    transform: isMenuOpen ? "rotate(45deg) translate(5px, 5px)" : "none"
-                                }
-                            }, void 0, false, {
-                                fileName: "src/Components/Header.jsx",
-                                lineNumber: 621,
-                                columnNumber: 13
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                style: {
-                                    display: "block",
-                                    width: "22px",
-                                    height: "2px",
-                                    backgroundColor: isMenuOpen ? "transparent" : "#2c3e50",
-                                    margin: "3.5px 0",
-                                    transition: "all 0.3s ease",
-                                    opacity: isMenuOpen ? 0 : 1
-                                }
-                            }, void 0, false, {
-                                fileName: "src/Components/Header.jsx",
-                                lineNumber: 630,
-                                columnNumber: 13
-                            }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                style: {
-                                    display: "block",
-                                    width: "22px",
-                                    height: "2px",
-                                    backgroundColor: isMenuOpen ? "#3498db" : "#2c3e50",
-                                    margin: "3.5px 0",
-                                    transition: "all 0.3s ease",
-                                    transform: isMenuOpen ? "rotate(-45deg) translate(6px, -5px)" : "none"
-                                }
-                            }, void 0, false, {
-                                fileName: "src/Components/Header.jsx",
-                                lineNumber: 639,
-                                columnNumber: 13
-                            }, undefined)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/Components/Header.jsx",
-                        lineNumber: 599,
-                        columnNumber: 11
-                    }, undefined),
-                    isMobile && isMenuOpen && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        onClick: ()=>setIsMenuOpen(false),
-                        style: {
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            zIndex: 1099,
-                            touchAction: "none"
-                        }
-                    }, void 0, false, {
-                        fileName: "src/Components/Header.jsx",
-                        lineNumber: 653,
-                        columnNumber: 11
-                    }, undefined),
-                    isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "mobile-menu",
-                        style: {
-                            position: "fixed",
-                            top: "65px",
-                            right: isMenuOpen ? "0" : "-100%",
-                            width: "min(100%, 300px)",
-                            height: "calc(100vh - 65px)",
-                            backgroundColor: "white",
-                            boxShadow: "-5px 0 20px rgba(0, 0, 0, 0.15)",
-                            transition: "right 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                            zIndex: 1100,
-                            overflowY: "auto",
-                            display: "flex",
-                            flexDirection: "column",
-                            WebkitOverflowScrolling: "touch",
-                            overscrollBehavior: "contain"
-                        },
-                        children: [
-                            currentUser && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    padding: "1rem 0.9rem",
-                                    backgroundColor: "#f8f9fa",
-                                    borderBottom: "1px solid #eee"
-                                },
-                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "0.7rem",
-                                        marginBottom: "0.5rem"
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                width: "42px",
-                                                height: "42px",
-                                                borderRadius: "50%",
-                                                backgroundColor: "#3498db",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                fontSize: "1.1rem",
-                                                color: "white",
-                                                fontWeight: "bold",
-                                                flexShrink: 0
-                                            },
-                                            children: currentUser.name.charAt(0).toUpperCase()
-                                        }, void 0, false, {
-                                            fileName: "src/Components/Header.jsx",
-                                            lineNumber: 702,
-                                            columnNumber: 19
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            style: {
-                                                minWidth: 0,
-                                                flex: 1
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        fontWeight: "bold",
-                                                        color: "#2c3e50",
-                                                        fontSize: "0.9rem",
-                                                        wordBreak: "break-word",
-                                                        lineHeight: "1.2"
-                                                    },
-                                                    children: currentUser.name
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 718,
-                                                    columnNumber: 21
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        fontSize: "0.75rem",
-                                                        color: "#7f8c8d",
-                                                        marginTop: "0.2rem",
-                                                        wordBreak: "break-word",
-                                                        lineHeight: "1.2"
-                                                    },
-                                                    children: currentUser.email
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 727,
-                                                    columnNumber: 21
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    style: {
-                                                        fontSize: "0.7rem",
-                                                        color: currentUser.userType === "admin" ? "#e74c3c" : "#3498db",
-                                                        marginTop: "0.2rem",
-                                                        fontWeight: "500"
-                                                    },
-                                                    children: currentUser.userType === "admin" ? "Administrateur" : "Client"
-                                                }, void 0, false, {
-                                                    fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 736,
-                                                    columnNumber: 21
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/Components/Header.jsx",
-                                            lineNumber: 717,
+                                            lineNumber: 441,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 696,
+                                    lineNumber: 429,
                                     columnNumber: 17
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 691,
+                                lineNumber: 321,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true),
+                    isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "mobile-header-actions",
+                        children: [
+                            !currentUser && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "mobile-auth-buttons",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: ()=>{
+                                            setShowAuthModal(true);
+                                            setIsLoginMode(true);
+                                        },
+                                        className: "mobile-auth-btn login-btn",
+                                        "aria-label": "Se connecter",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                className: "btn-icon",
+                                                children: "\uD83D\uDD11"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 471,
+                                                columnNumber: 19
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                className: "btn-text",
+                                                children: "Connexion"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 472,
+                                                columnNumber: 19
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 463,
+                                        columnNumber: 17
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: ()=>{
+                                            setShowAuthModal(true);
+                                            setIsLoginMode(false);
+                                        },
+                                        className: "mobile-auth-btn signup-btn",
+                                        "aria-label": "S'inscrire",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                className: "btn-icon",
+                                                children: "\uD83D\uDCDD"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 482,
+                                                columnNumber: 19
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                className: "btn-text",
+                                                children: "Inscription"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 483,
+                                                columnNumber: 19
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 474,
+                                        columnNumber: 17
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Header.jsx",
+                                lineNumber: 462,
+                                columnNumber: 15
+                            }, undefined),
+                            currentUser && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "mobile-profile-button",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    onClick: toggleMenu,
+                                    className: "profile-avatar-mobile",
+                                    title: currentUser.name,
+                                    children: currentUser.name.charAt(0).toUpperCase()
+                                }, void 0, false, {
+                                    fileName: "src/Components/Header.jsx",
+                                    lineNumber: 490,
+                                    columnNumber: 17
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/Components/Header.jsx",
+                                lineNumber: 489,
+                                columnNumber: 15
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                className: "hamburger-button",
+                                onClick: toggleMenu,
+                                "aria-label": "Menu",
+                                "aria-expanded": isMenuOpen,
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: `hamburger-line ${isMenuOpen ? "active" : ""}`
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 507,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: `hamburger-line ${isMenuOpen ? "active" : ""}`
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 508,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: `hamburger-line ${isMenuOpen ? "active" : ""}`
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 509,
+                                        columnNumber: 15
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Header.jsx",
+                                lineNumber: 501,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/Components/Header.jsx",
+                        lineNumber: 460,
+                        columnNumber: 11
+                    }, undefined),
+                    isMobile && isMenuOpen && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "mobile-overlay",
+                        onClick: ()=>setIsMenuOpen(false)
+                    }, void 0, false, {
+                        fileName: "src/Components/Header.jsx",
+                        lineNumber: 516,
+                        columnNumber: 11
+                    }, undefined),
+                    isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: `mobile-menu ${isMenuOpen ? "open" : ""}`,
+                        children: [
+                            currentUser && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "mobile-user-info",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "mobile-user-avatar",
+                                        children: currentUser.name.charAt(0).toUpperCase()
+                                    }, void 0, false, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 527,
+                                        columnNumber: 17
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "mobile-user-details",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "mobile-user-name",
+                                                children: currentUser.name
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 531,
+                                                columnNumber: 19
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "mobile-user-email",
+                                                children: currentUser.email
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 532,
+                                                columnNumber: 19
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "mobile-user-type",
+                                                children: currentUser.userType === "admin" ? "Administrateur" : "Client"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/Header.jsx",
+                                                lineNumber: 533,
+                                                columnNumber: 19
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/Header.jsx",
+                                        lineNumber: 530,
+                                        columnNumber: 17
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/Header.jsx",
+                                lineNumber: 526,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36451,21 +36308,18 @@ const Header = ()=>{
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            marginRight: "0.7rem",
-                                            fontSize: "1.1rem"
-                                        },
+                                        className: "menu-icon",
                                         children: "\uD83C\uDFE0"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 755,
+                                        lineNumber: 545,
                                         columnNumber: 15
                                     }, undefined),
                                     "Accueil"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 750,
+                                lineNumber: 540,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36474,21 +36328,18 @@ const Header = ()=>{
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            marginRight: "0.7rem",
-                                            fontSize: "1.1rem"
-                                        },
+                                        className: "menu-icon",
                                         children: "ℹ️"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 764,
+                                        lineNumber: 554,
                                         columnNumber: 15
                                     }, undefined),
                                     "\xc0 propos"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 759,
+                                lineNumber: 549,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36497,21 +36348,18 @@ const Header = ()=>{
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            marginRight: "0.7rem",
-                                            fontSize: "1.1rem"
-                                        },
+                                        className: "menu-icon",
                                         children: "\uD83C\uDFA8"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 773,
+                                        lineNumber: 563,
                                         columnNumber: 15
                                     }, undefined),
                                     "Portfolio"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 768,
+                                lineNumber: 558,
                                 columnNumber: 13
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36521,24 +36369,21 @@ const Header = ()=>{
                                 className: "mobile-menu-item",
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                        style: {
-                                            marginRight: "0.7rem",
-                                            fontSize: "1.1rem"
-                                        },
+                                        className: "menu-icon",
                                         children: "\uD83D\uDCDA"
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 783,
+                                        lineNumber: 573,
                                         columnNumber: 15
                                     }, undefined),
                                     "Ressources"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/Header.jsx",
-                                lineNumber: 777,
+                                lineNumber: 567,
                                 columnNumber: 13
                             }, undefined),
-                            currentUser ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                            currentUser && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                 children: [
                                     currentUser.userType === "admin" ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                         children: [
@@ -36549,21 +36394,18 @@ const Header = ()=>{
                                                 className: "mobile-menu-item",
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            marginRight: "0.7rem",
-                                                            fontSize: "1.1rem"
-                                                        },
+                                                        className: "menu-icon",
                                                         children: "⚙️"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 798,
+                                                        lineNumber: 587,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Administration"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 792,
+                                                lineNumber: 581,
                                                 columnNumber: 21
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36573,21 +36415,18 @@ const Header = ()=>{
                                                 className: "mobile-menu-item",
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            marginRight: "0.7rem",
-                                                            fontSize: "1.1rem"
-                                                        },
+                                                        className: "menu-icon",
                                                         children: "\uD83D\uDCC1"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 807,
+                                                        lineNumber: 596,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Projets Clients"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 801,
+                                                lineNumber: 590,
                                                 columnNumber: 21
                                             }, undefined)
                                         ]
@@ -36600,21 +36439,18 @@ const Header = ()=>{
                                                 className: "mobile-menu-item",
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            marginRight: "0.7rem",
-                                                            fontSize: "1.1rem"
-                                                        },
+                                                        className: "menu-icon",
                                                         children: "\uD83D\uDCCA"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 819,
+                                                        lineNumber: 608,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Mon Tableau de Bord"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 813,
+                                                lineNumber: 602,
                                                 columnNumber: 21
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -36624,21 +36460,18 @@ const Header = ()=>{
                                                 className: "mobile-menu-item",
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        style: {
-                                                            marginRight: "0.7rem",
-                                                            fontSize: "1.1rem"
-                                                        },
+                                                        className: "menu-icon",
                                                         children: "\uD83D\uDC68‍\uD83C\uDFEB"
                                                     }, void 0, false, {
                                                         fileName: "src/Components/Header.jsx",
-                                                        lineNumber: 828,
+                                                        lineNumber: 617,
                                                         columnNumber: 23
                                                     }, undefined),
                                                     "Mentorat"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 822,
+                                                lineNumber: 611,
                                                 columnNumber: 21
                                             }, undefined)
                                         ]
@@ -36650,229 +36483,75 @@ const Header = ()=>{
                                         className: "mobile-menu-item",
                                         children: [
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                style: {
-                                                    marginRight: "0.7rem",
-                                                    fontSize: "1.1rem"
-                                                },
+                                                className: "menu-icon",
                                                 children: "\uD83D\uDC64"
                                             }, void 0, false, {
                                                 fileName: "src/Components/Header.jsx",
-                                                lineNumber: 841,
+                                                lineNumber: 629,
                                                 columnNumber: 19
                                             }, undefined),
                                             "Profil"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 835,
+                                        lineNumber: 623,
                                         columnNumber: 17
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        style: {
-                                            padding: "1rem 0.9rem",
-                                            marginTop: "auto",
-                                            borderTop: "1px solid #eee",
-                                            backgroundColor: "#f8f9fa"
-                                        },
+                                        className: "mobile-menu-footer",
                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                             onClick: handleLogout,
-                                            style: {
-                                                width: "100%",
-                                                padding: "0.75rem",
-                                                backgroundColor: "#e74c3c",
-                                                color: "white",
-                                                border: "none",
-                                                borderRadius: "6px",
-                                                cursor: "pointer",
-                                                fontWeight: "600",
-                                                fontSize: "0.9rem",
-                                                transition: "all 0.3s ease",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                gap: "0.5rem"
-                                            },
-                                            "aria-label": "D\xe9connexion",
+                                            className: "mobile-logout-btn",
                                             children: [
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    style: {
-                                                        fontSize: "1rem"
-                                                    },
                                                     children: "\uD83D\uDEAA"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 871,
+                                                    lineNumber: 638,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 "D\xe9connexion"
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 851,
+                                            lineNumber: 634,
                                             columnNumber: 19
                                         }, undefined)
                                     }, void 0, false, {
                                         fileName: "src/Components/Header.jsx",
-                                        lineNumber: 845,
+                                        lineNumber: 633,
                                         columnNumber: 17
                                     }, undefined)
                                 ]
-                            }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                style: {
-                                    padding: "1rem 0.9rem",
-                                    marginTop: "auto",
-                                    borderTop: "1px solid #eee",
-                                    backgroundColor: "#f8f9fa"
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                        onClick: ()=>{
-                                            setIsMenuOpen(false);
-                                            setShowAuthModal(true);
-                                            setIsLoginMode(true);
-                                        },
-                                        style: {
-                                            width: "100%",
-                                            padding: "0.75rem",
-                                            backgroundColor: "#3498db",
-                                            color: "white",
-                                            border: "none",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            fontWeight: "600",
-                                            fontSize: "0.9rem",
-                                            marginBottom: "0.7rem",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            gap: "0.5rem"
-                                        },
-                                        "aria-label": "Se connecter",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                style: {
-                                                    fontSize: "1rem"
-                                                },
-                                                children: "\uD83D\uDD11"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Header.jsx",
-                                                lineNumber: 907,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            "Connexion"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Header.jsx",
-                                        lineNumber: 883,
-                                        columnNumber: 17
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                        onClick: ()=>{
-                                            setIsMenuOpen(false);
-                                            setShowAuthModal(true);
-                                            setIsLoginMode(false);
-                                        },
-                                        style: {
-                                            width: "100%",
-                                            padding: "0.75rem",
-                                            backgroundColor: "#2ecc71",
-                                            color: "white",
-                                            border: "none",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            fontWeight: "600",
-                                            fontSize: "0.9rem",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            gap: "0.5rem"
-                                        },
-                                        "aria-label": "S'inscrire",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                style: {
-                                                    fontSize: "1rem"
-                                                },
-                                                children: "\uD83D\uDCDD"
-                                            }, void 0, false, {
-                                                fileName: "src/Components/Header.jsx",
-                                                lineNumber: 933,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            "Inscription"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/Components/Header.jsx",
-                                        lineNumber: 910,
-                                        columnNumber: 17
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/Components/Header.jsx",
-                                lineNumber: 877,
-                                columnNumber: 15
-                            }, undefined)
+                            }, void 0, true)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Header.jsx",
-                        lineNumber: 670,
+                        lineNumber: 524,
                         columnNumber: 11
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 274,
+                lineNumber: 257,
                 columnNumber: 7
             }, undefined),
             showAuthModal && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 99999,
-                    padding: "clamp(0.5rem, 2vw, 1rem)",
-                    overscrollBehavior: "contain"
-                },
+                className: "auth-modal-overlay",
                 onClick: (e)=>{
                     if (e.target === e.currentTarget) setShowAuthModal(false);
                 },
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    style: {
-                        backgroundColor: "white",
-                        padding: "clamp(1.2rem, 4vw, 1.8rem)",
-                        borderRadius: "12px",
-                        width: "100%",
-                        maxWidth: "min(95vw, 400px)",
-                        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.25)",
-                        maxHeight: "90vh",
-                        overflowY: "auto",
-                        WebkitOverflowScrolling: "touch"
-                    },
+                    className: "auth-modal",
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            style: {
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                marginBottom: "1.2rem"
-                            },
+                            className: "auth-modal-header",
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    style: {
-                                        margin: 0,
-                                        color: "#2c3e50",
-                                        fontSize: "clamp(1.1rem, 4vw, 1.3rem)"
-                                    },
                                     children: isLoginMode ? "Connexion" : "Inscription"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 982,
+                                    lineNumber: 655,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36885,116 +36564,59 @@ const Header = ()=>{
                                             userType: "client"
                                         });
                                     },
-                                    style: {
-                                        background: "none",
-                                        border: "none",
-                                        fontSize: "1.6rem",
-                                        cursor: "pointer",
-                                        color: "#7f8c8d",
-                                        width: "28px",
-                                        height: "28px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        borderRadius: "50%",
-                                        transition: "all 0.2s ease",
-                                        flexShrink: 0
-                                    },
+                                    className: "modal-close-btn",
                                     "aria-label": "Fermer",
-                                    onMouseEnter: (e)=>{
-                                        e.target.style.backgroundColor = "#f5f5f5";
-                                        e.target.style.color = "#e74c3c";
-                                    },
-                                    onMouseLeave: (e)=>{
-                                        e.target.style.backgroundColor = "transparent";
-                                        e.target.style.color = "#7f8c8d";
-                                    },
                                     children: "\xd7"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 989,
+                                    lineNumber: 656,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 976,
+                            lineNumber: 654,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            style: {
-                                display: "flex",
-                                marginBottom: "1.2rem",
-                                borderRadius: "8px",
-                                overflow: "hidden",
-                                border: "1px solid #ddd"
-                            },
+                            className: "auth-toggle",
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                     onClick: ()=>setIsLoginMode(true),
-                                    style: {
-                                        flex: 1,
-                                        padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                        background: isLoginMode ? "#3498db" : "transparent",
-                                        color: isLoginMode ? "white" : "#2c3e50",
-                                        border: "none",
-                                        cursor: "pointer",
-                                        fontWeight: "500",
-                                        fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                        transition: "all 0.2s ease",
-                                        whiteSpace: "nowrap"
-                                    },
+                                    className: isLoginMode ? "active" : "",
                                     children: "Connexion"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1030,
+                                    lineNumber: 669,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                     onClick: ()=>setIsLoginMode(false),
-                                    style: {
-                                        flex: 1,
-                                        padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                        background: !isLoginMode ? "#3498db" : "transparent",
-                                        color: !isLoginMode ? "white" : "#2c3e50",
-                                        border: "none",
-                                        cursor: "pointer",
-                                        fontWeight: "500",
-                                        fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                        transition: "all 0.2s ease",
-                                        whiteSpace: "nowrap"
-                                    },
+                                    className: !isLoginMode ? "active" : "",
                                     children: "Inscription"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1047,
+                                    lineNumber: 675,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1023,
+                            lineNumber: 668,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
                             onSubmit: handleAuth,
+                            className: "auth-form",
                             children: [
                                 !isLoginMode && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "0.9rem"
-                                    },
+                                    className: "form-group",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.4rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "clamp(0.8rem, 2vw, 0.85rem)"
-                                            },
                                             children: "Nom complet"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1069,
+                                            lineNumber: 686,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37004,43 +36626,27 @@ const Header = ()=>{
                                                     ...authData,
                                                     name: e.target.value
                                                 }),
-                                            style: {
-                                                width: "100%",
-                                                padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                                boxSizing: "border-box"
-                                            },
                                             placeholder: "Votre nom",
                                             required: !isLoginMode
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1077,
+                                            lineNumber: 687,
                                             columnNumber: 19
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1068,
+                                    lineNumber: 685,
                                     columnNumber: 17
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "0.9rem"
-                                    },
+                                    className: "form-group",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.4rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "clamp(0.8rem, 2vw, 0.85rem)"
-                                            },
                                             children: "Email"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1096,
+                                            lineNumber: 698,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37050,43 +36656,27 @@ const Header = ()=>{
                                                     ...authData,
                                                     email: e.target.value
                                                 }),
-                                            style: {
-                                                width: "100%",
-                                                padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                                boxSizing: "border-box"
-                                            },
                                             placeholder: "votre@email.com",
                                             required: true
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1104,
+                                            lineNumber: 699,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1095,
+                                    lineNumber: 697,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "1.2rem"
-                                    },
+                                    className: "form-group",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.4rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "clamp(0.8rem, 2vw, 0.85rem)"
-                                            },
                                             children: "Mot de passe"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1122,
+                                            lineNumber: 709,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -37096,43 +36686,27 @@ const Header = ()=>{
                                                     ...authData,
                                                     password: e.target.value
                                                 }),
-                                            style: {
-                                                width: "100%",
-                                                padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                                boxSizing: "border-box"
-                                            },
                                             placeholder: isLoginMode ? "Votre mot de passe" : "Cr\xe9ez un mot de passe",
                                             required: true
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1130,
+                                            lineNumber: 710,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1121,
+                                    lineNumber: 708,
                                     columnNumber: 15
                                 }, undefined),
                                 !isLoginMode && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: "1.2rem"
-                                    },
+                                    className: "form-group",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                            style: {
-                                                display: "block",
-                                                marginBottom: "0.4rem",
-                                                color: "#5d6d7e",
-                                                fontSize: "clamp(0.8rem, 2vw, 0.85rem)"
-                                            },
                                             children: "Type de compte"
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1149,
+                                            lineNumber: 721,
                                             columnNumber: 19
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
@@ -37141,23 +36715,13 @@ const Header = ()=>{
                                                     ...authData,
                                                     userType: e.target.value
                                                 }),
-                                            style: {
-                                                width: "100%",
-                                                padding: "clamp(0.65rem, 2vw, 0.75rem)",
-                                                border: "1px solid #ddd",
-                                                borderRadius: "6px",
-                                                fontSize: "clamp(0.85rem, 2vw, 0.9rem)",
-                                                boxSizing: "border-box",
-                                                backgroundColor: "white",
-                                                appearance: "auto"
-                                            },
                                             children: [
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
                                                     value: "client",
                                                     children: "Client (suivi de projet)"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 1171,
+                                                    lineNumber: 726,
                                                     columnNumber: 21
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -37165,118 +36729,673 @@ const Header = ()=>{
                                                     children: "Administrateur (r\xe9serv\xe9)"
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Header.jsx",
-                                                    lineNumber: 1172,
+                                                    lineNumber: 727,
                                                     columnNumber: 21
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1157,
+                                            lineNumber: 722,
                                             columnNumber: 19
                                         }, undefined),
                                         authData.userType === "admin" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                            style: {
-                                                fontSize: "0.75rem",
-                                                color: "#e74c3c",
-                                                marginTop: "0.4rem",
-                                                lineHeight: "1.3"
-                                            },
+                                            className: "form-note",
                                             children: "Note: Ce type de compte est r\xe9serv\xe9 \xe0 l'administrateur."
                                         }, void 0, false, {
                                             fileName: "src/Components/Header.jsx",
-                                            lineNumber: 1175,
+                                            lineNumber: 730,
                                             columnNumber: 21
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1148,
+                                    lineNumber: 720,
                                     columnNumber: 17
                                 }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    style: {
-                                        marginTop: "1.5rem"
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                        type: "submit",
-                                        style: {
-                                            width: "100%",
-                                            padding: "clamp(0.75rem, 2vw, 0.85rem)",
-                                            backgroundColor: "#3498db",
-                                            color: "white",
-                                            border: "none",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            fontSize: "clamp(0.9rem, 2vw, 1rem)",
-                                            fontWeight: "600",
-                                            transition: "all 0.3s ease"
-                                        },
-                                        "aria-label": isLoginMode ? "Se connecter" : "S'inscrire",
-                                        children: isLoginMode ? "Se connecter" : "S'inscrire"
-                                    }, void 0, false, {
-                                        fileName: "src/Components/Header.jsx",
-                                        lineNumber: 1188,
-                                        columnNumber: 17
-                                    }, undefined)
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    type: "submit",
+                                    className: "auth-submit-btn",
+                                    children: isLoginMode ? "Se connecter" : "S'inscrire"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1187,
+                                    lineNumber: 737,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1066,
+                            lineNumber: 683,
                             columnNumber: 13
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                            style: {
-                                marginTop: "1.2rem",
-                                fontSize: "clamp(0.75rem, 2vw, 0.8rem)",
-                                color: "#7f8c8d",
-                                textAlign: "center",
-                                lineHeight: "1.4"
-                            },
+                            className: "auth-switch",
                             children: [
                                 isLoginMode ? "Pas encore de compte ? " : "D\xe9j\xe0 un compte ? ",
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                     onClick: ()=>setIsLoginMode(!isLoginMode),
-                                    style: {
-                                        background: "none",
-                                        border: "none",
-                                        color: "#3498db",
-                                        cursor: "pointer",
-                                        textDecoration: "underline",
-                                        fontSize: "clamp(0.75rem, 2vw, 0.8rem)",
-                                        fontWeight: "500",
-                                        padding: "0.2rem 0.3rem"
-                                    },
                                     children: isLoginMode ? "Inscrivez-vous" : "Connectez-vous"
                                 }, void 0, false, {
                                     fileName: "src/Components/Header.jsx",
-                                    lineNumber: 1221,
+                                    lineNumber: 744,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Header.jsx",
-                            lineNumber: 1209,
+                            lineNumber: 742,
                             columnNumber: 13
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Header.jsx",
-                    lineNumber: 965,
+                    lineNumber: 653,
                     columnNumber: 11
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 944,
+                lineNumber: 650,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
                 children: `
-        /* Animation pour le menu déroulant */
+        /* ===== HEADER BASE ===== */
+        .site-header {
+          position: fixed;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: rgba(255,255,255,0.98);
+          padding: 0.85rem clamp(0.75rem, 3vw, 2rem);
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(10px);
+          max-width: 100vw;
+          box-sizing: border-box;
+          height: 65px;
+        }
+
+        .header-logo {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+          min-width: 100px;
+        }
+
+        /* ===== NAVIGATION DESKTOP ===== */
+        .desktop-nav {
+          display: flex;
+          gap: clamp(0.8rem, 1.5vw, 1.8rem);
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+          max-width: 550px;
+          margin: 0 1rem;
+        }
+
+        .nav-link-button {
+          background: none;
+          border: none;
+          font-family: inherit;
+          cursor: pointer;
+          position: relative;
+        }
+
+        .nav-link-button::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: #3498db;
+          transition: width 0.3s ease;
+        }
+
+        .nav-link-button:hover::after {
+          width: 100%;
+        }
+
+        .nav-link-button:hover {
+          color: #3498db;
+        }
+
+        /* ===== ACTIONS HEADER ===== */
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+          flex-shrink: 0;
+          min-width: 50px;
+          justify-content: flex-end;
+          position: relative;
+        }
+
+        .auth-buttons {
+          display: flex;
+          gap: 0.6rem;
+          align-items: center;
+        }
+
+        /* ===== PROFIL ===== */
+        .profile-wrapper {
+          position: relative;
+          z-index: 9999;
+        }
+
+        .profile-button {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #3498db;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.1rem;
+          transition: all 0.3s ease;
+          color: white;
+          padding: 0;
+          margin-left: 0.3rem;
+          font-weight: bold;
+        }
+
+        .profile-menu {
+          position: fixed;
+          top: 65px;
+          right: clamp(0.75rem, 3vw, 1rem);
+          background-color: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+          z-index: 99999;
+          min-width: 220px;
+          max-width: min(90vw, 280px);
+          overflow: hidden;
+          animation: slideDown 0.2s ease;
+        }
+
+        .profile-menu-header {
+          padding: 0.9rem;
+          border-bottom: 1px solid #eee;
+          background-color: #f8f9fa;
+        }
+
+        .profile-name {
+          font-weight: bold;
+          color: #2c3e50;
+          font-size: 0.9rem;
+          margin-bottom: 0.2rem;
+          word-break: break-word;
+        }
+
+        .profile-email {
+          font-size: 0.8rem;
+          color: #7f8c8d;
+          word-break: break-word;
+        }
+
+        .profile-type {
+          font-size: 0.7rem;
+          color: #3498db;
+          margin-top: 0.3rem;
+          font-weight: 500;
+        }
+
+        .profile-menu-items {
+          padding: 0.2rem 0;
+        }
+
+        .profile-menu-item:hover {
+          background-color: #f8f9fa !important;
+        }
+
+        .menu-divider {
+          height: 1px;
+          background-color: #eee;
+          margin: 0.2rem 0;
+        }
+
+        .profile-menu-footer {
+          border-top: 1px solid #eee;
+          padding: 0.2rem 0;
+        }
+
+        .logout-button {
+          width: 100%;
+          padding: 0.7rem 0.85rem;
+          border: none;
+          background-color: #fff5f5;
+          color: #e74c3c;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          transition: all 0.2s ease;
+        }
+
+        .logout-button:hover {
+          background-color: #ffe5e5 !important;
+        }
+
+        /* ===== MOBILE HEADER ACTIONS ===== */
+        .mobile-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .mobile-auth-buttons {
+          display: flex;
+          gap: 0.4rem;
+          align-items: center;
+          margin-right: 0.3rem;
+        }
+
+        .mobile-auth-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          padding: 0.45rem 0.7rem;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: 0.8rem;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+        }
+
+        .login-btn {
+          background-color: #3498db;
+          color: white;
+        }
+
+        .login-btn:hover {
+          background-color: #2980b9;
+        }
+
+        .signup-btn {
+          background-color: #2ecc71;
+          color: white;
+        }
+
+        .signup-btn:hover {
+          background-color: #27ae60;
+        }
+
+        .btn-icon {
+          font-size: 0.9rem;
+        }
+
+        .btn-text {
+          display: inline;
+        }
+
+        .mobile-profile-button {
+          margin-right: 0.3rem;
+        }
+
+        .profile-avatar-mobile {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background-color: #3498db;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          color: white;
+          font-weight: bold;
+        }
+
+        /* ===== HAMBURGER ===== */
+        .hamburger-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0.5rem;
+          z-index: 1101;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 5px;
+          transition: all 0.3s ease;
+        }
+
+        .hamburger-line {
+          display: block;
+          width: 22px;
+          height: 2px;
+          background-color: #2c3e50;
+          margin: 3.5px 0;
+          transition: all 0.3s ease;
+        }
+
+        .hamburger-line.active:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+          background-color: #3498db;
+        }
+
+        .hamburger-line.active:nth-child(2) {
+          opacity: 0;
+        }
+
+        .hamburger-line.active:nth-child(3) {
+          transform: rotate(-45deg) translate(6px, -5px);
+          background-color: #3498db;
+        }
+
+        /* ===== MOBILE OVERLAY ===== */
+        .mobile-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1099;
+          touch-action: none;
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+          position: fixed;
+          top: 65px;
+          right: -100%;
+          width: min(100%, 300px);
+          height: calc(100vh - 65px);
+          background-color: white;
+          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+          transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 1100;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+        }
+
+        .mobile-menu.open {
+          right: 0;
+        }
+
+        .mobile-user-info {
+          padding: 1rem 0.9rem;
+          background-color: #f8f9fa;
+          border-bottom: 1px solid #eee;
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+        }
+
+        .mobile-user-avatar {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background-color: #3498db;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.1rem;
+          color: white;
+          font-weight: bold;
+          flex-shrink: 0;
+        }
+
+        .mobile-user-details {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .mobile-user-name {
+          font-weight: bold;
+          color: #2c3e50;
+          font-size: 0.9rem;
+          word-break: break-word;
+          line-height: 1.2;
+        }
+
+        .mobile-user-email {
+          font-size: 0.75rem;
+          color: #7f8c8d;
+          margin-top: 0.2rem;
+          word-break: break-word;
+          line-height: 1.2;
+        }
+
+        .mobile-user-type {
+          font-size: 0.7rem;
+          color: #3498db;
+          margin-top: 0.2rem;
+          font-weight: 500;
+        }
+
+        .mobile-menu-item {
+          animation: slideDown 0.2s ease forwards;
+          opacity: 0;
+        }
+
+        .mobile-menu-item:nth-child(1) { animation-delay: 0.05s; }
+        .mobile-menu-item:nth-child(2) { animation-delay: 0.1s; }
+        .mobile-menu-item:nth-child(3) { animation-delay: 0.15s; }
+        .mobile-menu-item:nth-child(4) { animation-delay: 0.2s; }
+        .mobile-menu-item:nth-child(5) { animation-delay: 0.25s; }
+        .mobile-menu-item:nth-child(6) { animation-delay: 0.3s; }
+        .mobile-menu-item:nth-child(7) { animation-delay: 0.35s; }
+
+        .mobile-menu-item:hover,
+        .mobile-menu-item:active {
+          background-color: #f8f9fa !important;
+          padding-left: 1.2rem !important;
+        }
+
+        .menu-icon {
+          margin-right: 0.7rem;
+          font-size: 1.1rem;
+        }
+
+        .mobile-menu-footer {
+          padding: 1rem 0.9rem;
+          margin-top: auto;
+          border-top: 1px solid #eee;
+          background-color: #f8f9fa;
+        }
+
+        .mobile-logout-btn {
+          width: 100%;
+          padding: 0.75rem;
+          background-color: #e74c3c;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+
+        .mobile-logout-btn:hover {
+          background-color: #c0392b;
+        }
+
+        /* ===== AUTH MODAL ===== */
+        .auth-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 99999;
+          padding: clamp(0.5rem, 2vw, 1rem);
+          overscroll-behavior: contain;
+        }
+
+        .auth-modal {
+          background-color: white;
+          padding: clamp(1.2rem, 4vw, 1.8rem);
+          border-radius: 12px;
+          width: 100%;
+          max-width: min(95vw, 400px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+          max-height: 90vh;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .auth-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.2rem;
+        }
+
+        .auth-modal-header h3 {
+          margin: 0;
+          color: #2c3e50;
+          font-size: clamp(1.1rem, 4vw, 1.3rem);
+        }
+
+        .modal-close-btn {
+          background: none;
+          border: none;
+          font-size: 1.6rem;
+          cursor: pointer;
+          color: #7f8c8d;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+          background-color: #f5f5f5;
+          color: #e74c3c;
+        }
+
+        .auth-toggle {
+          display: flex;
+          margin-bottom: 1.2rem;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #ddd;
+        }
+
+        .auth-toggle button {
+          flex: 1;
+          padding: clamp(0.65rem, 2vw, 0.75rem);
+          background: transparent;
+          color: #2c3e50;
+          border: none;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: clamp(0.85rem, 2vw, 0.9rem);
+          transition: all 0.2s ease;
+        }
+
+        .auth-toggle button.active {
+          background: #3498db;
+          color: white;
+        }
+
+        .auth-form {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .form-group {
+          margin-bottom: 0.9rem;
+        }
+
+        .form-group label {
+          display: block;
+          margin-bottom: 0.4rem;
+          color: #5d6d7e;
+          font-size: clamp(0.8rem, 2vw, 0.85rem);
+        }
+
+        .form-group input,
+        .form-group select {
+          width: 100%;
+          padding: clamp(0.65rem, 2vw, 0.75rem);
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          font-size: clamp(0.85rem, 2vw, 0.9rem);
+          box-sizing: border-box;
+        }
+
+        .form-group select {
+          background-color: white;
+          appearance: auto;
+        }
+
+        .form-note {
+          font-size: 0.75rem;
+          color: #e74c3c;
+          margin-top: 0.4rem;
+          line-height: 1.3;
+        }
+
+        .auth-submit-btn {
+          width: 100%;
+          padding: clamp(0.75rem, 2vw, 0.85rem);
+          background-color: #3498db;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: clamp(0.9rem, 2vw, 1rem);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-top: 0.5rem;
+        }
+
+        .auth-submit-btn:hover {
+          background-color: #2980b9;
+        }
+
+        .auth-switch {
+          margin-top: 1.2rem;
+          font-size: clamp(0.75rem, 2vw, 0.8rem);
+          color: #7f8c8d;
+          text-align: center;
+          line-height: 1.4;
+        }
+
+        .auth-switch button {
+          background: none;
+          border: none;
+          color: #3498db;
+          cursor: pointer;
+          text-decoration: underline;
+          font-size: clamp(0.75rem, 2vw, 0.8rem);
+          font-weight: 500;
+          padding: 0.2rem 0.3rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
         @keyframes slideDown {
           from {
             opacity: 0;
@@ -37287,166 +37406,126 @@ const Header = ()=>{
             transform: translateY(0);
           }
         }
+
+        /* ===== RESPONSIVE BREAKPOINTS ===== */
         
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        /* Styles pour les liens de navigation desktop */
-        .nav-link-button {
-          background: none;
-          border: none;
-          font-family: inherit;
-          cursor: pointer;
-        }
-        
-        nav button {
-          position: relative;
-        }
-        
-        nav button::after {
-          content: '';
-          position: absolute;
-          width: 0;
-          height: 2px;
-          bottom: 0;
-          left: 0;
-          background-color: #3498db;
-          transition: width 0.3s ease;
-        }
-        
-        nav button:hover::after,
-        nav button[style*="color: #3498db"]::after {
-          width: 100%;
-        }
-        
-        nav button:hover {
-          color: #3498db;
-        }
-        
-        /* Styles pour les éléments du menu mobile */
-        .mobile-menu-item {
-          animation: slideDown 0.2s ease forwards;
-          opacity: 0;
-        }
-        
-        .mobile-menu-item:nth-child(1) { animation-delay: 0.05s; }
-        .mobile-menu-item:nth-child(2) { animation-delay: 0.1s; }
-        .mobile-menu-item:nth-child(3) { animation-delay: 0.15s; }
-        .mobile-menu-item:nth-child(4) { animation-delay: 0.2s; }
-        .mobile-menu-item:nth-child(5) { animation-delay: 0.25s; }
-        .mobile-menu-item:nth-child(6) { animation-delay: 0.3s; }
-        .mobile-menu-item:nth-child(7) { animation-delay: 0.35s; }
-        .mobile-menu-item:nth-child(8) { animation-delay: 0.4s; }
-        .mobile-menu-item:nth-child(9) { animation-delay: 0.45s; }
-        
-        /* Effets de survol pour les éléments du menu mobile */
-        .mobile-menu a:hover,
-        .mobile-menu button:hover,
-        .mobile-menu a:active,
-        .mobile-menu button:active {
-          background-color: #f8f9fa !important;
-          padding-left: 1.2rem !important;
-        }
-        
-        /* Effets de survol pour les éléments du menu profil */
-        .profile-menu-item:hover {
-          background-color: #f8f9fa !important;
-        }
-        
-        /* Améliorations pour le modal sur mobile */
+        /* Très petits écrans (320px - 480px) */
         @media (max-width: 480px) {
+          .site-header {
+            height: 60px;
+            padding: 0.7rem 0.8rem;
+          }
+
           .mobile-menu {
-            width: 100% !important;
-            right: isMenuOpen ? "0" : "-100%" !important;
+            top: 60px;
+            height: calc(100vh - 60px);
+            width: 100%;
           }
-          
-          /* Ajustements pour les très petits écrans */
-          header {
-            height: 60px !important;
-            padding: 0.7rem 0.8rem !important;
+
+          .mobile-auth-btn {
+            padding: 0.4rem 0.55rem;
+            font-size: 0.75rem;
+            gap: 0.25rem;
           }
-          
-          .mobile-menu {
-            top: 60px !important;
-            height: calc(100vh - 60px) !important;
+
+          .btn-icon {
+            font-size: 0.85rem;
           }
-          
+
+          .btn-text {
+            display: none;
+          }
+
           .hamburger-button {
-            width: 38px !important;
-            height: 38px !important;
+            width: 38px;
+            height: 38px;
           }
-          
-          .mobile-menu a,
-          .mobile-menu button {
+
+          .mobile-menu-item {
             padding: 0.75rem 0.9rem !important;
             font-size: 0.9rem !important;
           }
-          
-          .mobile-menu a:hover,
-          .mobile-menu button:hover {
-            padding-left: 1.1rem !important;
+
+          .profile-avatar-mobile {
+            width: 36px;
+            height: 36px;
+            font-size: 0.95rem;
           }
         }
-        
-        /* Tablettes (768px - 992px) */
-        @media (min-width: 768px) and (max-width: 992px) {
-          nav {
-            gap: 1rem !important;
-            margin: 0 0.5rem !important;
-          }
-          
-          button {
-            padding: 0.5rem 0.8rem !important;
-            font-size: 0.85rem !important;
-          }
-          
-          .profile-menu {
-            min-width: 200px !important;
-          }
-        }
-        
-        /* Petits mobiles (moins de 360px) */
+
+        /* Très très petits écrans (moins de 360px) */
         @media (max-width: 360px) {
-          header {
-            padding: 0.6rem 0.6rem !important;
-            height: 55px !important;
+          .site-header {
+            padding: 0.6rem 0.6rem;
+            height: 55px;
           }
-          
+
           .mobile-menu {
-            top: 55px !important;
-            height: calc(100vh - 55px) !important;
+            top: 55px;
+            height: calc(100vh - 55px);
           }
-          
+
+          .mobile-auth-btn {
+            padding: 0.35rem 0.5rem;
+            font-size: 0.7rem;
+          }
+
           .hamburger-button {
-            width: 36px !important;
-            height: 36px !important;
+            width: 36px;
+            height: 36px;
           }
-          
-          .mobile-menu a,
-          .mobile-menu button {
-            padding: 0.7rem 0.8rem !important;
-            font-size: 0.85rem !important;
-          }
-          
-          .logo img {
+
+          .header-logo img {
             height: 28px !important;
           }
         }
-        
-        /* Améliorations pour l'accessibilité et le tactile */
-        button, 
-        a, 
-        input, 
-        select {
+
+        /* Écrans moyens (481px - 767px) */
+        @media (min-width: 481px) and (max-width: 767px) {
+          .btn-text {
+            display: inline;
+          }
+
+          .mobile-auth-btn {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+          }
+        }
+
+        /* Tablettes (768px - 992px) */
+        @media (min-width: 768px) and (max-width: 992px) {
+          .desktop-nav {
+            gap: 1rem;
+            margin: 0 0.5rem;
+          }
+
+          .auth-buttons button {
+            padding: 0.5rem 0.8rem !important;
+            font-size: 0.85rem !important;
+          }
+
+          .profile-menu {
+            min-width: 200px;
+          }
+        }
+
+        /* Mode paysage sur mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+          .mobile-menu {
+            max-height: 70vh;
+            overflow-y: auto;
+          }
+
+          .auth-modal {
+            max-height: 80vh;
+          }
+        }
+
+        /* Amélioration accessibilité */
+        * {
           -webkit-tap-highlight-color: transparent;
         }
-        
+
         button:focus-visible,
         a:focus-visible,
         input:focus-visible,
@@ -37454,45 +37533,17 @@ const Header = ()=>{
           outline: 2px solid #3498db;
           outline-offset: 2px;
         }
-        
-        /* Amélioration du défilement sur iOS */
-        .mobile-menu {
-          -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Empêcher le zoom sur les inputs sur iOS */
+
+        /* Empêcher le zoom sur iOS */
         @media screen and (max-width: 992px) {
           input, select, textarea {
             font-size: 16px !important;
           }
         }
-        
-        /* Correction pour le menu profil sur mobile */
-        @media (max-width: 992px) {
-          .profile-menu {
-            position: absolute !important;
-            top: 100% !important;
-            right: 0 !important;
-            left: auto !important;
-            margin-top: 0.5rem;
-          }
-        }
-        
-        /* Mode paysage sur mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
-          .mobile-menu {
-            max-height: 70vh !important;
-            overflow-y: auto !important;
-          }
-          
-          .auth-modal > div {
-            max-height: 80vh !important;
-          }
-        }
       `
             }, void 0, false, {
                 fileName: "src/Components/Header.jsx",
-                lineNumber: 1242,
+                lineNumber: 753,
                 columnNumber: 7
             }, undefined)
         ]
@@ -37614,7 +37665,8 @@ const Home = ({ name , title  })=>{
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    textAlign: "center"
+                    textAlign: "center",
+                    boxSizing: "border-box"
                 },
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     style: {
@@ -37625,7 +37677,8 @@ const Home = ({ name , title  })=>{
                         backdropFilter: "blur(10px)",
                         maxWidth: "800px",
                         width: "100%",
-                        marginTop: "clamp(30vh, 40vh, 45vh)"
+                        marginTop: "clamp(30vh, 40vh, 45vh)",
+                        boxSizing: "border-box"
                     },
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
@@ -37639,7 +37692,7 @@ const Home = ({ name , title  })=>{
                             children: name
                         }, void 0, false, {
                             fileName: "src/Components/Home.jsx",
-                            lineNumber: 99,
+                            lineNumber: 101,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -37653,7 +37706,7 @@ const Home = ({ name , title  })=>{
                             children: title
                         }, void 0, false, {
                             fileName: "src/Components/Home.jsx",
-                            lineNumber: 111,
+                            lineNumber: 113,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -37667,7 +37720,7 @@ const Home = ({ name , title  })=>{
                             children: "Welcome to my academic and professional portfolio, where I share my work, research interests, and contributions in computer systems and intelligent technologies."
                         }, void 0, false, {
                             fileName: "src/Components/Home.jsx",
-                            lineNumber: 123,
+                            lineNumber: 125,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37696,7 +37749,7 @@ const Home = ({ name , title  })=>{
                                     children: "Explore my work"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 145,
+                                    lineNumber: 147,
                                     columnNumber: 13
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -37717,19 +37770,19 @@ const Home = ({ name , title  })=>{
                                     children: "Contact me"
                                 }, void 0, false, {
                                     fileName: "src/Components/Home.jsx",
-                                    lineNumber: 165,
+                                    lineNumber: 167,
                                     columnNumber: 13
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/Home.jsx",
-                            lineNumber: 137,
+                            lineNumber: 139,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 87,
+                    lineNumber: 88,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
@@ -37759,17 +37812,17 @@ const Home = ({ name , title  })=>{
                         }
                     }, void 0, false, {
                         fileName: "src/Components/Home.jsx",
-                        lineNumber: 200,
+                        lineNumber: 202,
                         columnNumber: 11
                     }, undefined)
                 }, void 0, false, {
                     fileName: "src/Components/Home.jsx",
-                    lineNumber: 199,
+                    lineNumber: 201,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/Home.jsx",
-                lineNumber: 189,
+                lineNumber: 191,
                 columnNumber: 7
             }, undefined)
         ]
@@ -37797,7 +37850,7 @@ $RefreshReg$(_c, "Home");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../images/down-arrow.svg":"b5nCi","prop-types":"7wKI2","../images/jr2.jpg":"l6CBF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"b5nCi":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../images/down-arrow.svg":"b5nCi","prop-types":"7wKI2","../images/jr2.jpg":"l6CBF"}],"b5nCi":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "down-arrow.1037091f.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"7wKI2":[function(require,module,exports) {
@@ -38558,18 +38611,13 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
  * Portfolio component
  *
  * Highlights some of Emmanuel AMELA's creations and projects.
- * These include .NET workshops, hackathons, web apps, and more.
  */ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _designDeskJpeg = require("../images/design-desk.jpeg"); // Tu peux remplacer par une image de ton choix
+var _designDeskJpeg = require("../images/design-desk.jpeg");
 var _designDeskJpegDefault = parcelHelpers.interopDefault(_designDeskJpeg);
 var _s = $RefreshSig$();
 const imageAltText = "Laptop and coding books on a desk";
-/**
- * Project list
- *
- * Liste des projets réels d'Emmanuel AMELA.
- */ const projectList = [
+const projectList = [
     {
         title: "Workshop .NET C# - RESTful API",
         description: "I led an online workshop titled 'Mastering the Basics of RESTful API with .NET C# (Web API)' on December 28, 2024. I handled everything from the presentation to the live coding session.",
@@ -38589,7 +38637,7 @@ const imageAltText = "Laptop and coding books on a desk";
         title: "Microsoft Learn Student Ambassador Activities",
         description: "As a Microsoft Learn Student Ambassador, I have organized and participated in multiple events and tech workshops, promoted student engagement in technology, and contributed to the global tech community through mentorship and knowledge sharing.",
         url: "https://mvp.microsoft.com/fr-FR/studentambassadors/profile/8a9ab462-afce-4e4c-b222-abc409bac550"
-    }
+    }, 
 ];
 const Portfolio = ()=>{
     _s();
@@ -38600,19 +38648,19 @@ const Portfolio = ()=>{
             setIsMobile(window.innerWidth < 768);
             setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
         };
-        // Initialisation
         handleResize();
-        // Événement de redimensionnement
         window.addEventListener("resize", handleResize);
-        // Nettoyage
         return ()=>window.removeEventListener("resize", handleResize);
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
-        className: "padding",
         id: "portfolio",
         style: {
             padding: "2rem 1rem",
-            marginTop: "2rem"
+            marginTop: "2rem",
+            width: "100%",
+            maxWidth: "100%",
+            boxSizing: "border-box",
+            overflowX: "hidden"
         },
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -38625,22 +38673,24 @@ const Portfolio = ()=>{
                 children: "Portfolio"
             }, void 0, false, {
                 fileName: "src/Components/Portfolio.jsx",
-                lineNumber: 74,
-                columnNumber: 13
+                lineNumber: 64,
+                columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 style: {
                     display: "flex",
                     flexDirection: isMobile ? "column" : "row",
                     gap: isMobile ? "2rem" : "3rem",
-                    paddingTop: isMobile ? "1rem" : "3rem"
+                    paddingTop: isMobile ? "1rem" : "3rem",
+                    width: "100%",
+                    boxSizing: "border-box"
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    !isMobile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         style: {
-                            maxWidth: isMobile ? "100%" : isTablet ? "35%" : "40%",
-                            alignSelf: "center",
-                            marginBottom: isMobile ? "1rem" : "0"
+                            width: isTablet ? "35%" : "40%",
+                            flexShrink: 0,
+                            alignSelf: "center"
                         },
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                             src: (0, _designDeskJpegDefault.default),
@@ -38649,26 +38699,29 @@ const Portfolio = ()=>{
                                 width: "100%",
                                 objectFit: "cover",
                                 borderRadius: "8px",
-                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                display: "block"
                             },
                             alt: imageAltText
                         }, void 0, false, {
                             fileName: "src/Components/Portfolio.jsx",
-                            lineNumber: 95,
-                            columnNumber: 21
+                            lineNumber: 94,
+                            columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/Portfolio.jsx",
-                        lineNumber: 90,
-                        columnNumber: 17
+                        lineNumber: 87,
+                        columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         style: {
                             display: "grid",
-                            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr" : "1fr 1fr",
+                            gridTemplateColumns: isMobile || isTablet ? "1fr" : "1fr 1fr",
                             gap: "1.5rem",
+                            flex: 1,
+                            minWidth: 0,
                             width: isMobile ? "100%" : "auto",
-                            flex: "1"
+                            boxSizing: "border-box"
                         },
                         children: projectList.map((project)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 style: {
@@ -38676,15 +38729,12 @@ const Portfolio = ()=>{
                                     borderRadius: "8px",
                                     padding: "1.25rem",
                                     boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
-                                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                                    height: "100%",
                                     display: "flex",
                                     flexDirection: "column",
                                     justifyContent: "space-between",
-                                    ":hover": {
-                                        transform: "translateY(-5px)",
-                                        boxShadow: "0 8px 15px rgba(0,0,0,0.1)"
-                                    }
+                                    boxSizing: "border-box",
+                                    minWidth: 0,
+                                    wordBreak: "break-word"
                                 },
                                 children: [
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -38695,46 +38745,47 @@ const Portfolio = ()=>{
                                                 rel: "noopener noreferrer",
                                                 style: {
                                                     textDecoration: "none",
-                                                    color: "#222",
-                                                    transition: "color 0.2s ease"
+                                                    color: "#222"
                                                 },
                                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
                                                     style: {
-                                                        marginTop: "0",
+                                                        marginTop: 0,
                                                         marginBottom: "1rem",
-                                                        fontSize: isMobile ? "1.2rem" : "1.35rem",
+                                                        fontSize: isMobile ? "1.1rem" : "1.25rem",
                                                         lineHeight: "1.3",
-                                                        fontWeight: "600"
+                                                        fontWeight: "600",
+                                                        wordBreak: "break-word"
                                                     },
                                                     children: project.title
                                                 }, void 0, false, {
                                                     fileName: "src/Components/Portfolio.jsx",
-                                                    lineNumber: 146,
-                                                    columnNumber: 37
+                                                    lineNumber: 144,
+                                                    columnNumber: 19
                                                 }, undefined)
                                             }, void 0, false, {
                                                 fileName: "src/Components/Portfolio.jsx",
-                                                lineNumber: 136,
-                                                columnNumber: 33
+                                                lineNumber: 138,
+                                                columnNumber: 17
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                                 style: {
                                                     fontSize: "0.95rem",
-                                                    lineHeight: "1.5",
+                                                    lineHeight: "1.6",
                                                     color: "#444",
-                                                    margin: "0"
+                                                    margin: 0,
+                                                    wordBreak: "break-word"
                                                 },
                                                 children: project.description
                                             }, void 0, false, {
                                                 fileName: "src/Components/Portfolio.jsx",
-                                                lineNumber: 156,
-                                                columnNumber: 33
+                                                lineNumber: 157,
+                                                columnNumber: 17
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/Portfolio.jsx",
-                                        lineNumber: 135,
-                                        columnNumber: 29
+                                        lineNumber: 137,
+                                        columnNumber: 15
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                                         href: project.url,
@@ -38743,7 +38794,6 @@ const Portfolio = ()=>{
                                         style: {
                                             display: "inline-block",
                                             marginTop: "1rem",
-                                            padding: "0.5rem 0",
                                             fontSize: "0.9rem",
                                             color: "#0066cc",
                                             fontWeight: "500",
@@ -38752,31 +38802,31 @@ const Portfolio = ()=>{
                                         children: "Voir le projet →"
                                     }, void 0, false, {
                                         fileName: "src/Components/Portfolio.jsx",
-                                        lineNumber: 166,
-                                        columnNumber: 29
+                                        lineNumber: 170,
+                                        columnNumber: 15
                                     }, undefined)
                                 ]
                             }, project.title, true, {
                                 fileName: "src/Components/Portfolio.jsx",
-                                lineNumber: 117,
-                                columnNumber: 25
+                                lineNumber: 122,
+                                columnNumber: 13
                             }, undefined))
                     }, void 0, false, {
                         fileName: "src/Components/Portfolio.jsx",
-                        lineNumber: 109,
-                        columnNumber: 17
+                        lineNumber: 110,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Portfolio.jsx",
-                lineNumber: 83,
-                columnNumber: 13
+                lineNumber: 75,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Portfolio.jsx",
-        lineNumber: 66,
-        columnNumber: 9
+        lineNumber: 53,
+        columnNumber: 5
     }, undefined);
 };
 _s(Portfolio, "i20DGJle2MZSs9tS3yHdn4A9Fow=");
@@ -79750,7 +79800,7 @@ const MentionsLegales = ()=>{
                                             minWidth: "0",
                                             wordBreak: "break-word"
                                         },
-                                        children: "D\xe9veloppeur web ind\xe9pendant"
+                                        children: "D\xe9veloppeur ind\xe9pendant"
                                     }, void 0, false, {
                                         fileName: "src/Components/MentionsLegales.jsx",
                                         lineNumber: 139,
@@ -80870,814 +80920,906 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 const ConditionsGeneralesUtilisation = ()=>{
-    const containerStyle = {
-        padding: "clamp(1.5rem, 4vw, 3rem)",
-        maxWidth: "900px",
-        margin: "0 auto",
-        lineHeight: "1.7",
-        color: "#2c3e50",
-        backgroundColor: "#fff",
-        borderRadius: "8px",
-        boxShadow: "0 2px 20px rgba(0,0,0,0.08)",
-        overflowWrap: "break-word",
-        wordBreak: "break-word"
-    };
-    const titleStyle = {
-        color: "#2c3e50",
-        borderBottom: "3px solid #e74c3c",
-        paddingBottom: "1rem",
-        marginBottom: "2rem",
-        fontSize: "clamp(1.6rem, 4vw, 2.3rem)",
-        fontWeight: "700",
-        textAlign: "center"
-    };
-    const disclaimerStyle = {
-        backgroundColor: "#fff8e1",
-        border: "1px solid #ffd54f",
-        padding: "1.2rem",
-        borderRadius: "6px",
-        marginBottom: "2rem",
-        fontSize: "0.95rem",
-        color: "#5d4037"
-    };
-    const articleTitleStyle = {
-        color: "#2c3e50",
-        marginTop: "2rem",
-        marginBottom: "1rem",
-        fontSize: "clamp(1.2rem, 3vw, 1.5rem)",
-        fontWeight: "600",
-        paddingLeft: "0.5rem",
-        borderLeft: "4px solid #3498db"
-    };
-    const paragraphStyle = {
-        marginBottom: "1.2rem",
-        fontSize: "clamp(0.95rem, 2vw, 1.05rem)",
-        textAlign: "justify"
-    };
-    const listStyle = {
-        paddingLeft: "1.5rem",
-        marginBottom: "1.2rem"
-    };
-    const listItemStyle = {
-        marginBottom: "0.5rem"
-    };
-    const highlightedBoxStyle = {
-        backgroundColor: "#f8f9fa",
-        borderLeft: "4px solid #2ecc71",
-        padding: "1.2rem",
-        borderRadius: "6px",
-        margin: "1.5rem 0",
-        fontSize: "0.95rem"
-    };
-    const warningBoxStyle = {
-        backgroundColor: "#fff3cd",
-        border: "1px solid #ffeaa7",
-        padding: "1.2rem",
-        borderRadius: "6px",
-        margin: "1.5rem 0",
-        fontSize: "0.95rem"
-    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        style: containerStyle,
+        className: "cgu-container",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                style: titleStyle,
+                className: "cgu-title",
                 children: "Conditions G\xe9n\xe9rales d'Utilisation"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 82,
+                lineNumber: 6,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: disclaimerStyle,
+                className: "disclaimer-box",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    style: {
-                        margin: 0,
-                        fontWeight: "500"
-                    },
                     children: [
                         "⚖️ ",
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                             children: "Note juridique importante :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 88,
+                            lineNumber: 12,
                             columnNumber: 14
                         }, undefined),
                         " Ces conditions g\xe9n\xe9rales d'utilisation ont \xe9t\xe9 r\xe9dig\xe9es conform\xe9ment aux dispositions du droit togolais, notamment la loi n\xb02004-005 du 23 avril 2004 relative \xe0 la communication \xe9lectronique et la loi n\xb02019-014 du 20 septembre 2019 sur la protection des donn\xe9es personnelles. Elles sont fournies \xe0 titre informatif."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 87,
+                    lineNumber: 11,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 86,
+                lineNumber: 10,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 1 : Objet"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 96,
+                lineNumber: 20,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     "Les pr\xe9sentes Conditions G\xe9n\xe9rales d'Utilisation (CGU) ont pour objet de d\xe9finir les modalit\xe9s de mise \xe0 disposition du site ",
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
-                        children: "emmanuelamela.com"
+                        children: "e-a.codes"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 99,
+                        lineNumber: 23,
                         columnNumber: 39
                     }, undefined),
                     " et des services associ\xe9s, ainsi que les conditions d'acc\xe8s et d'utilisation desdits services par tout Utilisateur."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 97,
+                lineNumber: 21,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "En acc\xe9dant et utilisant ce site, l'Utilisateur accepte sans r\xe9serve l'ensemble des dispositions des pr\xe9sentes CGU. Le cas \xe9ch\xe9ant, toute souscription \xe0 des services suppl\xe9mentaires fera l'objet de conditions particuli\xe8res qui viendront compl\xe9ter les pr\xe9sentes CGU."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 102,
+                lineNumber: 26,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 2 : D\xe9finitions"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 109,
+                lineNumber: 33,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "Site :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 111,
+                        lineNumber: 35,
                         columnNumber: 9
                     }, undefined),
                     " D\xe9signe le site internet accessible \xe0 l'adresse emmanuelamela.com, incluant l'ensemble de ses pages, sous-domaines, contenus et services."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 110,
+                lineNumber: 34,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "\xc9diteur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 115,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, undefined),
-                    " Emmanuel AMELA, d\xe9veloppeur web ind\xe9pendant, responsable de la publication et de la maintenance du Site."
+                    " Emmanuel AMELA, d\xe9veloppeur ind\xe9pendant, responsable de la publication et de la maintenance du Site."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 114,
+                lineNumber: 38,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "Utilisateur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 119,
+                        lineNumber: 43,
                         columnNumber: 9
                     }, undefined),
                     " Toute personne physique ou morale acc\xe9dant au Site ou utilisant l'un de ses services."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 118,
+                lineNumber: 42,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "Contenu :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 123,
+                        lineNumber: 47,
                         columnNumber: 9
                     }, undefined),
                     " Ensemble des \xe9l\xe9ments pr\xe9sents sur le Site, notamment textes, images, vid\xe9os, logos, codes sources, bases de donn\xe9es."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 122,
+                lineNumber: 46,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 3 : Acc\xe8s aux services"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 127,
+                lineNumber: 51,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Le Site est accessible gratuitement en tout lieu \xe0 tout Utilisateur disposant d'un acc\xe8s \xe0 Internet. Tous les frais support\xe9s par l'Utilisateur pour acc\xe9der au service (mat\xe9riel informatique, logiciels, connexion Internet, etc.) sont \xe0 sa charge."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 128,
+                lineNumber: 52,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: highlightedBoxStyle,
+                className: "highlighted-box",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    style: {
-                        margin: 0
-                    },
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                             children: "\uD83D\uDCF1 Accessibilit\xe9 :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 135,
+                            lineNumber: 59,
                             columnNumber: 11
                         }, undefined),
                         " Le Site est con\xe7u pour \xeatre accessible sur tous les supports (ordinateur, tablette, smartphone) et navigateurs modernes. L'\xc9diteur s'efforce de maintenir un acc\xe8s permanent mais ne peut garantir l'absence d'interruption pour maintenance technique ou cas de force majeure."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 134,
+                    lineNumber: 58,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 133,
+                lineNumber: 57,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "L'\xc9diteur se r\xe9serve le droit de refuser l'acc\xe8s au Site, unilat\xe9ralement et sans notification pr\xe9alable, \xe0 tout Utilisateur qui contreviendrait aux pr\xe9sentes CGU."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 141,
+                lineNumber: 65,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 4 : Propri\xe9t\xe9 intellectuelle"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 146,
+                lineNumber: 70,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Conform\xe9ment au droit togolais de la propri\xe9t\xe9 intellectuelle et aux principes g\xe9n\xe9raux du droit d'auteur :"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 147,
+                lineNumber: 71,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                style: listStyle,
+                className: "list",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "L'ensemble du Site et de son Contenu (textes, images, logos, code source, maquettes, bases de donn\xe9es) est prot\xe9g\xe9 par le droit d'auteur et appartient \xe0 l'\xc9diteur ou \xe0 ses partenaires"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 152,
+                        lineNumber: 76,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Toute reproduction, repr\xe9sentation, modification, publication, adaptation de tout ou partie du Site ou de son Contenu, par quelque proc\xe9d\xe9 que ce soit, est interdite sans autorisation \xe9crite pr\xe9alable de l'\xc9diteur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 157,
+                        lineNumber: 81,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Les marques et logos figurant sur le Site sont des marques d\xe9pos\xe9es. Toute reproduction, imitation ou usage sans autorisation est prohib\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 162,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Les logiciels et applications pr\xe9sent\xe9s font l'objet de licences d'utilisation sp\xe9cifiques et sont prot\xe9g\xe9s contre toute contrefa\xe7on"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 166,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 151,
+                lineNumber: 75,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: warningBoxStyle,
+                className: "warning-box",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    style: {
-                        margin: 0
-                    },
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                             children: "⚠️ Sanctions :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 173,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, undefined),
                         " Toute violation des droits de propri\xe9t\xe9 intellectuelle peut entra\xeener des poursuites civiles et p\xe9nales conform\xe9ment \xe0 la l\xe9gislation togolaise et aux conventions internationales."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 172,
+                    lineNumber: 96,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 171,
+                lineNumber: 95,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 5 : Responsabilit\xe9s"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 179,
+                lineNumber: 103,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "5.1. Responsabilit\xe9 de l'\xc9diteur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 181,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, undefined),
                     " L'\xc9diteur s'efforce d'assurer au mieux de ses possibilit\xe9s l'exactitude et la mise \xe0 jour des informations diffus\xe9es sur le Site. Toutefois, il ne peut garantir l'exhaustivit\xe9, la pr\xe9cision ou l'absence de modification par un tiers."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 180,
+                lineNumber: 104,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "5.2. Limitation de responsabilit\xe9 :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 187,
+                        lineNumber: 111,
                         columnNumber: 9
                     }, undefined),
                     " L'\xc9diteur ne pourra \xeatre tenu responsable :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 186,
+                lineNumber: 110,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                style: listStyle,
+                className: "list",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Des dommages directs ou indirects r\xe9sultant de l'utilisation du Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 190,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Des interruptions, suspensions ou dysfonctionnements techniques"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 191,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "De l'introduction de virus ou autres \xe9l\xe9ments nuisibles par des tiers"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 192,
+                        lineNumber: 116,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "De l'utilisation frauduleuse des identifiants et mots de passe"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 193,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "De l'interpr\xe9tation ou de l'utilisation des informations publi\xe9es"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 194,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 189,
+                lineNumber: 113,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                         children: "5.3. Responsabilit\xe9 de l'Utilisateur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 197,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, undefined),
                     " L'Utilisateur s'engage \xe0 :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 196,
+                lineNumber: 120,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                style: listStyle,
+                className: "list",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Utiliser le Site conform\xe9ment \xe0 sa destination et dans le respect des lois en vigueur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 200,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Ne pas porter atteinte \xe0 la s\xe9curit\xe9 ou \xe0 l'int\xe9grit\xe9 du Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 203,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Ne pas utiliser le Site \xe0 des fins illicites, frauduleuses ou nuisibles"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 206,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Informer l'\xc9diteur de toute utilisation non autoris\xe9e ou violation de s\xe9curit\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 209,
+                        lineNumber: 133,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 199,
+                lineNumber: 123,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 6 : Donn\xe9es personnelles"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 214,
+                lineNumber: 138,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: [
                     "La collecte et le traitement des donn\xe9es personnelles des Utilisateurs sont r\xe9gis par notre ",
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                         href: "/politique-confidentialite",
-                        style: {
-                            color: "#3498db",
-                            textDecoration: "none"
-                        },
+                        className: "link",
                         children: "Politique de Confidentialit\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 217,
+                        lineNumber: 141,
                         columnNumber: 15
                     }, undefined),
                     " et conformes :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 215,
+                lineNumber: 139,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                style: listStyle,
+                className: "list",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "\xc0 la loi togolaise n\xb02019-014 du 20 septembre 2019 relative \xe0 la protection des donn\xe9es \xe0 caract\xe8re personnel"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 222,
+                        lineNumber: 146,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Au R\xe8glement G\xe9n\xe9ral sur la Protection des Donn\xe9es (RGPD) pour les r\xe9sidents de l'Union Europ\xe9enne"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 226,
+                        lineNumber: 150,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Aux principes de lic\xe9it\xe9, loyaut\xe9, transparence et minimisation des donn\xe9es"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 229,
+                        lineNumber: 153,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 221,
+                lineNumber: 145,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "L'Utilisateur dispose d'un droit d'acc\xe8s, de rectification, d'effacement, de limitation, d'opposition et de portabilit\xe9 sur ses donn\xe9es personnelles."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 233,
+                lineNumber: 157,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 7 : Liens hypertextes"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 238,
+                lineNumber: 162,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Le Site peut contenir des liens hypertextes vers d'autres sites internet. L'\xc9diteur ne dispose d'aucun contr\xf4le sur ces sites et d\xe9cline toute responsabilit\xe9 quant \xe0 leur contenu, leur accessibilit\xe9, leur fonctionnement ou leur politique de confidentialit\xe9."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 239,
+                lineNumber: 163,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "La cr\xe9ation de liens hypertextes vers le Site est autoris\xe9e sous r\xe9serve de :"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 244,
+                lineNumber: 168,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                style: listStyle,
+                className: "list",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: 'Ne pas utiliser de techniques de "framing" ou "inlining"'
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 248,
+                        lineNumber: 172,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Ne pas porter atteinte \xe0 l'image ou \xe0 la r\xe9putation de l'\xc9diteur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 249,
+                        lineNumber: 173,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                        style: listItemStyle,
                         children: "Mentionner clairement la source avec un lien actif"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 250,
+                        lineNumber: 174,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 247,
+                lineNumber: 171,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 8 : Cookies"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 253,
+                lineNumber: 177,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Le Site utilise des cookies pour am\xe9liorer l'exp\xe9rience de navigation, analyser le trafic et personnaliser le contenu. En poursuivant votre navigation, vous acceptez l'utilisation des cookies conform\xe9ment \xe0 notre politique en la mati\xe8re."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 254,
+                lineNumber: 178,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "L'Utilisateur peut configurer son navigateur pour refuser les cookies, mais certaines fonctionnalit\xe9s du Site pourraient ne plus \xeatre accessibles."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 259,
+                lineNumber: 183,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 9 : Droit applicable et juridiction comp\xe9tente"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 264,
+                lineNumber: 188,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Les pr\xe9sentes CGU sont r\xe9gies et interpr\xe9t\xe9es conform\xe9ment au droit togolais. En cas de litige, et \xe0 d\xe9faut de solution amiable, les tribunaux comp\xe9tents de Lom\xe9 seront seuls comp\xe9tents."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 265,
+                lineNumber: 189,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Cette clause attributive de juridiction s'applique m\xeame en cas de pluralit\xe9 de d\xe9fendeurs ou d'appel en garantie."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 270,
+                lineNumber: 194,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                style: articleTitleStyle,
+                className: "article-title",
                 children: "Article 10 : Modifications des CGU"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 275,
+                lineNumber: 199,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "L'\xc9diteur se r\xe9serve le droit de modifier \xe0 tout moment les pr\xe9sentes CGU. Les nouvelles conditions seront applicables d\xe8s leur mise en ligne sur le Site."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 276,
+                lineNumber: 200,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                style: paragraphStyle,
+                className: "paragraph",
                 children: "Il appartient \xe0 l'Utilisateur de consulter r\xe9guli\xe8rement les CGU. La poursuite de l'utilisation du Site apr\xe8s modification vaut acceptation des nouvelles conditions."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 280,
+                lineNumber: 204,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                style: {
-                    backgroundColor: "#2c3e50",
-                    color: "white",
-                    padding: "1.5rem",
-                    borderRadius: "8px",
-                    marginTop: "3rem",
-                    textAlign: "center",
-                    fontSize: "0.95rem"
-                },
+                className: "footer-box",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        style: {
-                            margin: 0,
-                            fontWeight: "500"
-                        },
+                        className: "footer-main",
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
                                 children: "Date d'entr\xe9e en vigueur :"
                             }, void 0, false, {
                                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                                lineNumber: 295,
+                                lineNumber: 211,
                                 columnNumber: 11
                             }, undefined),
                             " 18 janvier 2026"
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 294,
+                        lineNumber: 210,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        style: {
-                            margin: "0.5rem 0 0 0",
-                            fontSize: "0.85rem",
-                            opacity: "0.9"
-                        },
+                        className: "footer-sub",
                         children: "Derni\xe8re mise \xe0 jour : 18 janvier 2026 • Ces CGU sont disponibles en permanence sur le Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 297,
+                        lineNumber: 213,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 285,
+                lineNumber: 209,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
                 jsx: true,
                 children: `
-        @media (max-width: 768px) {
-          div[style] {
-            padding: 1.2rem !important;
-          }
-          
-          h1 {
-            font-size: 1.5rem !important;
-          }
-          
-          h2 {
-            font-size: 1.2rem !important;
-            margin-top: 1.5rem !important;
-          }
-          
-          p, li {
-            font-size: 0.95rem !important;
-          }
+        .cgu-container {
+          padding: clamp(1rem, 3vw, 3rem);
+          max-width: 900px;
+          margin: 0 auto;
+          line-height: 1.7;
+          color: #2c3e50;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+          overflow-wrap: break-word;
+          word-break: break-word;
         }
-        
-        @media (max-width: 480px) {
-          div[style] {
-            padding: 1rem !important;
-          }
-          
-          h1 {
-            font-size: 1.3rem !important;
-          }
-          
-          h2 {
-            font-size: 1.1rem !important;
-            padding-left: 0.5rem !important;
-          }
-          
-          .disclaimer-box {
-            padding: 1rem !important;
-            font-size: 0.85rem !important;
-          }
-          
-          .highlighted-box, .warning-box {
-            padding: 1rem !important;
-          }
+
+        .cgu-title {
+          color: #2c3e50;
+          border-bottom: 3px solid #e74c3c;
+          padding-bottom: 1rem;
+          margin-bottom: 2rem;
+          font-size: clamp(1.4rem, 4vw, 2.3rem);
+          font-weight: 700;
+          text-align: center;
+          line-height: 1.3;
         }
-        
-        a:hover {
+
+        .disclaimer-box {
+          background-color: #fff8e1;
+          border: 1px solid #ffd54f;
+          padding: clamp(1rem, 2vw, 1.2rem);
+          border-radius: 6px;
+          margin-bottom: 2rem;
+          font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+          color: #5d4037;
+        }
+
+        .disclaimer-box p {
+          margin: 0;
+          font-weight: 500;
+        }
+
+        .article-title {
+          color: #2c3e50;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+          font-weight: 600;
+          padding-left: 0.5rem;
+          border-left: 4px solid #3498db;
+          line-height: 1.4;
+        }
+
+        .paragraph {
+          margin-bottom: 1.2rem;
+          font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+          text-align: justify;
+          hyphens: auto;
+        }
+
+        .list {
+          padding-left: clamp(1.2rem, 3vw, 1.5rem);
+          margin-bottom: 1.2rem;
+        }
+
+        .list li {
+          margin-bottom: 0.7rem;
+          font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+          line-height: 1.6;
+        }
+
+        .highlighted-box {
+          background-color: #f8f9fa;
+          border-left: 4px solid #2ecc71;
+          padding: clamp(1rem, 2vw, 1.2rem);
+          border-radius: 6px;
+          margin: 1.5rem 0;
+          font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+        }
+
+        .highlighted-box p {
+          margin: 0;
+        }
+
+        .warning-box {
+          background-color: #fff3cd;
+          border: 1px solid #ffeaa7;
+          padding: clamp(1rem, 2vw, 1.2rem);
+          border-radius: 6px;
+          margin: 1.5rem 0;
+          font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+        }
+
+        .warning-box p {
+          margin: 0;
+        }
+
+        .link {
+          color: #3498db;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .link:hover {
           text-decoration: underline;
           color: #2980b9;
+        }
+
+        .footer-box {
+          background-color: #2c3e50;
+          color: white;
+          padding: clamp(1.2rem, 2.5vw, 1.5rem);
+          border-radius: 8px;
+          margin-top: 3rem;
+          text-align: center;
+          font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+        }
+
+        .footer-main {
+          margin: 0;
+          font-weight: 500;
+        }
+
+        .footer-sub {
+          margin: 0.5rem 0 0 0;
+          font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+          opacity: 0.9;
+        }
+
+        /* Tablettes */
+        @media (max-width: 768px) {
+          .cgu-container {
+            padding: 1.2rem;
+            border-radius: 0;
+            box-shadow: none;
+          }
+
+          .cgu-title {
+            font-size: 1.6rem;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .article-title {
+            margin-top: 1.5rem;
+            font-size: 1.25rem;
+            padding-left: 0.4rem;
+          }
+
+          .paragraph {
+            text-align: left;
+            font-size: 0.95rem;
+          }
+
+          .list {
+            padding-left: 1.3rem;
+          }
+
+          .list li {
+            font-size: 0.95rem;
+          }
+
+          .disclaimer-box,
+          .highlighted-box,
+          .warning-box {
+            padding: 1rem;
+            font-size: 0.9rem;
+          }
+
+          .footer-box {
+            padding: 1.2rem;
+            margin-top: 2rem;
+          }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+          .cgu-container {
+            padding: 1rem;
+          }
+
+          .cgu-title {
+            font-size: 1.4rem;
+            border-bottom-width: 2px;
+          }
+
+          .article-title {
+            font-size: 1.15rem;
+            margin-top: 1.2rem;
+            padding-left: 0.3rem;
+            border-left-width: 3px;
+          }
+
+          .paragraph {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+          }
+
+          .list {
+            padding-left: 1rem;
+          }
+
+          .list li {
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+          }
+
+          .disclaimer-box,
+          .highlighted-box,
+          .warning-box {
+            padding: 0.9rem;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+          }
+
+          .footer-box {
+            padding: 1rem;
+            font-size: 0.85rem;
+          }
+
+          .footer-main {
+            font-size: 0.9rem;
+          }
+
+          .footer-sub {
+            font-size: 0.75rem;
+          }
+        }
+
+        /* Très petits écrans */
+        @media (max-width: 360px) {
+          .cgu-container {
+            padding: 0.8rem;
+          }
+
+          .cgu-title {
+            font-size: 1.3rem;
+          }
+
+          .article-title {
+            font-size: 1.1rem;
+          }
+
+          .paragraph,
+          .list li {
+            font-size: 0.85rem;
+          }
+
+          .disclaimer-box,
+          .highlighted-box,
+          .warning-box,
+          .footer-box {
+            padding: 0.8rem;
+            font-size: 0.8rem;
+          }
         }
       `
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 302,
+                lineNumber: 218,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-        lineNumber: 81,
+        lineNumber: 5,
         columnNumber: 5
     }, undefined);
 };
@@ -86089,7 +86231,7 @@ const DeclarationAccessibilite = ()=>{
                                 lineNumber: 62,
                                 columnNumber: 11
                             }, undefined),
-                            ", d\xe9veloppeur web ind\xe9pendant, s'engage \xe0 rendre son site internet accessible conform\xe9ment aux standards internationaux et aux bonnes pratiques en mati\xe8re d'accessibilit\xe9 num\xe9rique."
+                            ", d\xe9veloppeur ind\xe9pendant, s'engage \xe0 rendre son site internet accessible conform\xe9ment aux standards internationaux et aux bonnes pratiques en mati\xe8re d'accessibilit\xe9 num\xe9rique."
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
@@ -87065,6 +87207,48 @@ const DeclarationAccessibilite = ()=>{
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
                                 lineNumber: 497,
                                 columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    backgroundColor: "#e8f4f8",
+                                    padding: "clamp(0.8rem, 2vw, 1rem)",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                    boxSizing: "border-box",
+                                    overflowWrap: "break-word",
+                                    wordBreak: "break-word"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            fontWeight: "bold",
+                                            color: "#3498db",
+                                            marginBottom: "0.5rem",
+                                            fontSize: "clamp(0.95rem, 2vw, 1.1rem)"
+                                        },
+                                        children: ".NET Web API"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/DeclarationAccessibilite.jsx",
+                                        lineNumber: 523,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        style: {
+                                            fontSize: "clamp(0.8rem, 1.6vw, 0.85rem)",
+                                            overflowWrap: "break-word",
+                                            wordBreak: "break-word"
+                                        },
+                                        children: "Services back-end"
+                                    }, void 0, false, {
+                                        fileName: "src/Components/DeclarationAccessibilite.jsx",
+                                        lineNumber: 526,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/Components/DeclarationAccessibilite.jsx",
+                                lineNumber: 514,
+                                columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
@@ -87088,7 +87272,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Fonctionnalit\xe9s d'accessibilit\xe9 int\xe9gr\xe9es"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 516,
+                                lineNumber: 533,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -87107,14 +87291,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Navigation au clavier :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 527,
+                                                lineNumber: 544,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Toutes les fonctionnalit\xe9s sont accessibles au clavier"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 526,
+                                        lineNumber: 543,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87128,14 +87312,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Contraste des couleurs :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 530,
+                                                lineNumber: 547,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Ratio de contraste minimum de 4.5:1"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 529,
+                                        lineNumber: 546,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87149,14 +87333,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Textes alternatives :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 533,
+                                                lineNumber: 550,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Attributs ALT pour toutes les images significatives"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 532,
+                                        lineNumber: 549,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87170,14 +87354,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Structure s\xe9mantique :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 536,
+                                                lineNumber: 553,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Utilisation appropri\xe9e des balises HTML5"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 535,
+                                        lineNumber: 552,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87191,14 +87375,35 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Labels et instructions :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 539,
+                                                lineNumber: 556,
                                                 columnNumber: 15
                                             }, undefined),
                                             " \xc9l\xe9ments de formulaire correctement \xe9tiquet\xe9s"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 538,
+                                        lineNumber: 555,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                        style: {
+                                            marginBottom: "0.5rem",
+                                            overflowWrap: "break-word",
+                                            wordBreak: "break-word"
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
+                                                children: "Redimensionnement du texte :"
+                                            }, void 0, false, {
+                                                fileName: "src/Components/DeclarationAccessibilite.jsx",
+                                                lineNumber: 559,
+                                                columnNumber: 15
+                                            }, undefined),
+                                            " Texte redimensionnable jusqu'\xe0 200% sans perte de contenu"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Components/DeclarationAccessibilite.jsx",
+                                        lineNumber: 558,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87208,29 +87413,29 @@ const DeclarationAccessibilite = ()=>{
                                         },
                                         children: [
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("strong", {
-                                                children: "Redimensionnement du texte :"
+                                                children: "API accessibles :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 542,
+                                                lineNumber: 562,
                                                 columnNumber: 15
                                             }, undefined),
-                                            " Texte redimensionnable jusqu'\xe0 200% sans perte de contenu"
+                                            " Services back-end .NET Web API con\xe7us pour garantir des r\xe9ponses accessibles et conformes"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 541,
+                                        lineNumber: 561,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 525,
+                                lineNumber: 542,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 515,
+                        lineNumber: 532,
                         columnNumber: 9
                     }, undefined)
                 ]
@@ -87257,7 +87462,7 @@ const DeclarationAccessibilite = ()=>{
                         children: "5. Contenus non accessibles"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 549,
+                        lineNumber: 569,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87284,7 +87489,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Limites connues"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 572,
+                                lineNumber: 592,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87297,7 +87502,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Malgr\xe9 nos efforts, certains contenus pourraient ne pas \xeatre totalement accessibles :"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 581,
+                                lineNumber: 601,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -87316,14 +87521,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Documents tiers :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 587,
+                                                lineNumber: 607,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Certains documents PDF t\xe9l\xe9chargeables pourraient ne pas \xeatre enti\xe8rement accessibles"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 586,
+                                        lineNumber: 606,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87337,14 +87542,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Contenus multim\xe9dias anciens :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 591,
+                                                lineNumber: 611,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Les vid\xe9os publi\xe9es avant 2025 pourraient ne pas disposer de sous-titres"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 590,
+                                        lineNumber: 610,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87358,14 +87563,14 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Cartes interactives :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 595,
+                                                lineNumber: 615,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Certaines cartes pourraient pr\xe9senter des difficult\xe9s pour les utilisateurs de lecteurs d'\xe9cran"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 594,
+                                        lineNumber: 614,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87378,20 +87583,20 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Widgets tiers :"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 599,
+                                                lineNumber: 619,
                                                 columnNumber: 15
                                             }, undefined),
                                             " Certains widgets int\xe9gr\xe9s pourraient ne pas respecter enti\xe8rement les standards d'accessibilit\xe9"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 598,
+                                        lineNumber: 618,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 585,
+                                lineNumber: 605,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87405,19 +87610,19 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Nous travaillons activement \xe0 corriger ces limitations et \xe0 am\xe9liorer continuellement l'accessibilit\xe9 de notre site."
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 604,
+                                lineNumber: 624,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 561,
+                        lineNumber: 581,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 548,
+                lineNumber: 568,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
@@ -87438,7 +87643,7 @@ const DeclarationAccessibilite = ()=>{
                         children: "6. Am\xe9lioration et contact"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 612,
+                        lineNumber: 632,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87464,7 +87669,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Signaler un probl\xe8me d'accessibilit\xe9"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 634,
+                                lineNumber: 654,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87477,7 +87682,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Si vous rencontrez des difficult\xe9s pour acc\xe9der \xe0 un contenu ou \xe0 un service, ou si vous constatez un d\xe9faut d'accessibilit\xe9, nous vous invitons \xe0 nous le signaler :"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 644,
+                                lineNumber: 664,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87502,7 +87707,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Par email :"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 659,
+                                        lineNumber: 679,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87521,12 +87726,12 @@ const DeclarationAccessibilite = ()=>{
                                             children: "Emmanuel.Amela@outlook.com"
                                         }, void 0, false, {
                                             fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                            lineNumber: 663,
+                                            lineNumber: 683,
                                             columnNumber: 15
                                         }, undefined)
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 662,
+                                        lineNumber: 682,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87539,7 +87744,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Informations \xe0 fournir :"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 673,
+                                        lineNumber: 693,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -87557,7 +87762,7 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "URL de la page concern\xe9e"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 681,
+                                                lineNumber: 701,
                                                 columnNumber: 15
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87568,7 +87773,7 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Description du probl\xe8me rencontr\xe9"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 684,
+                                                lineNumber: 704,
                                                 columnNumber: 15
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87579,7 +87784,7 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Technologie d'assistance utilis\xe9e (le cas \xe9ch\xe9ant)"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 687,
+                                                lineNumber: 707,
                                                 columnNumber: 15
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87590,19 +87795,19 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "Configuration (navigateur, syst\xe8me d'exploitation)"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 690,
+                                                lineNumber: 710,
                                                 columnNumber: 15
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 676,
+                                        lineNumber: 696,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 649,
+                                lineNumber: 669,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87617,20 +87822,20 @@ const DeclarationAccessibilite = ()=>{
                                         children: "10 jours ouvr\xe9s"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 697,
+                                        lineNumber: 717,
                                         columnNumber: 61
                                     }, undefined),
                                     "et \xe0 vous proposer une solution accessible ou une alternative adapt\xe9e."
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 696,
+                                lineNumber: 716,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 624,
+                        lineNumber: 644,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87649,7 +87854,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Plan d'am\xe9lioration"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 703,
+                                lineNumber: 723,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87661,7 +87866,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Notre plan d'am\xe9lioration de l'accessibilit\xe9 comprend :"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 712,
+                                lineNumber: 732,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -87679,7 +87884,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Audit d'accessibilit\xe9 trimestriel"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 716,
+                                        lineNumber: 736,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87691,7 +87896,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Formation continue sur les derni\xe8res normes"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 719,
+                                        lineNumber: 739,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87703,7 +87908,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Int\xe9gration de tests d'accessibilit\xe9 automatis\xe9s"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 722,
+                                        lineNumber: 742,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -87714,25 +87919,25 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Collaboration avec des utilisateurs en situation de handicap pour des tests utilisateurs"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 725,
+                                        lineNumber: 745,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 715,
+                                lineNumber: 735,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 702,
+                        lineNumber: 722,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 611,
+                lineNumber: 631,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
@@ -87753,7 +87958,7 @@ const DeclarationAccessibilite = ()=>{
                         children: "7. Voies de recours"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 733,
+                        lineNumber: 753,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87778,7 +87983,7 @@ const DeclarationAccessibilite = ()=>{
                                 children: "Si vous n'obtenez pas de r\xe9ponse satisfaisante de notre part, vous avez la possibilit\xe9 de saisir les instances suivantes :"
                             }, void 0, false, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 755,
+                                lineNumber: 775,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87804,7 +88009,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "En France :"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 770,
+                                        lineNumber: 790,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87828,19 +88033,19 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "https://www.defenseurdesdroits.fr"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 781,
+                                                lineNumber: 801,
                                                 columnNumber: 15
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 779,
+                                        lineNumber: 799,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 760,
+                                lineNumber: 780,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87866,7 +88071,7 @@ const DeclarationAccessibilite = ()=>{
                                         children: "Au Togo :"
                                     }, void 0, false, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 799,
+                                        lineNumber: 819,
                                         columnNumber: 13
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -87890,31 +88095,31 @@ const DeclarationAccessibilite = ()=>{
                                                 children: "http://www.cndh.tg"
                                             }, void 0, false, {
                                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                                lineNumber: 810,
+                                                lineNumber: 830,
                                                 columnNumber: 15
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                        lineNumber: 808,
+                                        lineNumber: 828,
                                         columnNumber: 13
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                lineNumber: 789,
+                                lineNumber: 809,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 745,
+                        lineNumber: 765,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 732,
+                lineNumber: 752,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("section", {
@@ -87935,7 +88140,7 @@ const DeclarationAccessibilite = ()=>{
                         children: "8. Mise \xe0 jour de la d\xe9claration"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 821,
+                        lineNumber: 841,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -87962,25 +88167,25 @@ const DeclarationAccessibilite = ()=>{
                                     children: "18 janvier 2026"
                                 }, void 0, false, {
                                     fileName: "src/Components/DeclarationAccessibilite.jsx",
-                                    lineNumber: 844,
+                                    lineNumber: 864,
                                     columnNumber: 64
                                 }, undefined),
                                 ". Elle sera mise \xe0 jour r\xe9guli\xe8rement pour refl\xe9ter les am\xe9liorations apport\xe9es et les \xe9volutions des standards d'accessibilit\xe9."
                             ]
                         }, void 0, true, {
                             fileName: "src/Components/DeclarationAccessibilite.jsx",
-                            lineNumber: 843,
+                            lineNumber: 863,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 833,
+                        lineNumber: 853,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 820,
+                lineNumber: 840,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -88008,7 +88213,7 @@ const DeclarationAccessibilite = ()=>{
                         children: "Emmanuel AMELA - D\xe9veloppeur web ind\xe9pendant"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 863,
+                        lineNumber: 883,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -88021,13 +88226,13 @@ const DeclarationAccessibilite = ()=>{
                         children: "Engagement pour un web accessible \xe0 tous"
                     }, void 0, false, {
                         fileName: "src/Components/DeclarationAccessibilite.jsx",
-                        lineNumber: 866,
+                        lineNumber: 886,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 851,
+                lineNumber: 871,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
@@ -88203,7 +88408,7 @@ const DeclarationAccessibilite = ()=>{
       `
             }, void 0, false, {
                 fileName: "src/Components/DeclarationAccessibilite.jsx",
-                lineNumber: 871,
+                lineNumber: 891,
                 columnNumber: 7
             }, undefined)
         ]
@@ -88342,7 +88547,7 @@ const Securite = ()=>{
                                 lineNumber: 62,
                                 columnNumber: 11
                             }, undefined),
-                            ", d\xe9veloppeur web ind\xe9pendant, s'engage \xe0 prot\xe9ger l'int\xe9grit\xe9, la confidentialit\xe9 et la disponibilit\xe9 des donn\xe9es qui lui sont confi\xe9es. Cette politique s'applique \xe0 tous les syst\xe8mes, applications et infrastructures utilis\xe9s pour fournir des services \xe0 mes clients."
+                            ", d\xe9veloppeur ind\xe9pendant, s'engage \xe0 prot\xe9ger l'int\xe9grit\xe9, la confidentialit\xe9 et la disponibilit\xe9 des donn\xe9es qui lui sont confi\xe9es. Cette politique s'applique \xe0 tous les syst\xe8mes, applications et infrastructures utilis\xe9s pour fournir des services \xe0 mes clients."
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Securite.jsx",
