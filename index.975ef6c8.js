@@ -80923,12 +80923,19 @@ const ConditionsGeneralesUtilisation = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "cgu-container",
         children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "header-spacer"
+            }, void 0, false, {
+                fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
+                lineNumber: 7,
+                columnNumber: 7
+            }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
                 className: "cgu-title",
                 children: "Conditions G\xe9n\xe9rales d'Utilisation"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 6,
+                lineNumber: 9,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -80940,19 +80947,19 @@ const ConditionsGeneralesUtilisation = ()=>{
                             children: "Note juridique importante :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 12,
+                            lineNumber: 15,
                             columnNumber: 14
                         }, undefined),
                         " Ces conditions g\xe9n\xe9rales d'utilisation ont \xe9t\xe9 r\xe9dig\xe9es conform\xe9ment aux dispositions du droit togolais, notamment la loi n\xb02004-005 du 23 avril 2004 relative \xe0 la communication \xe9lectronique et la loi n\xb02019-014 du 20 septembre 2019 sur la protection des donn\xe9es personnelles. Elles sont fournies \xe0 titre informatif."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 11,
+                    lineNumber: 14,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 10,
+                lineNumber: 13,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -80960,7 +80967,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 1 : Objet"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 20,
+                lineNumber: 23,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -80971,14 +80978,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "e-a.codes"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 23,
+                        lineNumber: 26,
                         columnNumber: 39
                     }, undefined),
                     " et des services associ\xe9s, ainsi que les conditions d'acc\xe8s et d'utilisation desdits services par tout Utilisateur."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 21,
+                lineNumber: 24,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -80986,7 +80993,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "En acc\xe9dant et utilisant ce site, l'Utilisateur accepte sans r\xe9serve l'ensemble des dispositions des pr\xe9sentes CGU. Le cas \xe9ch\xe9ant, toute souscription \xe0 des services suppl\xe9mentaires fera l'objet de conditions particuli\xe8res qui viendront compl\xe9ter les pr\xe9sentes CGU."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 26,
+                lineNumber: 29,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -80994,7 +81001,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 2 : D\xe9finitions"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 33,
+                lineNumber: 36,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81004,14 +81011,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Site :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 35,
+                        lineNumber: 38,
                         columnNumber: 9
                     }, undefined),
                     " D\xe9signe le site internet accessible \xe0 l'adresse emmanuelamela.com, incluant l'ensemble de ses pages, sous-domaines, contenus et services."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 34,
+                lineNumber: 37,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81021,14 +81028,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "\xc9diteur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 39,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, undefined),
                     " Emmanuel AMELA, d\xe9veloppeur ind\xe9pendant, responsable de la publication et de la maintenance du Site."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 38,
+                lineNumber: 41,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81038,14 +81045,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Utilisateur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 43,
+                        lineNumber: 46,
                         columnNumber: 9
                     }, undefined),
                     " Toute personne physique ou morale acc\xe9dant au Site ou utilisant l'un de ses services."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 42,
+                lineNumber: 45,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81055,14 +81062,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Contenu :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 47,
+                        lineNumber: 50,
                         columnNumber: 9
                     }, undefined),
                     " Ensemble des \xe9l\xe9ments pr\xe9sents sur le Site, notamment textes, images, vid\xe9os, logos, codes sources, bases de donn\xe9es."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 46,
+                lineNumber: 49,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81070,7 +81077,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 3 : Acc\xe8s aux services"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 51,
+                lineNumber: 54,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81078,7 +81085,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Le Site est accessible gratuitement en tout lieu \xe0 tout Utilisateur disposant d'un acc\xe8s \xe0 Internet. Tous les frais support\xe9s par l'Utilisateur pour acc\xe9der au service (mat\xe9riel informatique, logiciels, connexion Internet, etc.) sont \xe0 sa charge."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 52,
+                lineNumber: 55,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -81089,19 +81096,19 @@ const ConditionsGeneralesUtilisation = ()=>{
                             children: "\uD83D\uDCF1 Accessibilit\xe9 :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 59,
+                            lineNumber: 62,
                             columnNumber: 11
                         }, undefined),
                         " Le Site est con\xe7u pour \xeatre accessible sur tous les supports (ordinateur, tablette, smartphone) et navigateurs modernes. L'\xc9diteur s'efforce de maintenir un acc\xe8s permanent mais ne peut garantir l'absence d'interruption pour maintenance technique ou cas de force majeure."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 58,
+                    lineNumber: 61,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 57,
+                lineNumber: 60,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81109,7 +81116,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "L'\xc9diteur se r\xe9serve le droit de refuser l'acc\xe8s au Site, unilat\xe9ralement et sans notification pr\xe9alable, \xe0 tout Utilisateur qui contreviendrait aux pr\xe9sentes CGU."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 65,
+                lineNumber: 68,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81117,7 +81124,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 4 : Propri\xe9t\xe9 intellectuelle"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 70,
+                lineNumber: 73,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81125,7 +81132,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Conform\xe9ment au droit togolais de la propri\xe9t\xe9 intellectuelle et aux principes g\xe9n\xe9raux du droit d'auteur :"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 71,
+                lineNumber: 74,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -81135,34 +81142,34 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "L'ensemble du Site et de son Contenu (textes, images, logos, code source, maquettes, bases de donn\xe9es) est prot\xe9g\xe9 par le droit d'auteur et appartient \xe0 l'\xc9diteur ou \xe0 ses partenaires"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 76,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Toute reproduction, repr\xe9sentation, modification, publication, adaptation de tout ou partie du Site ou de son Contenu, par quelque proc\xe9d\xe9 que ce soit, est interdite sans autorisation \xe9crite pr\xe9alable de l'\xc9diteur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 81,
+                        lineNumber: 84,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Les marques et logos figurant sur le Site sont des marques d\xe9pos\xe9es. Toute reproduction, imitation ou usage sans autorisation est prohib\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 86,
+                        lineNumber: 89,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Les logiciels et applications pr\xe9sent\xe9s font l'objet de licences d'utilisation sp\xe9cifiques et sont prot\xe9g\xe9s contre toute contrefa\xe7on"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 90,
+                        lineNumber: 93,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 75,
+                lineNumber: 78,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -81173,19 +81180,19 @@ const ConditionsGeneralesUtilisation = ()=>{
                             children: "⚠️ Sanctions :"
                         }, void 0, false, {
                             fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                            lineNumber: 97,
+                            lineNumber: 100,
                             columnNumber: 11
                         }, undefined),
                         " Toute violation des droits de propri\xe9t\xe9 intellectuelle peut entra\xeener des poursuites civiles et p\xe9nales conform\xe9ment \xe0 la l\xe9gislation togolaise et aux conventions internationales."
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                    lineNumber: 96,
+                    lineNumber: 99,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 95,
+                lineNumber: 98,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81193,7 +81200,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 5 : Responsabilit\xe9s"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 103,
+                lineNumber: 106,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81203,14 +81210,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "5.1. Responsabilit\xe9 de l'\xc9diteur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 105,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, undefined),
                     " L'\xc9diteur s'efforce d'assurer au mieux de ses possibilit\xe9s l'exactitude et la mise \xe0 jour des informations diffus\xe9es sur le Site. Toutefois, il ne peut garantir l'exhaustivit\xe9, la pr\xe9cision ou l'absence de modification par un tiers."
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 104,
+                lineNumber: 107,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81220,14 +81227,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "5.2. Limitation de responsabilit\xe9 :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 111,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, undefined),
                     " L'\xc9diteur ne pourra \xeatre tenu responsable :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 110,
+                lineNumber: 113,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -81237,41 +81244,41 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Des dommages directs ou indirects r\xe9sultant de l'utilisation du Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 114,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Des interruptions, suspensions ou dysfonctionnements techniques"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 115,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "De l'introduction de virus ou autres \xe9l\xe9ments nuisibles par des tiers"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 116,
+                        lineNumber: 119,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "De l'utilisation frauduleuse des identifiants et mots de passe"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 117,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "De l'interpr\xe9tation ou de l'utilisation des informations publi\xe9es"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 118,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 113,
+                lineNumber: 116,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81281,14 +81288,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "5.3. Responsabilit\xe9 de l'Utilisateur :"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 121,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, undefined),
                     " L'Utilisateur s'engage \xe0 :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 120,
+                lineNumber: 123,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -81298,34 +81305,34 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Utiliser le Site conform\xe9ment \xe0 sa destination et dans le respect des lois en vigueur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 124,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Ne pas porter atteinte \xe0 la s\xe9curit\xe9 ou \xe0 l'int\xe9grit\xe9 du Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 127,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Ne pas utiliser le Site \xe0 des fins illicites, frauduleuses ou nuisibles"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 130,
+                        lineNumber: 133,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Informer l'\xc9diteur de toute utilisation non autoris\xe9e ou violation de s\xe9curit\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 133,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 123,
+                lineNumber: 126,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81333,7 +81340,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 6 : Donn\xe9es personnelles"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 138,
+                lineNumber: 141,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81346,14 +81353,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Politique de Confidentialit\xe9"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 141,
+                        lineNumber: 144,
                         columnNumber: 15
                     }, undefined),
                     " et conformes :"
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 139,
+                lineNumber: 142,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -81363,27 +81370,27 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "\xc0 la loi togolaise n\xb02019-014 du 20 septembre 2019 relative \xe0 la protection des donn\xe9es \xe0 caract\xe8re personnel"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 146,
+                        lineNumber: 149,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Au R\xe8glement G\xe9n\xe9ral sur la Protection des Donn\xe9es (RGPD) pour les r\xe9sidents de l'Union Europ\xe9enne"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 150,
+                        lineNumber: 153,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Aux principes de lic\xe9it\xe9, loyaut\xe9, transparence et minimisation des donn\xe9es"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 153,
+                        lineNumber: 156,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 145,
+                lineNumber: 148,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81391,7 +81398,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "L'Utilisateur dispose d'un droit d'acc\xe8s, de rectification, d'effacement, de limitation, d'opposition et de portabilit\xe9 sur ses donn\xe9es personnelles."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 157,
+                lineNumber: 160,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81399,7 +81406,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 7 : Liens hypertextes"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 162,
+                lineNumber: 165,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81407,7 +81414,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Le Site peut contenir des liens hypertextes vers d'autres sites internet. L'\xc9diteur ne dispose d'aucun contr\xf4le sur ces sites et d\xe9cline toute responsabilit\xe9 quant \xe0 leur contenu, leur accessibilit\xe9, leur fonctionnement ou leur politique de confidentialit\xe9."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 163,
+                lineNumber: 166,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81415,7 +81422,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "La cr\xe9ation de liens hypertextes vers le Site est autoris\xe9e sous r\xe9serve de :"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 168,
+                lineNumber: 171,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -81425,27 +81432,27 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: 'Ne pas utiliser de techniques de "framing" ou "inlining"'
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 172,
+                        lineNumber: 175,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Ne pas porter atteinte \xe0 l'image ou \xe0 la r\xe9putation de l'\xc9diteur"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 173,
+                        lineNumber: 176,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
                         children: "Mentionner clairement la source avec un lien actif"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 174,
+                        lineNumber: 177,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 171,
+                lineNumber: 174,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81453,7 +81460,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 8 : Cookies"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 177,
+                lineNumber: 180,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81461,7 +81468,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Le Site utilise des cookies pour am\xe9liorer l'exp\xe9rience de navigation, analyser le trafic et personnaliser le contenu. En poursuivant votre navigation, vous acceptez l'utilisation des cookies conform\xe9ment \xe0 notre politique en la mati\xe8re."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 178,
+                lineNumber: 181,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81469,7 +81476,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "L'Utilisateur peut configurer son navigateur pour refuser les cookies, mais certaines fonctionnalit\xe9s du Site pourraient ne plus \xeatre accessibles."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 183,
+                lineNumber: 186,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81477,7 +81484,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 9 : Droit applicable et juridiction comp\xe9tente"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 188,
+                lineNumber: 191,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81485,7 +81492,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Les pr\xe9sentes CGU sont r\xe9gies et interpr\xe9t\xe9es conform\xe9ment au droit togolais. En cas de litige, et \xe0 d\xe9faut de solution amiable, les tribunaux comp\xe9tents de Lom\xe9 seront seuls comp\xe9tents."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 189,
+                lineNumber: 192,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81493,7 +81500,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Cette clause attributive de juridiction s'applique m\xeame en cas de pluralit\xe9 de d\xe9fendeurs ou d'appel en garantie."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 194,
+                lineNumber: 197,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -81501,7 +81508,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Article 10 : Modifications des CGU"
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 199,
+                lineNumber: 202,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81509,7 +81516,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "L'\xc9diteur se r\xe9serve le droit de modifier \xe0 tout moment les pr\xe9sentes CGU. Les nouvelles conditions seront applicables d\xe8s leur mise en ligne sur le Site."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 200,
+                lineNumber: 203,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81517,7 +81524,7 @@ const ConditionsGeneralesUtilisation = ()=>{
                 children: "Il appartient \xe0 l'Utilisateur de consulter r\xe9guli\xe8rement les CGU. La poursuite de l'utilisation du Site apr\xe8s modification vaut acceptation des nouvelles conditions."
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 204,
+                lineNumber: 207,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -81530,14 +81537,14 @@ const ConditionsGeneralesUtilisation = ()=>{
                                 children: "Date d'entr\xe9e en vigueur :"
                             }, void 0, false, {
                                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                                lineNumber: 211,
+                                lineNumber: 214,
                                 columnNumber: 11
                             }, undefined),
                             " 18 janvier 2026"
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 210,
+                        lineNumber: 213,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -81545,13 +81552,13 @@ const ConditionsGeneralesUtilisation = ()=>{
                         children: "Derni\xe8re mise \xe0 jour : 18 janvier 2026 • Ces CGU sont disponibles en permanence sur le Site"
                     }, void 0, false, {
                         fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                        lineNumber: 213,
+                        lineNumber: 216,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 209,
+                lineNumber: 212,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("style", {
@@ -81568,6 +81575,11 @@ const ConditionsGeneralesUtilisation = ()=>{
           box-shadow: 0 2px 20px rgba(0,0,0,0.08);
           overflow-wrap: break-word;
           word-break: break-word;
+        }
+
+        /* Espace pour le header fixe */
+        .header-spacer {
+          height: 70px; /* Hauteur du header sur desktop */
         }
 
         .cgu-title {
@@ -81685,44 +81697,40 @@ const ConditionsGeneralesUtilisation = ()=>{
 
         /* Tablettes */
         @media (max-width: 768px) {
+          .header-spacer {
+            height: 60px;
+          }
           .cgu-container {
             padding: 1.2rem;
             border-radius: 0;
             box-shadow: none;
           }
-
           .cgu-title {
             font-size: 1.6rem;
             padding-bottom: 0.8rem;
             margin-bottom: 1.5rem;
           }
-
           .article-title {
             margin-top: 1.5rem;
             font-size: 1.25rem;
             padding-left: 0.4rem;
           }
-
           .paragraph {
             text-align: left;
             font-size: 0.95rem;
           }
-
           .list {
             padding-left: 1.3rem;
           }
-
           .list li {
             font-size: 0.95rem;
           }
-
           .disclaimer-box,
           .highlighted-box,
           .warning-box {
             padding: 1rem;
             font-size: 0.9rem;
           }
-
           .footer-box {
             padding: 1.2rem;
             margin-top: 2rem;
@@ -81731,36 +81739,33 @@ const ConditionsGeneralesUtilisation = ()=>{
 
         /* Mobile */
         @media (max-width: 480px) {
+          .header-spacer {
+            height: 50px;
+          }
           .cgu-container {
             padding: 1rem;
           }
-
           .cgu-title {
             font-size: 1.4rem;
             border-bottom-width: 2px;
           }
-
           .article-title {
             font-size: 1.15rem;
             margin-top: 1.2rem;
             padding-left: 0.3rem;
             border-left-width: 3px;
           }
-
           .paragraph {
             font-size: 0.9rem;
             margin-bottom: 1rem;
           }
-
           .list {
             padding-left: 1rem;
           }
-
           .list li {
             font-size: 0.9rem;
             margin-bottom: 0.6rem;
           }
-
           .disclaimer-box,
           .highlighted-box,
           .warning-box {
@@ -81768,16 +81773,13 @@ const ConditionsGeneralesUtilisation = ()=>{
             font-size: 0.85rem;
             margin: 1rem 0;
           }
-
           .footer-box {
             padding: 1rem;
             font-size: 0.85rem;
           }
-
           .footer-main {
             font-size: 0.9rem;
           }
-
           .footer-sub {
             font-size: 0.75rem;
           }
@@ -81788,20 +81790,16 @@ const ConditionsGeneralesUtilisation = ()=>{
           .cgu-container {
             padding: 0.8rem;
           }
-
           .cgu-title {
             font-size: 1.3rem;
           }
-
           .article-title {
             font-size: 1.1rem;
           }
-
           .paragraph,
           .list li {
             font-size: 0.85rem;
           }
-
           .disclaimer-box,
           .highlighted-box,
           .warning-box,
@@ -81813,7 +81811,7 @@ const ConditionsGeneralesUtilisation = ()=>{
       `
             }, void 0, false, {
                 fileName: "src/Components/ConditionsGeneralesUtilisation.jsx",
-                lineNumber: 218,
+                lineNumber: 221,
                 columnNumber: 7
             }, undefined)
         ]
