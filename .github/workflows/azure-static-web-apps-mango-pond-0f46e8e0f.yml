@@ -27,9 +27,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_YELLOW_MUD_050423503 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"                         # racine du projet
-          api_location: ""                          # pas d'API
-          app_artifact_location: "bin/Release/net9.0/wwwroot"  # dossier généré vu dans les logs
+          app_location: "/"
+          api_location: ""
+          app_artifact_location: "bin/Release/net9.0/wwwroot"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
