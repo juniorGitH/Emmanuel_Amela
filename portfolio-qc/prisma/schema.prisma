@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  name      String
+  title     String
+  headline  String
+  summary   String
+  email     String
+  location  String
+  linkedIn  String
+  gitHub    String
+  website   String?
+  seeking   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id          Int      @id @default(autoincrement())
+  company     String
+  role        String
+  location    String?
+  startDate   String
+  endDate     String?
+  description String
+  highlights  String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Education {
+  id          Int      @id @default(autoincrement())
+  institution String
+  degree      String
+  field       String?
+  startDate   String
+  endDate     String?
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model ResearchInterest {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  tags        String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  category    String
+  url         String?
+  tech        String
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Skill {
+  id       Int    @id @default(autoincrement())
+  name     String
+  category String
+  order    Int    @default(0)
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  org       String?
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+}
