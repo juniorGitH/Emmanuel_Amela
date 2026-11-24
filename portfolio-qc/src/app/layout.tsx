@@ -33,6 +33,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${fraunces.variable} ${outfit.variable} h-full`}>
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6444351661680914"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-full antialiased">{children}</body>
     </html>
   );
